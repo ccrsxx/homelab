@@ -26,6 +26,13 @@ def send_email(
 
     context = ssl.create_default_context()
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        server.login(EMAIL_API, EMAIL_API_KEY)
-        server.sendmail(EMAIL_API, TARGET_EMAIL_SENDER, text)
+    MAX_EMAIL_ATTEMPTS: Final = 3
+
+    for _ in range(MAX_EMAIL_ATTEMPTS):
+        try:
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                server.login(EMAIL_API, EMAIL_API_KEY)
+                server.sendmail(EMAIL_API, TARGET_EMAIL_SENDER, text)
+                break
+        except Exception as e:
+            print(f"Error: {e}")
