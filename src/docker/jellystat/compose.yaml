@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15.2
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env.development}
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  app:
+    image: cyfershepard/jellystat:latest
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env.development}
+    environment:
+      - POSTGRES_IP
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_PORT
+      - JWT_SECRET
+    ports:
+      - 8097:3000
+    volumes:
+      - backup-data:/app/backend/backup-data
+    depends_on:
+      - db
+
+volumes:
+  backup-data:
+  postgres-data:

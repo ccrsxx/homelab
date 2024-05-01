@@ -1,0 +1,7 @@
+services:
+  app:
+    image: ccrsxx/emilia:latest
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env.development}
+    environment:
+      - BOT_TOKEN

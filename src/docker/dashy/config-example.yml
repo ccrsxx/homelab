@@ -1,0 +1,281 @@
+pageInfo:
+  title: Homelab
+  description: Welcome to your new dashboard!
+  navLinks:
+    - title: GitHub
+      path: https://github.com/Lissy93/dashy
+    - title: Documentation
+      path: https://dashy.to/docs
+appConfig:
+  theme: cherry-blossom
+  layout: auto
+  iconSize: medium
+  language: en
+sections:
+  - name: Services
+    icon: fas fa-layer-group
+    items:
+      - title: Jellyfin
+        icon: hl-jellyfin
+        description: Media Server
+        url: http://homelab:8096
+        statusCheck: true
+        statusCheckUrl: http://192.168.1.3:8096
+        id: 0_1564_jellyfin
+      - title: AdGuard Home
+        icon: hl-adguardhome
+        description: DNS Server
+        url: http://homelab:8088
+        statusCheck: true
+        statusCheckUrl: http://192.168.1.3:8088
+        id: 1_1564_adguardhome
+      - title: UpSnap
+        icon: hl-upsnap
+        description: Wake on LAN
+        url: http://homelab:8090
+        statusCheck: true
+        statusCheckUrl: http://192.168.1.3:8090
+        id: 2_1564_upsnap
+      - title: qBittorrent
+        icon: hl-qbittorrent
+        description: Torrent Client
+        url: http://homelab:8080
+        statusCheck: true
+        statusCheckUrl: http://192.168.1.3:8080
+        id: 3_1564_qbittorrent
+      - title: Glances
+        icon: hl-glances
+        description: System Monitor
+        url: http://homelab:61208
+        statusCheck: true
+        statusCheckUrl: http://192.168.1.3:61208
+        id: 4_1564_glances
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 3
+      collapsed: false
+      hideForGuests: false
+  - name: Local Weather
+    icon: fas fa-clouds
+    widgets:
+      - type: clock
+        options:
+          timeZone: Asia/Jakarta
+          customCityName: Tangerang
+          format: en-GB
+          hideDate: false
+        id: 0_1243_clock
+      - type: weather
+        options:
+          apiKey: your-api-key
+          city: Tangerang
+          units: metric
+          hideDetails: false
+        id: 1_1243_weather
+  - name: Domain Names
+    icon: fas fa-globe
+    widgets:
+      - type: domain-monitor
+        options:
+          domain: risalamin.com
+          apiKey: your-api-key
+          showFullInfo: true
+        id: 0_1132_domainmonitor
+      - type: domain-monitor
+        options:
+          domain: ccrsxx.me
+          apiKey: your-api-key
+        id: 1_1132_domainmonitor
+  - name: GitHub Stats
+    icon: fab fa-github
+    widgets:
+      - type: github-profile-stats
+        options:
+          username: ccrsxx
+          hideLanguagesCard: true
+          repos:
+            - ccrsxx/twitter-clone
+            - ccrsxx/ccrsxx.me
+            - ccrsxx/autobsi
+        id: 0_1138_githubprofilestats
+  - name: System Alerts
+    icon: far fa-sensor
+    widgets:
+      - type: gl-alerts
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1296_glalerts
+  - name: AdGuard Home
+    icon: fas fa-shield-check
+    widgets:
+      - type: adguard-dns-info
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:8088
+          username: your-username
+          password: your-password
+          showFullInfo: false
+        id: 0_1089_adguarddnsinfo
+      - type: adguard-filter-status
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:8088
+          username: your-username
+          password: your-password
+          showOnOffStatusOnly: false
+        id: 1_1089_adguardfilterstatus
+  - name: IP Address
+    icon: fas fa-ethernet
+    widgets:
+      - type: public-ip
+        options:
+          provider: ipgeolocation
+          apiKey: your-api-key
+        id: 0_895_publicip
+      - type: gl-ip-address
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 1_895_glipaddress
+  - name: CPU Usage
+    icon: fas fa-microchip
+    widgets:
+      - type: gl-current-cpu
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_765_glcurrentcpu
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 1
+      collapsed: false
+      hideForGuests: false
+  - name: CPU History
+    icon: fas fa-chart-line
+    widgets:
+      - type: gl-cpu-history
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1018_glcpuhistory
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 2
+      collapsed: false
+      hideForGuests: false
+  - name: Memory Usage
+    icon: fas fa-memory
+    widgets:
+      - type: gl-current-mem
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1166_glcurrentmem
+  - name: Memory History
+    icon: fas fa-chart-line
+    widgets:
+      - type: gl-mem-history
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1419_glmemhistory
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 2
+      collapsed: false
+      hideForGuests: false
+  - name: Disk Info
+    icon: fas fa-server
+    widgets:
+      - type: gl-disk-space
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_823_gldiskspace
+  - name: Disk IO
+    icon: fas fa-poo-storm
+    widgets:
+      - type: gl-disk-io
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_579_gldiskio
+  - name: Network Interfaces
+    icon: fas fa-network-wired
+    widgets:
+      - type: gl-network-interfaces
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1806_glnetworkinterfaces
+  - name: System Load
+    icon: fas fa-fan
+    widgets:
+      - type: gl-system-load
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1061_glsystemload
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 3
+      collapsed: false
+      hideForGuests: false
+  - name: System Load History
+    icon: fas fa-chart-line
+    widgets:
+      - type: gl-load-history
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1847_glloadhistory
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 3
+      collapsed: false
+      hideForGuests: false
+  - name: Network Traffic
+    icon: fas fa-traffic-light
+    widgets:
+      - type: gl-network-traffic
+        timeout: 5000
+        ignoreErrors: true
+        useProxy: true
+        options:
+          hostname: http://192.168.1.3:61208
+        id: 0_1481_glnetworktraffic
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 3
+      collapsed: false
+      hideForGuests: false

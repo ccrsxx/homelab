@@ -1,0 +1,13 @@
+services:
+  app:
+    image: f0rc3/gokapi:latest
+    restart: unless-stopped
+    ports:
+      - 53842:53842
+    volumes:
+      - gokapi-data:/app/data
+      - gokapi-config:/app/config
+
+volumes:
+  gokapi-data:
+  gokapi-config:
