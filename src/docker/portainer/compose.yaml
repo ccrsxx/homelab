@@ -3,7 +3,6 @@ services:
     image: portainer/portainer-ee:latest
     restart: unless-stopped
     ports:
-      - 8000:8000
       - 9000:9000
       - 9443:9443
     volumes:
