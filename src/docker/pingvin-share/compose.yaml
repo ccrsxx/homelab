@@ -5,9 +5,5 @@ services:
     ports:
       - 8099:3000
     volumes:
-      - data:/opt/app/backend/data
-      - images:/opt/app/frontend/public/img
-
-volumes:
-  data:
-  images:
+      - 'D:/pingvin-share/data:/opt/app/backend/data'
+      - 'D:/pingvin-share/images:/opt/app/frontend/public/img'
