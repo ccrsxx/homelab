@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 
 from typing import Final
@@ -7,7 +8,9 @@ IGNORE_SERVICES_UPDATE: Final = ["nextcloud"]
 
 
 def main() -> None:
-    services = os.listdir("./src/docker")
+    current_file_dir_path = os.path.dirname(sys.argv[0])
+
+    services = os.listdir(current_file_dir_path)
 
     running_from_host = os.getenv("SSH_TTY") is None
 
@@ -15,7 +18,7 @@ def main() -> None:
         if service == "update_container.py":
             continue
 
-        service_path = os.path.join("src", "docker", service, "compose.yaml")
+        service_path = os.path.join(current_file_dir_path, service, "compose.yaml")
 
         allow_service_update = (
             service not in IGNORE_SERVICES_UPDATE and running_from_host

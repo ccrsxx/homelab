@@ -18,6 +18,12 @@
 /tool fetch url="https://raw.githubusercontent.com/jpgpi250/piholemanual/master/DOHipv4.txt" \
   mode=https dst-path=$blackListName
 
+# Adding a delay
+# ! Adding a delay to ensure the file can be read properly
+# ! This only needed on the latest RouterOS version v7.15.*
+# ! Previous versions works fine v7.14.3 or below without this workaround
+:delay 1s
+
 # Read the blacklist file
 :local blacklistFile [/file get $blackListName contents]
 :local blacklistFileLength [:len $blacklistFile]
