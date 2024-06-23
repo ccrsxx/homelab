@@ -1,0 +1,16 @@
+services:
+  app:
+    image: m1k1o/neko:chromium
+    restart: unless-stopped
+    shm_size: 2gb
+    ports:
+      - 8069:8080
+      - 52000-52100:52000-52100/udp
+    cap_add:
+      - SYS_ADMIN
+    env_file: ${ENV_FILE:-.env.development}
+    volumes:
+      - data:/home/neko/.config/chromium
+
+volumes:
+  data:
