@@ -154,6 +154,7 @@ cython_debug/
 
 # Environment variables
 .env.*
+*.env
 !.env.development
 
 # Sensitive data
