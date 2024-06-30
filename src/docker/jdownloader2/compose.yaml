@@ -1,0 +1,11 @@
+services:
+  app:
+    image: jlesage/jdownloader-2
+    restart: unless-stopped
+    ports:
+      - '5800:5800'
+    environment:
+      - TZ=Asia/Jakarta
+    volumes:
+      - 'D:/jdownloader2/config:/config:rw'
+      - 'D:/jdownloader2/downloads:/output:rw'
