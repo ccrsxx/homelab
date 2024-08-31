@@ -15,7 +15,7 @@
 ]
 
 # Download the DNS IP blacklist file
-/tool fetch url="https://raw.githubusercontent.com/jpgpi250/piholemanual/master/DOHipv4.txt" \
+/tool fetch url="https://raw.githubusercontent.com/hagezi/dns-blocklists/main/ips/doh.txt" \
   mode=https dst-path=$blackListName
 
 # Adding a delay
