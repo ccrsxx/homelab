@@ -1,11 +1,13 @@
 services:
   app:
-    image: jlesage/jdownloader-2
+    image: jlesage/jdownloader-2:latest
+    container_name: jdownloader2
     restart: unless-stopped
     ports:
       - '5800:5800'
     environment:
       - TZ=Asia/Jakarta
     volumes:
-      - 'D:/jdownloader2/config:/config:rw'
-      - 'D:/jdownloader2/downloads:/output:rw'
+      - '/mnt/docker/jdownloader2/config:/config:rw'
+      - '/mnt/docker/jdownloader2/downloads:/output:rw'
+
