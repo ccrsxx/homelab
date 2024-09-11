@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-. ./`dirname $0`/utils
-
-cd $SCRIPT_DIR
-cd ../..
+. ./`dirname $0`/normalize_path
 
 source ./venv/bin/activate
 
