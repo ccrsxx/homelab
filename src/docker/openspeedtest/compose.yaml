@@ -1,6 +1,0 @@
-services:
-  app:
-    image: openspeedtest/latest
-    restart: unless-stopped
-    ports:
-      - 8081:3000

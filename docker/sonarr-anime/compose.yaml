@@ -1,0 +1,14 @@
+services:
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr-anime
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Jakarta
+    volumes:
+      - /docker/appdata/sonarr-anime:/config
+      - /mnt/data:/data
+    ports:
+      - 9898:8989
+    restart: unless-stopped

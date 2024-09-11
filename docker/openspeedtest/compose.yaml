@@ -1,0 +1,7 @@
+services:
+  app:
+    image: openspeedtest/latest
+    container_name: openspeedtest
+    restart: unless-stopped
+    ports:
+      - 8081:3000

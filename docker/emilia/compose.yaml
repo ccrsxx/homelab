@@ -1,0 +1,7 @@
+services:
+  app:
+    image: ccrsxx/emilia:latest
+    container_name: emilia
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
