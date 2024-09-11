@@ -1,9 +1,11 @@
 services:
   app:
     image: stonith404/pingvin-share:latest
+    container_name: pingvin-share
     restart: unless-stopped
     ports:
       - 8099:3000
     volumes:
-      - 'D:/pingvin-share/data:/opt/app/backend/data'
-      - 'D:/pingvin-share/images:/opt/app/frontend/public/img'
+      - '/mnt/docker/pingvin-share/data:/opt/app/backend/data'
+      - '/mnt/docker/pingvin-share/data/images:/opt/app/frontend/public/img'
+
