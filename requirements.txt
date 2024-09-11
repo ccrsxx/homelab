@@ -1,2 +1,15 @@
+bidict==0.23.1
+certifi==2024.8.30
+charset-normalizer==3.3.2
+h11==0.14.0
+idna==3.8
+packaging==24.1
 python-dotenv==1.0.1
-uptime_kuma_api==1.2.1
+python-engineio==4.9.1
+python-socketio==5.11.4
+requests==2.32.3
+simple-websocket==1.0.0
+uptime-kuma-api==1.2.1
+urllib3==2.2.2
+websocket-client==1.8.0
+wsproto==1.2.0
