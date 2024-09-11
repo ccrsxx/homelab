@@ -1,5 +1,4 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(".env.local")
-load_dotenv(".env.development")
-load_dotenv(".env.production")
+load_dotenv(find_dotenv())
+
