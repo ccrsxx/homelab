@@ -7,6 +7,7 @@ packaging==24.1
 python-dotenv==1.0.1
 python-engineio==4.9.1
 python-socketio==5.11.4
+qbittorrent-api==2024.8.65
 requests==2.32.3
 simple-websocket==1.0.0
 uptime-kuma-api==1.2.1
