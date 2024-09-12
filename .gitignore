@@ -155,7 +155,7 @@ cython_debug/
 # Environment variables
 .env.*
 *.env
-!.env.development
+!.env.example
 
 # Sensitive data
 .grafana
