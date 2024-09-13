@@ -3,17 +3,29 @@ services:
     image: ntop/ntopng:stable
     container_name: ntopng
     restart: unless-stopped
-    command: ["ntopng", "-i", "tcp://netflow2ng:5556"]
+    command:
+      [
+        '-i',
+        'tcp://netflow2ng:5556',
+        '-m',
+        '/etc/ntopng/localnetworks.txt',
+        '--community'
+      ]
+    entrypoint: /entrypoint.sh
     ports:
-      - "3000:3000"
+      - 3030:3000
     depends_on:
       - netflow2ng
+    volumes:
+      - /docker/appdata/ntopng/data:/var/lib/ntopng
+      - /docker/appdata/ntopng/redis:/var/lib/redis
+      - ./entrypoint.sh:/entrypoint.sh
+      - ./localnetworks.txt:/etc/ntopng/localnetworks.txt:ro
 
   netflow2ng:
     container_name: netflow2ng
     restart: unless-stopped
     image: synfinatic/netflow2ng:latest
-    entrypoint: /netflow2ng
     ports:
       - 5556:5556/tcp
       - 2055:2055/udp
