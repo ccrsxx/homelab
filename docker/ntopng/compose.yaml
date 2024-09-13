@@ -16,6 +16,8 @@ services:
       - 3030:3000
     depends_on:
       - netflow2ng
+    environment:
+      - TZ=Asia/Jakarta
     volumes:
       - /docker/appdata/ntopng/data:/var/lib/ntopng
       - /docker/appdata/ntopng/redis:/var/lib/redis
