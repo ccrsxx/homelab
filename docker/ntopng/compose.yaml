@@ -6,6 +6,8 @@ services:
     command:
       [
         '-i',
+        'tcp://nprobe:5557',
+        '-i',
         'tcp://netflow2ng:5556',
         '-m',
         '/etc/ntopng/localnetworks.txt',
@@ -15,6 +17,7 @@ services:
     ports:
       - 3030:3000
     depends_on:
+      - nprobe
       - netflow2ng
     environment:
       - TZ=Asia/Jakarta
@@ -24,6 +27,21 @@ services:
       - ./entrypoint.sh:/entrypoint.sh
       - ./localnetworks.txt:/etc/ntopng/localnetworks.txt:ro
 
+  nprobe:
+    container_name: nprobe
+    restart: unless-stopped
+    image: ntop/nprobe:stable
+    command:
+      [
+        '--zmq',
+        'tcp://*:5557',
+        '--collector-port',
+        '2056'
+      ]
+    ports:
+      - 5557:5557/tcp
+      - 2056:2056/udp
+
   netflow2ng:
     container_name: netflow2ng
     restart: unless-stopped
@@ -31,4 +49,13 @@ services:
     ports:
       - 5556:5556/tcp
       - 2055:2055/udp
+
+  restarter:
+    image: docker:cli
+    container_name: restarter
+    restart: unless-stopped
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./restarter.sh:/restarter.sh
+    entrypoint: /restarter.sh
 
