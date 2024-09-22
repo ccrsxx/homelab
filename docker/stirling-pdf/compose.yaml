@@ -1,12 +1,13 @@
 services:
   stirling-pdf:
     image: frooodle/s-pdf:latest
+    container_name: stirling-pdf
     restart: unless-stopped
     ports:
       - '8085:8080'
     volumes:
-      - ./training:/usr/share/tessdata #Required for extra OCR languages
-      - ./config:/configs
+      - /docker/appdata/stirling-pdf/training:/usr/share/tessdata #Required for extra OCR languages
+      - /docker/appdata/stirling-pdf/config:/configs
       # - ./customFiles:/customFiles/
       # - ./logs:/logs/
     environment:
