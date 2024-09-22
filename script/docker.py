@@ -5,13 +5,13 @@ import subprocess
 from typing import Final
 
 
-def get_container_list() -> None:
-    raw_container_list = os.getenv("CONTAINER_LIST")
+def get_container_list() -> list[str]:
+    raw_container_list: Final = os.getenv("CONTAINER_LIST")
 
     if not raw_container_list:
         raise ValueError("No container list provided")
 
-    parsed_container_list = [
+    parsed_container_list: Final = [
         container.strip() for container in raw_container_list.split(",")
     ]
 
@@ -20,9 +20,9 @@ def get_container_list() -> None:
 
     os.chdir("./docker")
 
-    valid_container_list = []
+    valid_container_list: Final = []
 
-    available_containers = os.listdir()
+    available_containers: Final = os.listdir()
 
     for container in parsed_container_list:
         if container not in available_containers:
@@ -38,7 +38,7 @@ def get_container_list() -> None:
 
 def deploy_containers(container_list: list[str]) -> None:
     for container in container_list:
-        service_path = os.path.join(container, "compose.yaml")
+        service_path: Final = os.path.join(container, "compose.yaml")
 
         subprocess.call(["docker", "compose", "-f", service_path, "pull"])
         subprocess.call(["docker", "compose", "-f", service_path, "up", "-d"])
