@@ -16,5 +16,8 @@ services:
       NEKO_CONTROL_PROTECTION: false
       NEKO_EPR: 52000-52100
     volumes:
-      - /docker/appdata/neko:/home/neko/.config/chromium
+      - data:/home/neko/.config/chromium
+
+volumes:
+  data:
 
