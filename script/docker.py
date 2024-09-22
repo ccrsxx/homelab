@@ -5,8 +5,7 @@ import subprocess
 from typing import Final
 
 
-def get_container_list() -> list[str]:
-
+def get_container_list() -> None:
     raw_container_list = os.getenv("CONTAINER_LIST")
 
     if not raw_container_list:
