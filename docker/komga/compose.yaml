@@ -1,0 +1,14 @@
+services:
+  komga:
+    image: gotson/komga:latest
+    container_name: komga
+    volumes:
+      - /mnt/docker/komga/config:/config
+      - /mnt/docker/komga/data:/data
+    ports:
+      - 25600:25600
+    environment:
+      - TZ=Asia/Jakarta
+    restart: unless-stopped
+    cpus: 1
+
