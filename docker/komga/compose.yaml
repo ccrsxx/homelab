@@ -3,8 +3,8 @@ services:
     image: gotson/komga:latest
     container_name: komga
     volumes:
-      - /mnt/docker/komga/config:/config
-      - /mnt/docker/komga/data:/data
+      - /docker/appdata/komga:/config
+      - /mnt/data/media:/data/media
     ports:
       - 25600:25600
     environment:
