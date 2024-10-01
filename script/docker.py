@@ -25,6 +25,9 @@ def get_container_list() -> list[str]:
     available_containers: Final = os.listdir()
 
     for container in parsed_container_list:
+        if container in valid_container_list:
+            raise ValueError(f"Container {container} is duplicated")
+
         if container not in available_containers:
             raise ValueError(f"Container {container} does not exist")
 
@@ -38,7 +41,7 @@ def get_container_list() -> list[str]:
 
 def deploy_containers(container_list: list[str]) -> None:
     for container in container_list:
-        service_path: Final = os.path.join(container, "compose.yaml")
+        service_path = os.path.join(container, "compose.yaml")
 
         subprocess.call(["docker", "compose", "-f", service_path, "pull"])
         subprocess.call(["docker", "compose", "-f", service_path, "up", "-d"])
