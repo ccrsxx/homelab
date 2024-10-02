@@ -18,7 +18,7 @@ def get_container_list() -> list[str]:
     if not parsed_container_list:
         raise ValueError("No containers to deploy")
 
-    os.chdir("./docker")
+    os.chdir("docker")
 
     valid_container_list: Final = []
 
