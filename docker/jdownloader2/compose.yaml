@@ -8,6 +8,6 @@ services:
     environment:
       - TZ=Asia/Jakarta
     volumes:
-      - '/mnt/docker/jdownloader2/config:/config:rw'
-      - '/mnt/docker/jdownloader2/downloads:/output:rw'
+      - '${CONFIG_PATH:-/mnt/docker/jdownloader2/config}:/config:rw'
+      - '${DOWNLOADS_PATH:-/mnt/docker/jdownloader2/downloads}:/output:rw'
 
