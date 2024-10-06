@@ -17,6 +17,7 @@ services:
       NEKO_EPR: 52000-52100
     volumes:
       - data:/home/neko/.config/chromium
+      - ./policies.json:/etc/chromium/policies/managed/policies.json
 
 volumes:
   data:
