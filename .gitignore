@@ -162,6 +162,7 @@ cython_debug/
 .prometheus
 config.yml
 **/config
+**/secrets
 **/training
 
 # Temporary directory
