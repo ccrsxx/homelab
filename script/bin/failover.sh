@@ -7,4 +7,3 @@ source venv/bin/activate
 python script/failover.py $1
 
 deactivate
-
