@@ -1,0 +1,70 @@
+services:
+  reverse-proxy:
+    # The official v3 Traefik docker image
+    image: traefik:v3.1
+
+    # Name
+    container_name: traefik
+
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      # Debug log level
+      - '--log.level=DEBUG'
+
+      # Enable the Web UI
+      - '--api.insecure=true'
+
+      # Enable Docker as a provider and disable exposed by default
+      - '--providers.docker=true'
+      - '--providers.docker.exposedbydefault=false'
+
+      # Setup entrypoints for HTTP and HTTPS and always redirect HTTP to HTTPS
+      - '--entrypoints.web.address=:80'
+      - '--entrypoints.websecure.address=:443'
+      - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
+      - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
+
+      # Setup Domain and DNS challenge for Let's Encrypt
+      - '--entrypoints.websecure.http.tls=true'
+      - '--entrypoints.websecure.http.tls.certResolver=letsencrypt'
+      - '--entrypoints.websecure.http.tls.domains[0].main=${MAIN_DOMAIN}'
+      - '--entrypoints.websecure.http.tls.domains[0].sans=${WILDCARD_DOMAIN}'
+
+      # Setup Let's Encrypt certificates resolver
+      - '--certificatesresolvers.letsencrypt.acme.dnschallenge=true'
+      - '--certificatesresolvers.letsencrypt.acme.email=${CLOUDFLARE_EMAIL}'
+      - '--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json'
+      - '--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare'
+      - '--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=30'
+
+    ports:
+      # The HTTP port
+      - '80:80'
+      # The HTTPS port
+      - '443:443'
+      # The Web UI (enabled by --api.insecure=true)
+      - '8010:8080'
+
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/docker/appdata/traefik/letsencrypt:/letsencrypt'
+
+    secrets:
+      - 'cloudflare_token'
+      - 'cloudflare_email'
+
+    environment:
+      - 'CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_token'
+      - 'CF_API_EMAIL_FILE=/run/secrets/cloudflare_email'
+
+secrets:
+  cloudflare_token:
+    file: './secrets/cloudflare_token'
+  cloudflare_email:
+    file: './secrets/cloudflare_email'
+
+networks:
+  default:
+    name: traefik
+
