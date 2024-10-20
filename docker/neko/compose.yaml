@@ -11,14 +11,23 @@ services:
       - SYS_ADMIN
     environment:
       NEKO_SCREEN: '1920x1080@30'
-      NEKO_PASSWORD: neko
-      NEKO_PASSWORD_ADMIN: NekoEmilia-tan
+      NEKO_PASSWORD: ${NEKO_PASSWORD}
+      NEKO_PASSWORD_ADMIN: ${NEKO_PASSWORD_ADMIN}
       NEKO_CONTROL_PROTECTION: false
       NEKO_EPR: 52000-52100
     volumes:
       - data:/home/neko/.config/chromium
       - ./policies.json:/etc/chromium/policies/managed/policies.json
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.neko.entrypoints=websecure'
+      - 'traefik.http.routers.neko.rule=Host(`${SERVICE_URL}`)'
 
 volumes:
   data:
+
+networks:
+  default:
+    name: traefik
+    external: true
 
