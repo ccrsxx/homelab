@@ -21,6 +21,7 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.neko.rule=Host(`${SERVICE_URL}`)'
+      # - 'traefik.http.services.neko.loadbalancer.server.port=8080'
 
 volumes:
   data:
