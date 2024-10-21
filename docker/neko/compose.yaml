@@ -20,7 +20,6 @@ services:
       - ./policies.json:/etc/chromium/policies/managed/policies.json
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
-      - 'traefik.http.routers.neko.entrypoints=websecure'
       - 'traefik.http.routers.neko.rule=Host(`${SERVICE_URL}`)'
 
 volumes:

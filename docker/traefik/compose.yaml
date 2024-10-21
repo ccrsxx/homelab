@@ -1,5 +1,5 @@
 services:
-  reverse-proxy:
+  traefik:
     # The official v3 Traefik docker image
     image: traefik:v3.1
 
@@ -11,8 +11,8 @@ services:
       # Debug log level
       - '--log.level=DEBUG'
 
-      # Enable the Web UI
-      - '--api.insecure=true'
+      # Enable the Secured Web UI
+      - '--api.dashboard=true'
 
       # Enable Docker as a provider and disable exposed by default
       - '--providers.docker=true'
@@ -21,6 +21,7 @@ services:
       # Setup entrypoints for HTTP and HTTPS and always redirect HTTP to HTTPS
       - '--entrypoints.web.address=:80'
       - '--entrypoints.websecure.address=:443'
+      - '--entrypoints.websecure.asDefault=true'
       - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
       - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
 
@@ -31,9 +32,9 @@ services:
       - '--entrypoints.websecure.http.tls.domains[0].sans=${WILDCARD_DOMAIN}'
 
       # Setup Let's Encrypt certificates resolver
-      - '--certificatesresolvers.letsencrypt.acme.dnschallenge=true'
       - '--certificatesresolvers.letsencrypt.acme.email=${CLOUDFLARE_EMAIL}'
       - '--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json'
+      - '--certificatesresolvers.letsencrypt.acme.dnschallenge=true' 
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare'
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=30'
 
@@ -42,8 +43,6 @@ services:
       - '80:80'
       # The HTTPS port
       - '443:443'
-      # The Web UI (enabled by --api.insecure=true)
-      - '8010:8080'
 
     volumes:
       # So that Traefik can listen to the Docker events
@@ -57,6 +56,13 @@ services:
     environment:
       - 'CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_token'
       - 'CF_API_EMAIL_FILE=/run/secrets/cloudflare_email'
+
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.traefik.rule=Host(`${SERVICE_URL}`)'
+      - 'traefik.http.routers.traefik.service=api@internal'
+      - 'traefik.http.routers.traefik.middlewares=traefikauth'
+      - 'traefik.http.middlewares.traefikauth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}'
 
 secrets:
   cloudflare_token:
