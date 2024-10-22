@@ -61,7 +61,7 @@ services:
       - 'traefik.enable=true'
       - 'traefik.http.routers.traefik.rule=Host(`${SERVICE_URL}`)'
       - 'traefik.http.routers.traefik.service=api@internal'
-      - 'traefik.http.routers.traefik.middlewares=traefik-ip-allowlist, traefik-auth'
+      - 'traefik.http.routers.traefik.middlewares=traefik-ip-allowlist,traefik-auth'
       - 'traefik.http.middlewares.traefik-ip-allowlist.ipallowlist.sourcerange=${TRAEFIK_IP_ALLOWLIST}'
       - 'traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}'
 
