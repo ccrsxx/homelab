@@ -13,7 +13,7 @@ services:
       NEKO_SCREEN: '1920x1080@30'
       NEKO_PASSWORD: ${NEKO_PASSWORD}
       NEKO_PASSWORD_ADMIN: ${NEKO_PASSWORD_ADMIN}
-      NEKO_CONTROL_PROTECTION: false
+      NEKO_CONTROL_PROTECTION: true
       NEKO_EPR: 52000-52100
     volumes:
       - data:/home/neko/.config/chromium
