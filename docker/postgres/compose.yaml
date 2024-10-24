@@ -1,10 +1,13 @@
 services:
   postgres:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:16
+    secrets:
+      - postgres_user
+      - postgres_password
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_USER_FILE: /run/secrets/postgres_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
       PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
@@ -15,15 +18,24 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:latest
+    secrets:
+      - pgadmin_default_password
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_default_password
     volumes:
        - pgadmin:/var/lib/pgadmin
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     restart: unless-stopped
+
+secrets:
+  postgres_user:
+    file: './secrets/postgres_user'
+  postgres_password:
+    file: './secrets/postgres_password'
+  pgadmin_default_password:
+    file: './secrets/pgadmin_default_password'
 
 volumes:
     postgres:
