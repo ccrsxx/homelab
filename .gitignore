@@ -164,6 +164,7 @@ config.yml
 **/config
 **/secrets
 **/training
+**/letsencrypt
 
 # Temporary directory
 **/temp/
