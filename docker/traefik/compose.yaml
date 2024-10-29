@@ -14,9 +14,16 @@ services:
       # Enable the Secured Web UI
       - '--api.dashboard=true'
 
+      # Skip self signed SSL certificates
+      - '--serversTransport.insecureSkipVerify=true'
+
       # Enable Docker as a provider and disable exposed by default
       - '--providers.docker=true'
       - '--providers.docker.exposedbydefault=false'
+
+      # Enable File as a provider and watch the changes
+      - '--providers.file.directory=/config'
+      - '--providers.file.watch=true'
 
       # Setup entrypoints for HTTP and HTTPS and always redirect HTTP to HTTPS
       - '--entrypoints.web.address=:80'
@@ -44,16 +51,23 @@ services:
       # The HTTPS port
       - '443:443'
 
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
     volumes:
       # So that Traefik can listen to the Docker events
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - '/docker/appdata/traefik/letsencrypt:/letsencrypt'
+      - './letsencrypt:/letsencrypt'
+      - './config:/config'
 
     secrets:
       - 'cloudflare_token'
       - 'cloudflare_email'
 
     environment:
+      - 'AUTH_USER=${AUTH_USER}'
+      - 'MAIN_DOMAIN=${MAIN_DOMAIN}'
+      - 'IP_WHITELIST=${IP_WHITELIST}'
       - 'CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_token'
       - 'CF_API_EMAIL_FILE=/run/secrets/cloudflare_email'
 
@@ -61,10 +75,8 @@ services:
       - 'traefik.enable=true'
       - 'traefik.http.routers.traefik.rule=Host(`${SERVICE_URL}`)'
       - 'traefik.http.routers.traefik.service=api@internal'
-      - 'traefik.http.routers.traefik.middlewares=traefik-ip-allowlist,traefik-auth'
-      - 'traefik.http.middlewares.traefik-ip-allowlist.ipallowlist.sourcerange=${TRAEFIK_IP_ALLOWLIST}'
-      - 'traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}'
-
+      - 'traefik.http.routers.traefik.middlewares=ip-whitelist@file,basic-auth@file'
+      
 secrets:
   cloudflare_token:
     file: './secrets/cloudflare_token'

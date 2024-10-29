@@ -1,0 +1,7 @@
+http:
+  routers:
+    cockpit:
+      rule: Host(`cockpit.{{ env "MAIN_DOMAIN" }}`)
+      service: cockpit
+      middlewares:
+        - rate-limit@file

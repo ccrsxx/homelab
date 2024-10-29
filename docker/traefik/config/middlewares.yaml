@@ -1,0 +1,18 @@
+http:
+  middlewares:
+    basic-auth:
+      basicAuth:
+        users:
+          - {{ env "AUTH_USER" }}
+
+    ip-whitelist:
+      ipAllowlist:
+        sourceRange:
+          - {{ env "IP_WHITELIST" }} 
+
+    rate-limit:
+      rateLimit:
+        average: 2400
+        burst: 60
+        period: 1m
+
