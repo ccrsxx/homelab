@@ -3,6 +3,8 @@ http:
     traefik-vps:
       rule: Host(`traefik-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: traefik-vps
+      middlewares:
+        - basic-auth@file
 
     wg-easy:
       rule: Host(`wireguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)

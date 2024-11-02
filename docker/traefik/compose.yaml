@@ -54,7 +54,7 @@ services:
       - '80:80'
       # The HTTPS port
       - '443:443'
-      # The Web UI (enabled by --api.insecure=false)
+      # The Web UI (enabled by --api.insecure=true)
       - '8010:8080'
 
     extra_hosts:
