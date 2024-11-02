@@ -20,6 +20,10 @@ http:
       rule: Host(`cockpit-proxy.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: cockpit-proxy
 
+    adguard-home-vps:
+      rule: Host(`adguard-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home-vps
+
     jdownloader-vps:
       rule: Host(`jdownloader-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: jdownloader-vps
@@ -53,6 +57,11 @@ http:
       loadBalancer:
         servers:
           - url: https://{{ env "PROXY_VPS_IP" }}:9090
+
+    adguard-home-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "DNS_VPS_IP" }}:80
 
     jdownloader-vps:
       loadBalancer:
