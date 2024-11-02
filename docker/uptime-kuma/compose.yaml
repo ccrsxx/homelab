@@ -9,7 +9,7 @@ services:
       - /docker/appdata/uptime-kuma:/app/data
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
-      - 'traefik.http.routers.uptime-kuma-vps.rule=Host(`uptime.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.uptime-kuma.rule=Host(`uptime.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:
   default:
