@@ -10,6 +10,3 @@ services:
       - 5055:5055
     volumes:
       - /docker/appdata/jellyseerr:/app/config
-    labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
-      - 'traefik.http.routers.smokeping.rule=Host(`smokeping.${SECONDARY_MAIN_DOMAIN}`)'
