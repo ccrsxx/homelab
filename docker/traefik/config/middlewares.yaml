@@ -8,7 +8,7 @@ http:
     ip-whitelist:
       ipAllowlist:
         sourceRange:
-          - {{ env "IP_WHITELIST" }} 
+          - {{ env "IP_WHITELIST" }}
 
     rate-limit:
       rateLimit:

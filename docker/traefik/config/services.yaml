@@ -1,7 +1,47 @@
 http:
   services:
-    cockpit:
+    proxmox:
       loadBalancer:
         servers:
-          - url: https://host.docker.internal:9090
+          - url: https://192.168.1.3:8006
+
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.30:8096
+
+    nextcloud:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.10:11000
+
+    adguard-home:
+      loadBalancer:
+        servers:
+          - url: http://10.0.10.10:80
+
+    iconnet-router:
+      loadBalancer:
+        servers:
+          - url: http://10.0.1.1:80
+
+    mikrotik-router:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.1:80
+
+    main-switch:
+      loadBalancer:
+        servers:
+          - url: http://10.0.100.100:80
+    
+    home-assistant:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.210:8123
+
+    development-server:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.2:3000
 

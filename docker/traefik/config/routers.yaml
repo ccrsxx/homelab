@@ -1,7 +1,38 @@
 http:
   routers:
-    cockpit:
-      rule: Host(`cockpit.{{ env "MAIN_DOMAIN" }}`)
-      service: cockpit
-      middlewares:
-        - rate-limit@file
+    proxmox:
+      rule: Host(`proxmox.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: proxmox
+
+    jellyfin:
+      rule: Host(`jellyfin.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: jellyfin
+
+    nextcloud:
+      rule: Host(`nextcloud.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: nextcloud
+
+    adguard-home:
+      rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home
+
+    iconnet-router:
+      rule: Host(`iconnet.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: iconnet-router
+
+    mikrotik-router:
+      rule: Host(`mikrotik.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: mikrotik-router
+
+    main-switch:
+      rule: Host(`switch.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: main-switch
+
+    home-assistant:
+      rule: Host(`home.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: home-assistant
+
+    development-server:
+      rule: Host(`dev.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: development-server
+

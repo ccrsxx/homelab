@@ -1,0 +1,21 @@
+http:
+  routers:
+    jellyfin:
+      rule: Host(`jellyfin.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: jellyfin
+
+    nextcloud:
+      rule: Host(`nextcloud.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: nextcloud
+
+    adguard-home:
+      rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home
+
+    iconnet-router:
+      rule: Host(`iconnet.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: iconnet-router
+
+    home-assistant:
+      rule: Host(`home.{{ env "SECONDAR_MAIN_DOMAIN" }}`)
+      service: home-assistant
