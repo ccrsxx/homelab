@@ -10,7 +10,7 @@ services:
       - 8070:80
     restart: unless-stopped
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.smokeping.rule=Host(`smokeping.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:

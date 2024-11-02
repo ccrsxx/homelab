@@ -80,7 +80,7 @@ services:
       - 'CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_token'
 
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.traefik.rule=Host(`traefik.${SECONDARY_MAIN_DOMAIN}`)'
       - 'traefik.http.routers.traefik.service=api@internal'
       - 'traefik.http.routers.traefik.middlewares=ip-whitelist@file,basic-auth@file'

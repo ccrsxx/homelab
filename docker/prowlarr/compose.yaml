@@ -12,7 +12,7 @@ services:
       - 9696:9696
     restart: unless-stopped
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.prowlarr.rule=Host(`prowlarr.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:

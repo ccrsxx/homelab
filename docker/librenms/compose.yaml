@@ -64,7 +64,7 @@ services:
       - 'DB_TIMEOUT=60'
     restart: always
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.librenms.rule=Host(`librenms.${SECONDARY_MAIN_DOMAIN}`)'
 
   dispatcher:
