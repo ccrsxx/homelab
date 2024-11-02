@@ -1,0 +1,47 @@
+http:
+  routers:
+    iconnet-router:
+      rule: Host(`iconnet.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: iconnet-router
+
+    mikrotik-router:
+      rule: Host(`mikrotik.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: mikrotik-router
+
+    main-switch:
+      rule: Host(`switch.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: main-switch
+
+    adguard-home:
+      rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home
+
+    nginx-proxy-manager:
+      rule: Host(`nginx.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: nginx-proxy-manager
+
+  services:
+    iconnet-router:
+      loadBalancer:
+        servers:
+          - url: http://10.0.1.1:80
+
+    mikrotik-router:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.1:80
+
+    main-switch:
+      loadBalancer:
+        servers:
+          - url: http://10.0.100.100:80
+
+    adguard-home:
+      loadBalancer:
+        servers:
+          - url: http://10.0.10.10:80
+
+    nginx-proxy-manager:
+      loadBalancer:
+        servers:
+          - url: http://10.0.10.20:81

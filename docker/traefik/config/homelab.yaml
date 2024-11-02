@@ -12,22 +12,6 @@ http:
       rule: Host(`nextcloud.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: nextcloud
 
-    adguard-home:
-      rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: adguard-home
-
-    iconnet-router:
-      rule: Host(`iconnet.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: iconnet-router
-
-    mikrotik-router:
-      rule: Host(`mikrotik.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: mikrotik-router
-
-    main-switch:
-      rule: Host(`switch.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: main-switch
-
     home-assistant:
       rule: Host(`home.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: home-assistant
@@ -36,3 +20,28 @@ http:
       rule: Host(`dev.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: development-server
 
+  services:
+    proxmox:
+      loadBalancer:
+        servers:
+          - url: https://192.168.1.3:8006
+
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.30:8096
+
+    nextcloud:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.10:11000
+
+    home-assistant:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.210:8123
+
+    development-server:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.2:3000
