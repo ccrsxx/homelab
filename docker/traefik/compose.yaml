@@ -6,6 +6,9 @@ services:
     # Name
     container_name: traefik
 
+    # Restart policy
+    restart: unless-stopped
+
     # Enables the web UI and tells Traefik to listen to docker
     command:
       # Debug log level
