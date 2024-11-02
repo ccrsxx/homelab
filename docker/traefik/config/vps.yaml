@@ -1,11 +1,5 @@
 http:
   routers:
-    traefik-vps:
-      rule: Host(`traefik-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: traefik-vps
-      middlewares:
-        - basic-auth@file
-
     wg-easy:
       rule: Host(`wireguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: wg-easy
@@ -22,6 +16,18 @@ http:
       rule: Host(`cockpit-proxy.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: cockpit-proxy
 
+    pgadmin-vps:
+      rule: Host(`pgadmin-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: pgadmin-vps
+
+    portainer-vps:
+      rule: Host(`portainer-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: portainer-vps
+
+    smokeping-vps:
+      rule: Host(`smokeping-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: smokeping-vps
+
     adguard-home-vps:
       rule: Host(`adguard-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: adguard-home-vps
@@ -35,11 +41,6 @@ http:
       service: openspeedtest-vps
 
   services:
-    traefik-vps:
-      loadBalancer:
-        servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8010
-
     wg-easy:
       loadBalancer:
         servers:
@@ -59,6 +60,21 @@ http:
       loadBalancer:
         servers:
           - url: https://{{ env "PROXY_VPS_IP" }}:9090
+
+    pgadmin-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "MAIN_VPS_IP" }}:5050
+
+    portainer-vps:
+      loadBalancer:
+        servers:
+          - url: https://{{ env "MAIN_VPS_IP" }}:9443
+
+    smokeping-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "MAIN_VPS_IP" }}:8080
 
     adguard-home-vps:
       loadBalancer:
