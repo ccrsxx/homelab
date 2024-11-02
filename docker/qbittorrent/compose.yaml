@@ -18,6 +18,7 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.services.qbittorrent.loadbalancer.server.port=8080'
 
 networks:
   default:
