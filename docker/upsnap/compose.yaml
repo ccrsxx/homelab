@@ -26,11 +26,3 @@ services:
     #   interval: 10s
     # # or install custom packages for shutdown
     # entrypoint: /bin/sh -c "apk update && apk add --no-cache <YOUR_PACKAGE> && rm -rf /var/cache/apk/* && ./upsnap serve --http 0.0.0.0:8090"
-    labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
-      - 'traefik.http.routers.upsnap.rule=Host(`upsnap.${SECONDARY_MAIN_DOMAIN}`)'
-
-networks:
-  default:
-    name: traefik
-    external: true
