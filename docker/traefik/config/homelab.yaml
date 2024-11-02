@@ -1,5 +1,9 @@
 http:
   routers:
+    upsnap:
+      rule: Host(`upsnap.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: upsnap
+
     proxmox:
       rule: Host(`proxmox.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: proxmox
@@ -21,6 +25,11 @@ http:
       service: development-server
 
   services:
+    upsnap:
+      loadBalancer:
+        servers:
+          - url: http://host.docker.internal:8090
+
     proxmox:
       loadBalancer:
         servers:
