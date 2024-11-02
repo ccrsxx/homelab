@@ -1,65 +1,65 @@
 http:
   routers:
     traefik-vps:
-      rule: Host(`traefik-vps.{{ ENV "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`traefik-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: traefik-vps
 
     wg-easy:
-      rule: Host(`wireguard.{{ ENV "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`wireguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: wg-easy
 
     cockpit-main:
-      rule: Host(`cockpit-main.{{ ENV "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`cockpit-main.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: cockpit-main
 
     cockpit-dns:
-      rule: Host(`cockpit-dns.{{ ENV "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`cockpit-dns.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: cockpit-dns
 
     cockpit-proxy:
-      rule: Host(`cockpit-proxy.{{ ENV "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`cockpit-proxy.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: cockpit-proxy
 
     jdownloader-vps:
-      rule: Host(`jdownloader-vps.{{ ENV "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`jdownloader-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: jdownloader-vps
 
     openspeedtest-vps:
-      rule: Host(`openspeedtest-vps.{{ ENV "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`openspeedtest-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: openspeedtest-vps
 
   services:
     traefik-vps:
       loadBalancer:
         servers:
-          - url: http://{{ ENV "MAIN_VPS_IP" }}:8010
+          - url: http://{{ env "MAIN_VPS_IP" }}:8010
 
     wg-easy:
       loadBalancer:
         servers:
-          - url: http://{{ ENV "MAIN_VPS_IP" }}:51821
+          - url: http://{{ env "MAIN_VPS_IP" }}:51821
 
     cockpit-main:
       loadBalancer:
         servers:
-          - url: https://{{ ENV "MAIN_VPS_IP" }}:9090
+          - url: https://{{ env "MAIN_VPS_IP" }}:9090
 
     cockpit-dns:
       loadBalancer:
         servers:
-          - url: https://{{ ENV "DNS_VPS_IP" }}:9090
+          - url: https://{{ env "DNS_VPS_IP" }}:9090
 
     cockpit-proxy:
       loadBalancer:
         servers:
-          - url: https://{{ ENV "PROXY_VPS_IP" }}:9090
+          - url: https://{{ env "PROXY_VPS_IP" }}:9090
 
     jdownloader-vps:
       loadBalancer:
         servers:
-          - url: http://{{ ENV "MAIN_VPS_IP" }}:5800
+          - url: http://{{ env "MAIN_VPS_IP" }}:5800
 
     openspeedtest-vps:
       loadBalancer:
         servers:
-          - url: http://{{ ENV "MAIN_VPS_IP" }}:8081
+          - url: http://{{ env "MAIN_VPS_IP" }}:8081
