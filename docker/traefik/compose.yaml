@@ -12,7 +12,7 @@ services:
       - '--log.level=DEBUG'
 
       # Enable the Secured Web UI
-      - '--api.insecure=true'
+      - '--api.insecure=${API_INSECURE}'
       - '--api.dashboard=true'
 
       # Skip self signed SSL certificates
