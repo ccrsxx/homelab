@@ -27,10 +27,10 @@ services:
 
       # Setup entrypoints for HTTP and HTTPS and always redirect HTTP to HTTPS
       - '--entrypoints.web.address=:80'
-      - '--entrypoints.websecure.address=:443'
-      - '--entrypoints.websecure.asDefault=true'
       - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
       - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
+      - '--entrypoints.websecure.address=:443'
+      - '--entrypoints.websecure.asDefault=true'
 
       # Setup Domain and DNS challenge for Let's Encrypt
       - '--entrypoints.websecure.http.tls=true'
@@ -89,4 +89,3 @@ secrets:
 networks:
   default:
     name: traefik
-
