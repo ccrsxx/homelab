@@ -13,6 +13,6 @@ services:
       - /mnt/data/torrents:/data/torrents
     ports:
       - 8080:8080
-      - 6881:6881
-      - 6881:6881/udp
+      - 36860:36860
+      - 36860:36860/udp
 
