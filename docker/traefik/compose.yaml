@@ -12,6 +12,7 @@ services:
       - '--log.level=DEBUG'
 
       # Enable the Secured Web UI
+      - '--api.insecure=false'
       - '--api.dashboard=true'
 
       # Skip self signed SSL certificates
@@ -53,6 +54,8 @@ services:
       - '80:80'
       # The HTTPS port
       - '443:443'
+      # The Web UI (enabled by --api.insecure=false)
+      - '8010:8080'
 
     extra_hosts:
       - 'host.docker.internal:host-gateway'
