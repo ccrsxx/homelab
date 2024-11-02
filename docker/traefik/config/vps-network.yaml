@@ -1,0 +1,49 @@
+http:
+  routers:
+    wg-easy:
+      rule: Host(`wireguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: wg-easy
+
+    traefik-vps:
+      rule: Host(`traefik-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: traefik-vps
+      middlewares:
+        - basic-auth@file
+
+    smokeping-vps:
+      rule: Host(`smokeping-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: smokeping-vps
+
+    adguard-home-vps:
+      rule: Host(`adguard-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home-vps
+
+    openspeedtest-vps:
+      rule: Host(`openspeedtest-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: openspeedtest-vps
+
+  services:
+    wg-easy:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "MAIN_VPS_IP" }}:51821
+
+    traefik-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "MAIN_VPS_IP" }}:8010
+
+    smokeping-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "MAIN_VPS_IP" }}:8070
+
+    adguard-home-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "DNS_VPS_IP" }}:80
+
+    openspeedtest-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "MAIN_VPS_IP" }}:8081

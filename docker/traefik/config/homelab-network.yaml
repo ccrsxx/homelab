@@ -16,19 +16,9 @@ http:
       rule: Host(`nginx.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: nginx-proxy-manager
 
-    traefik-vps:
-      rule: Host(`traefik-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: traefik-vps
-      middlewares:
-        - basic-auth@file
-
     adguard-home:
       rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: adguard-home
-
-    adguard-home-vps:
-      rule: Host(`adguard-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: adguard-home-vps
 
   services:
     iconnet-router:
@@ -51,17 +41,7 @@ http:
         servers:
           - url: http://10.0.10.20:81
 
-    traefik-vps:
-      loadBalancer:
-        servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8010
-
     adguard-home:
       loadBalancer:
         servers:
           - url: http://10.0.10.10:80
-
-    adguard-home-vps:
-      loadBalancer:
-        servers:
-          - url: http://{{ env "DNS_VPS_IP" }}:80
