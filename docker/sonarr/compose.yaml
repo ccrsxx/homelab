@@ -12,3 +12,11 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.sonarr.rule=Host(`sonarr.${SECONDARY_MAIN_DOMAIN}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true

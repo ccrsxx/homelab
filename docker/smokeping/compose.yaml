@@ -12,3 +12,8 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
       - 'traefik.http.routers.smokeping.rule=Host(`smokeping.${SECONDARY_MAIN_DOMAIN}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true

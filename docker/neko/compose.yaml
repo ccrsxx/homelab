@@ -1,12 +1,12 @@
 services:
   neko:
-    image: "ghcr.io/m1k1o/neko/arm-chromium:latest"
-    restart: "unless-stopped"
+    image: 'ghcr.io/m1k1o/neko/arm-chromium:latest'
+    restart: 'unless-stopped'
     container_name: neko
-    shm_size: "2gb"
+    shm_size: '2gb'
     ports:
-      - "8069:8080"
-      - "52000-52100:52000-52100/udp"
+      - '8069:8080'
+      - '52000-52100:52000-52100/udp'
     cap_add:
       - SYS_ADMIN
     environment:
@@ -20,8 +20,8 @@ services:
       - ./policies.json:/etc/chromium/policies/managed/policies.json
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
-      - 'traefik.http.routers.neko.rule=Host(`${SERVICE_URL}`)'
-      # - 'traefik.http.services.neko.loadbalancer.server.port=8080'
+      - 'traefik.http.routers.neko.rule=Host(`neko.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.neko.middlewares=rate-limit@file'
 
 volumes:
   data:
@@ -30,4 +30,3 @@ networks:
   default:
     name: traefik
     external: true
-

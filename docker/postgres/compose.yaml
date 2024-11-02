@@ -10,11 +10,11 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
       PGDATA: /data/postgres
     volumes:
-       - postgres:/data/postgres
+      - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     restart: unless-stopped
-  
+
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:latest
@@ -24,10 +24,18 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_default_password
     volumes:
-       - pgadmin:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - '${PGADMIN_PORT:-5050}:80'
     restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.pgadmin.rule=Host(`pgadmin.${SECONDARY_MAIN_DOMAIN}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true
 
 secrets:
   postgres_user:
@@ -38,6 +46,5 @@ secrets:
     file: './secrets/pgadmin_default_password'
 
 volumes:
-    postgres:
-    pgadmin:
-
+  postgres:
+  pgadmin:

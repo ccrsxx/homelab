@@ -5,3 +5,11 @@ services:
     restart: unless-stopped
     ports:
       - 8081:3000
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.openspeedtest.rule=Host(`openspeedtest.${SECONDARY_MAIN_DOMAIN}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true

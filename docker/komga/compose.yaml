@@ -11,4 +11,11 @@ services:
       - TZ=Asia/Jakarta
     restart: unless-stopped
     cpus: 1
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.komga.rule=Host(`komga.${SECONDARY_MAIN_DOMAIN}`)'
 
+networks:
+  default:
+    name: traefik
+    external: true

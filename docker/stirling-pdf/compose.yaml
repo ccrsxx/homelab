@@ -14,3 +14,11 @@ services:
       - DOCKER_ENABLE_SECURITY=false
       - INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false
       - LANGS=en_GB
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.stirling-pdf.rule=Host(`pdf.${SECONDARY_MAIN_DOMAIN}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true

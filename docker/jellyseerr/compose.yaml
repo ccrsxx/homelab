@@ -10,3 +10,11 @@ services:
       - 5055:5055
     volumes:
       - /docker/appdata/jellyseerr:/app/config
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${SECONDARY_MAIN_DOMAIN}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true

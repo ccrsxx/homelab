@@ -26,18 +26,15 @@ services:
       - /docker/appdata/ntopng/redis:/var/lib/redis
       - ./entrypoint.sh:/entrypoint.sh
       - ./localnetworks.txt:/etc/ntopng/localnetworks.txt:ro
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.ntopng.rule=Host(`ntopng.${SECONDARY_MAIN_DOMAIN}`)'
 
   nprobe:
     container_name: nprobe
     restart: unless-stopped
     image: ntop/nprobe:stable
-    command:
-      [
-        '--zmq',
-        'tcp://*:5557',
-        '--collector-port',
-        '2056'
-      ]
+    command: ['--zmq', 'tcp://*:5557', '--collector-port', '2056']
     ports:
       - 5557:5557/tcp
       - 2056:2056/udp
@@ -54,8 +51,12 @@ services:
     image: docker:cli
     container_name: restarter
     restart: unless-stopped
-    volumes: 
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./restarter.sh:/restarter.sh
     entrypoint: /restarter.sh
 
+networks:
+  default:
+    name: traefik
+    external: true

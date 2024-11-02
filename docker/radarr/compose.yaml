@@ -12,4 +12,11 @@ services:
     volumes:
       - /docker/appdata/radarr:/config
       - /mnt/data:/data
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.radarr.rule=Host(`radarr.${SECONDARY_MAIN_DOMAIN}`)'
 
+networks:
+  default:
+    name: traefik
+    external: true

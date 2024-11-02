@@ -25,4 +25,11 @@ services:
       - /docker/appdata/jellystat/data:/app/backend/backup-data
     depends_on:
       - db
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.jellystat.rule=Host(`jellystat.${SECONDARY_MAIN_DOMAIN}`)'
 
+networks:
+  default:
+    name: traefik
+    external: true

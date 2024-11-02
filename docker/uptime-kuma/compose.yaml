@@ -7,4 +7,11 @@ services:
       - 3001:3001
     volumes:
       - /docker/appdata/uptime-kuma:/app/data
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.uptime-kuma-vps.rule=Host(`uptime.${SECONDARY_MAIN_DOMAIN}`)'
 
+networks:
+  default:
+    name: traefik
+    external: true

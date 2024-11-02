@@ -63,6 +63,9 @@ services:
       - 'DB_PASSWORD=${MYSQL_PASSWORD}'
       - 'DB_TIMEOUT=60'
     restart: always
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-true}'
+      - 'traefik.http.routers.librenms.rule=Host(`librenms.${SECONDARY_MAIN_DOMAIN}`)'
 
   dispatcher:
     image: librenms/librenms:latest
@@ -157,3 +160,7 @@ services:
       - 'SIDECAR_SNMPTRAPD=1'
     restart: always
 
+networks:
+  default:
+    name: traefik
+    external: true
