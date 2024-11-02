@@ -24,7 +24,7 @@ services:
 
       # Enable File as a provider and watch the changes
       - '--providers.file.watch=true'
-      - '--providers.file.directory=/config'
+      - '--providers.file.directory=${CUSTOM_CONFIG_DIR:-/config}'
 
       # Setup entrypoints for HTTP and HTTPS and always redirect HTTP to HTTPS
       - '--entrypoints.web.address=:80'
@@ -64,7 +64,7 @@ services:
       # So that Traefik can listen to the Docker events
       - '/var/run/docker.sock:/var/run/docker.sock'
       - './letsencrypt:/letsencrypt'
-      - './config:/config'
+      - '.${CUSTOM_CONFIG_DIR:-/config}:/config'
 
     secrets:
       - 'cloudflare_token'
