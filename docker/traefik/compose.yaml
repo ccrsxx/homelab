@@ -19,7 +19,7 @@ services:
       - '--api.dashboard=true'
 
       # Skip self signed SSL certificates
-      - '--serversTransport.insecureSkipVerify=true'
+      - '--serverstransport.insecureskipverify=true'
 
       # Enable Docker as a provider and disable exposed by default
       - '--providers.docker=true'
@@ -34,11 +34,12 @@ services:
       - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
       - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
       - '--entrypoints.websecure.address=:443'
-      - '--entrypoints.websecure.asDefault=true'
+      - '--entrypoints.websecure.asdefault=true'
+      - '--entrypoints.websecure.forwardedheaders.trustedips=${CLOUDFLARE_IPS}'
 
       # Setup Domain and DNS challenge for Let's Encrypt
       - '--entrypoints.websecure.http.tls=true'
-      - '--entrypoints.websecure.http.tls.certResolver=letsencrypt'
+      - '--entrypoints.websecure.http.tls.certresolver=letsencrypt'
       - '--entrypoints.websecure.http.tls.domains[0].main=${PRIMARY_MAIN_DOMAIN}'
       - '--entrypoints.websecure.http.tls.domains[0].sans=${PRIMARY_WILDCARD_DOMAIN}'
       - '--entrypoints.websecure.http.tls.domains[1].main=${SECONDARY_MAIN_DOMAIN}'
@@ -73,8 +74,9 @@ services:
       - 'cloudflare_token'
 
     environment:
-      - 'AUTH_USER=${AUTH_USER}'
-      - 'IP_WHITELIST=${IP_WHITELIST}'
+      - 'AUTH_USERS=${AUTH_USERS}'
+      - 'ALLOWED_IPS=${ALLOWED_IPS}'
+      - 'CLOUDFLARE_IPS=${CLOUDFLARE_IPS}'
       - 'MAIN_VPS_IP=${MAIN_VPS_IP}'
       - 'DNS_VPS_IP=${DNS_VPS_IP}'
       - 'PROXY_VPS_IP=${PROXY_VPS_IP}'
