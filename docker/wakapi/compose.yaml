@@ -19,8 +19,8 @@ services:
       WAKAPI_MAIL_SMTP_PASS: ${WAKAPI_MAIL_SMTP_PASS}
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
-      - 'traefik.http.routers.wakapi.rule=Host(`wakapi.${SECONDARY_MAIN_DOMAIN}`)'
-      - 'traefik.http.routers.wakapi.middlewares=rate-limit@file'
+      - 'traefik.http.routers.wakapi.rule=Host(`wakapi.${PRIMARY_MAIN_DOMAIN}`) || Host(`wakapi.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.wakapi.middlewares=cloudflare-ip-allowlist@file'
 
   db:
     image: postgres:17
