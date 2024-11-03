@@ -75,7 +75,8 @@ services:
 
     environment:
       - 'AUTH_USERS=${AUTH_USERS}'
-      - 'ALLOWED_IPS=${ALLOWED_IPS}'
+      - 'ALLOWED_PUBLIC_IPS=${ALLOWED_PUBLIC_IPS}'
+      - 'ALLOWED_INTERNAL_IPS=${ALLOWED_INTERNAL_IPS}'
       - 'CLOUDFLARE_IPS=${CLOUDFLARE_IPS}'
       - 'MAIN_VPS_IP=${MAIN_VPS_IP}'
       - 'DNS_VPS_IP=${DNS_VPS_IP}'

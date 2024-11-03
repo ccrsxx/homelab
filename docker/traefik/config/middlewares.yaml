@@ -13,13 +13,6 @@ http:
            - "{{ . }}"
           {{- end }}
 
-    internal-ip-allowlist:
-      ipAllowlist:
-        sourceRange:
-          {{- range (splitList "," (env "ALLOWED_INTERNAL_IPS")) }}
-           - "{{ . }}"
-          {{- end }}
-
     public-ip-allowlist:
       ipAllowlist:
         sourceRange:
@@ -28,6 +21,14 @@ http:
           {{- end }}
         ipStrategy:
           depth: 1
+
+    internal-ip-allowlist:
+      ipAllowlist:
+        sourceRange:
+          {{- range (splitList "," (env "ALLOWED_INTERNAL_IPS")) }}
+           - "{{ . }}"
+          {{- end }}
+
 
     cloudflare-ip-allowlist:
       ipAllowList:
