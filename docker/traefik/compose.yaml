@@ -27,7 +27,7 @@ services:
 
       # Enable File as a provider and watch the changes
       - '--providers.file.watch=true'
-      - '--providers.file.directory=${CUSTOM_CONFIG_DIR:-/config}'
+      - '--providers.file.directory=/config'
 
       # Setup entrypoints for HTTP and HTTPS and always redirect HTTP to HTTPS
       - '--entrypoints.web.address=:80'
