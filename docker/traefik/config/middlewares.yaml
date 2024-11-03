@@ -13,10 +13,17 @@ http:
            - "{{ . }}"
           {{- end }}
 
-    ip-allowlist:
+    internal-ip-allowlist:
       ipAllowlist:
         sourceRange:
-          {{- range (splitList "," (env "ALLOWED_IPS")) }}
+          {{- range (splitList "," (env "ALLOWED_INTERNAL_IPS")) }}
+           - "{{ . }}"
+          {{- end }}
+
+    public-ip-allowlist:
+      ipAllowlist:
+        sourceRange:
+          {{- range (splitList "," (env "ALLOWED_PUBLIC_IPS")) }}
            - "{{ . }}"
           {{- end }}
         ipStrategy:
