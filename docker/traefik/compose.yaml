@@ -86,7 +86,7 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.traefik.rule=Host(`traefik.${SECONDARY_MAIN_DOMAIN}`)'
       - 'traefik.http.routers.traefik.service=api@internal'
-      - 'traefik.http.routers.traefik.middlewares=ip-whitelist@file,basic-auth@file'
+      - 'traefik.http.routers.traefik.middlewares=ip-allowlist@file,basic-auth@file'
 
 secrets:
   cloudflare_token:

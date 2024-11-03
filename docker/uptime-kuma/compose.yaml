@@ -10,7 +10,7 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.uptime-kuma.rule=Host(`uptime.${SECONDARY_MAIN_DOMAIN}`)'
-      - 'traefik.http.routers.uptime-kuma.middlewares=rate-limit@file'
+      - 'traefik.http.routers.uptime-kuma.middlewares=cloudflare-ip-allowlist@file'
 
 networks:
   default:
