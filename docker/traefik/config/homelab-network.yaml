@@ -12,10 +12,6 @@ http:
       rule: Host(`switch.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: main-switch
 
-    nginx-proxy-manager:
-      rule: Host(`nginx.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: nginx-proxy-manager
-
     adguard-home:
       rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: adguard-home
@@ -40,11 +36,6 @@ http:
         servers:
           - url: http://10.0.100.100:80
 
-    nginx-proxy-manager:
-      loadBalancer:
-        servers:
-          - url: http://10.0.10.20:81
-
     adguard-home:
       loadBalancer:
         servers:
@@ -53,4 +44,4 @@ http:
     uptime-kuma:
       loadBalancer:
         servers:
-          - url: http://10.0.10.50:3001
+          - url: http://10.0.10.20:3001
