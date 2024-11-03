@@ -29,7 +29,6 @@ http:
            - "{{ . }}"
           {{- end }}
 
-
     cloudflare-ip-allowlist:
       ipAllowList:
         sourceRange:
