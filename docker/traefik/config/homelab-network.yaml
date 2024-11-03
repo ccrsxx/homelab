@@ -21,7 +21,7 @@ http:
       service: adguard-home
 
     uptime-kuma:
-      rule: Host(`uptime.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`status.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: uptime-kuma
 
   services:
