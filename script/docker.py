@@ -39,7 +39,25 @@ def get_container_list() -> list[str]:
     return valid_container_list
 
 
+def create_traefik_network() -> None:
+    traefik_network_exists = (
+        subprocess.call(
+            ["docker", "network", "inspect", "traefik"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        == 0
+    )
+
+    if traefik_network_exists:
+        return
+
+    subprocess.call(["docker", "network", "create", "traefik"])
+
+
 def deploy_containers(container_list: list[str]) -> None:
+    create_traefik_network()
+
     for container in container_list:
         service_path = os.path.join(container, "compose.yaml")
 
