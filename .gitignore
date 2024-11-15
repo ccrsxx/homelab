@@ -160,6 +160,7 @@ cython_debug/
 # Sensitive data
 .grafana
 .prometheus
+**/data
 **/secrets
 **/training
 **/letsencrypt
