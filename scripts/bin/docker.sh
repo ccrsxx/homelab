@@ -4,6 +4,6 @@
 
 source venv/bin/activate
 
-python script/docker.py
+python scripts/docker.py
 
 deactivate

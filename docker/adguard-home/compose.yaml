@@ -1,5 +1,5 @@
 services:
-  app:
+  adguard-home:
     image: adguard/adguardhome:latest
     container_name: adguard-home
     restart: unless-stopped

@@ -1,5 +1,5 @@
 services:
-  app:
+  portainer:
     image: portainer/portainer-ee:latest
     container_name: portainer
     restart: unless-stopped

@@ -4,6 +4,6 @@
 
 source venv/bin/activate
 
-python script/failover.py $1
+python scripts/failover.py $1
 
 deactivate

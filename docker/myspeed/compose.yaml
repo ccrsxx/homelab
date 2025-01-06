@@ -1,0 +1,21 @@
+services:
+  myspeed:
+    image: germannewsmaker/myspeed:latest
+    container_name: myspeed
+    ports:
+      - 5216:5216
+    volumes:
+      - myspeed:/myspeed/data
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.http.routers.myspeed.rule=Host(`myspeed.${SECONDARY_MAIN_DOMAIN}`)'
+
+volumes:
+  myspeed:
+
+networks:
+  default:
+    name: traefik
+    external: true
+

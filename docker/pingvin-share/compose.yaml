@@ -1,5 +1,5 @@
 services:
-  app:
+  pingvin-share:
     image: stonith404/pingvin-share:latest
     container_name: pingvin-share
     restart: unless-stopped

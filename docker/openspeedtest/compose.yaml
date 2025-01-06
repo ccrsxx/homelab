@@ -1,5 +1,5 @@
 services:
-  app:
+  openspeedtest:
     image: openspeedtest/latest
     container_name: openspeedtest
     restart: unless-stopped

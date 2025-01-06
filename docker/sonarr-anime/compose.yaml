@@ -1,5 +1,5 @@
 services:
-  sonarr:
+  sonarr-anime:
     image: linuxserver/sonarr:latest
     container_name: sonarr-anime
     environment:
