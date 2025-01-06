@@ -1,5 +1,5 @@
 services:
-  app:
+  jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     restart: unless-stopped

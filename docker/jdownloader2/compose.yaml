@@ -1,5 +1,5 @@
 services:
-  app:
+  jdownloader2:
     image: jlesage/jdownloader-2:latest
     container_name: jdownloader2
     restart: unless-stopped

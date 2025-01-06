@@ -1,5 +1,5 @@
 services:
-  radarr:
+  radarr-anime:
     container_name: radarr-anime
     image: linuxserver/radarr:latest
     restart: unless-stopped

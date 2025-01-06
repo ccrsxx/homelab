@@ -1,5 +1,5 @@
 services:
-  app:
+  emilia:
     image: ccrsxx/emilia:latest
     container_name: emilia
     restart: unless-stopped

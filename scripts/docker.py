@@ -62,7 +62,7 @@ def deploy_containers(container_list: list[str]) -> None:
         service_path = os.path.join(container, "compose.yaml")
 
         subprocess.call(["docker", "compose", "-f", service_path, "pull"])
-        subprocess.call(["docker", "compose", "-f", service_path, "--remove-orphans", "up", "-d"])
+        subprocess.call(["docker", "compose", "-f", service_path, "up", "--remove-orphans", "-d"])
 
 
 def main() -> None:

@@ -9,7 +9,7 @@ services:
     volumes:
       - /docker/appdata/jellystat/db:/var/lib/postgresql/data
 
-  app:
+  jellystat:
     image: cyfershepard/jellystat:latest
     restart: unless-stopped
     container_name: jellystat
