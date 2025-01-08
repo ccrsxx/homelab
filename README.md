@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the configuration files for my homelab. There's some docker compose files, some scripts, and some other stuff.
+This repository contains the configuration files for my homelab. It includes Docker Compose files, scripts, and other stuff.
 
 ### Prerequisites
 
@@ -11,7 +11,7 @@ This repository contains the configuration files for my homelab. There's some do
 
 ## Running Scripts with Python
 
-Python scripts are used to automate various tasks on my homelab. For example. there's `docker.py` which is to deploy and update docker containers via docker compose files and `failover.py` which is to perform failover operations when my main WAN connection goes down.
+Python scripts are used to automate various tasks in my homelab. For example, `docker.py` is used to deploy and update Docker containers via Docker Compose files, and `failover.py` is used to perform failover operations when my main WAN connection goes down.
 
 ### How to Use Scripts
 
@@ -27,7 +27,7 @@ Python scripts are used to automate various tasks on my homelab. For example. th
    cd homelab
    ```
 
-1. Create a virtual environment for python
+1. Create a virtual environment for Python
 
    ```bash
    python -m venv venv
