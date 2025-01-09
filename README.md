@@ -27,32 +27,20 @@ Python scripts are used to automate various tasks in my homelab. For example, `d
    cd homelab
    ```
 
-1. Create a virtual environment for Python
+1. Install UV package manager
 
    ```bash
-   python -m venv venv
+   pip install uv
    ```
 
-1. Activate the virtual environment
+1. Sync all the project dependencies
 
    ```bash
-   source venv/bin/activate
+   uv sync --no-dev
    ```
 
-1. Install the required Python packages
+1. Run the python script
 
    ```bash
-   pip install -r requirements.txt
-   ```
-
-1. Deactivate the virtual environment
-
-   ```bash
-   deactivate
-   ```
-
-1. Run the script via bash script
-
-   ```bash
-   ./scripts/bin/docker.sh
+   uv run ./scripts/docker.py
    ```
