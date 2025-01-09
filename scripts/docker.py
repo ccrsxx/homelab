@@ -1,24 +1,22 @@
 import os
-import utils.env
 import subprocess
-
 from typing import Final
 
 
 def get_container_list() -> list[str]:
-    raw_container_list: Final = os.getenv("CONTAINER_LIST")
+    raw_container_list: Final = os.getenv('CONTAINER_LIST')
 
     if not raw_container_list:
-        raise ValueError("No container list provided")
+        raise ValueError('No container list provided')
 
     parsed_container_list: Final = [
-        container.strip() for container in raw_container_list.split(",")
+        container.strip() for container in raw_container_list.split(',')
     ]
 
     if not parsed_container_list:
-        raise ValueError("No containers to deploy")
+        raise ValueError('No containers to deploy')
 
-    os.chdir("docker")
+    os.chdir('docker')
 
     valid_container_list: Final = []
 
@@ -26,15 +24,15 @@ def get_container_list() -> list[str]:
 
     for container in parsed_container_list:
         if container in valid_container_list:
-            raise ValueError(f"Container {container} is duplicated")
+            raise ValueError(f'Container {container} is duplicated')
 
         if container not in available_containers:
-            raise ValueError(f"Container {container} does not exist")
+            raise ValueError(f'Container {container} does not exist')
 
         valid_container_list.append(container)
 
     if not valid_container_list:
-        raise ValueError("No valid containers to deploy")
+        raise ValueError('No valid containers to deploy')
 
     return valid_container_list
 
@@ -42,7 +40,7 @@ def get_container_list() -> list[str]:
 def create_traefik_network() -> None:
     traefik_network_exists = (
         subprocess.call(
-            ["docker", "network", "inspect", "traefik"],
+            ['docker', 'network', 'inspect', 'traefik'],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
@@ -52,17 +50,19 @@ def create_traefik_network() -> None:
     if traefik_network_exists:
         return
 
-    subprocess.call(["docker", "network", "create", "traefik"])
+    subprocess.call(['docker', 'network', 'create', 'traefik'])
 
 
 def deploy_containers(container_list: list[str]) -> None:
     create_traefik_network()
 
     for container in container_list:
-        service_path = os.path.join(container, "compose.yaml")
+        service_path = os.path.join(container, 'compose.yaml')
 
-        subprocess.call(["docker", "compose", "-f", service_path, "pull"])
-        subprocess.call(["docker", "compose", "-f", service_path, "up", "--remove-orphans", "-d"])
+        subprocess.call(['docker', 'compose', '-f', service_path, 'pull'])
+        subprocess.call(
+            ['docker', 'compose', '-f', service_path, 'up', '--remove-orphans', '-d']
+        )
 
 
 def main() -> None:
@@ -71,5 +71,5 @@ def main() -> None:
     deploy_containers(container_list)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

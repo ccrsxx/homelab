@@ -4,7 +4,7 @@ services:
     container_name: code-server
     restart: unless-stopped
     volumes:
-      - "./data:/home/coder"
+      - './data:/home/coder'
     environment:
       DOCKER_USER: '${USER}'
     user: '${UID:-1000}:${GID:-1000}'
@@ -19,4 +19,3 @@ networks:
   default:
     name: traefik
     external: true
-

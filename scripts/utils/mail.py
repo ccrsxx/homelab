@@ -1,15 +1,9 @@
-import os
-import ssl
 import smtplib
-
+import ssl
 from email.mime.text import MIMEText
-
 from typing import Final
 
-EMAIL_API: Final = os.getenv("EMAIL_API")
-EMAIL_API_KEY: Final = os.getenv("EMAIL_API_KEY")
-
-TARGET_EMAIL_SENDER: Final = os.getenv("TARGET_EMAIL_SENDER")
+from .env import app_env
 
 
 def send_email(
@@ -18,9 +12,9 @@ def send_email(
 ) -> None:
     message = MIMEText(body)
 
-    message["Subject"] = subject
-    message["From"] = EMAIL_API
-    message["To"] = TARGET_EMAIL_SENDER
+    message['Subject'] = subject
+    message['From'] = app_env.EMAIL_API
+    message['To'] = app_env.TARGET_EMAIL_SENDER
 
     text = message.as_string()
 
@@ -30,9 +24,9 @@ def send_email(
 
     for _ in range(MAX_EMAIL_ATTEMPTS):
         try:
-            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-                server.login(EMAIL_API, EMAIL_API_KEY)
-                server.sendmail(EMAIL_API, TARGET_EMAIL_SENDER, text)
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
+                server.login(app_env.EMAIL_API, app_env.EMAIL_API_KEY)
+                server.sendmail(app_env.EMAIL_API, app_env.TARGET_EMAIL_SENDER, text)
                 break
         except Exception as e:
-            print(f"Error: {e}")
+            print(f'Error: {e}')

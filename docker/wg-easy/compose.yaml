@@ -24,7 +24,7 @@ services:
       # WG_PORT: 51820
       # WG_CONFIG_PORT: 92820
       # WG_DEFAULT_ADDRESS: 10.8.0.x
-      WG_DEFAULT_DNS: ${WG_DEFAULT_DNS} 
+      WG_DEFAULT_DNS: ${WG_DEFAULT_DNS}
       # WG_PRE_UP: echo "Pre Up" > /etc/wireguard/pre-up.txt
       WG_POST_UP: >
         iptables -A FORWARD -i wg0 -m iprange --src-range 10.8.0.2-10.8.0.10 -j ACCEPT;
@@ -77,4 +77,3 @@ services:
     networks:
       net_wireguard:
         ipv4_address: 172.18.0.2
-

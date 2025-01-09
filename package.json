@@ -1,0 +1,29 @@
+{
+  "name": "homelab",
+  "version": "1.0.0",
+  "description": "## Overview",
+  "main": "index.js",
+  "scripts": {
+    "lint": "ruff check --fix",
+    "format": "ruff format && prettier --write .",
+    "prepare": "husky",
+    "type-check": "mypy ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-toml": "^2.0.1"
+  },
+  "volta": {
+    "node": "20.18.1"
+  },
+  "lint-staged": {
+    "**/*": "npm run format"
+  }
+}

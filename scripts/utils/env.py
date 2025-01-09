@@ -1,3 +1,32 @@
-from dotenv import load_dotenv, find_dotenv
+import os
+from typing import Final
+
+from dotenv import find_dotenv, load_dotenv
+from pydantic import BaseModel, Field
 
 load_dotenv(find_dotenv())
+
+
+class AppEnv(BaseModel):
+    CONTAINER_LIST: str = Field(description='List of containers to deploy')
+
+    EMAIL_API: str = Field(description='Email API')
+    EMAIL_API_KEY: str = Field(description='Gmail API key')
+    TARGET_EMAIL_SENDER: str = Field(description='Email recipient')
+
+    PC_USERNAME: str = Field(description='PC username')
+    PC_PASSWORD: str = Field(description='PC password')
+    PC_IP_ADDRESS: str = Field(description='PC IP address')
+
+    UPTIME_KUMA_URL: str = Field(description='Uptime Kuma URL')
+    UPTIME_KUMA_USERNAME: str = Field(description='Uptime Kuma username')
+    UPTIME_KUMA_PASSWORD: str = Field(description='Uptime Kuma password')
+    UPTIME_KUMA_MAINTENANCE_ID: str = Field(description='Uptime Kuma maintenance ID')
+
+    QBITTORRENT_HOST: str = Field(description='qBittorrent host')
+    QBITTORRENT_PORT: str = Field(description='qBittorrent port')
+    QBITTORRENT_USERNAME: str = Field(description='qBittorrent username')
+    QBITTORRENT_PASSWORD: str = Field(description='qBittorrent password')
+
+
+app_env: Final = AppEnv(**os.environ)

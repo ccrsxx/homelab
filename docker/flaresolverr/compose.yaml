@@ -8,6 +8,5 @@ services:
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=Asia/Jakarta
     ports:
-      - "${PORT:-8191}:8191"
-    restart: unless-stopped 
-
+      - '${PORT:-8191}:8191'
+    restart: unless-stopped
