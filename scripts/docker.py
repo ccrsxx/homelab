@@ -2,9 +2,11 @@ import os
 import subprocess
 from typing import Final
 
+from utils.env import app_env
+
 
 def get_container_list() -> list[str]:
-    raw_container_list: Final = os.getenv('CONTAINER_LIST')
+    raw_container_list: Final = app_env.CONTAINER_LIST
 
     if not raw_container_list:
         raise ValueError('No container list provided')
