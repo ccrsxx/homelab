@@ -4,10 +4,10 @@
   "description": "## Overview",
   "main": "index.js",
   "scripts": {
-    "lint": "ruff check --fix",
-    "format": "ruff format && prettier --write .",
+    "lint": "uv run ruff check --fix",
+    "format": "uv run ruff format && prettier --write .",
     "prepare": "husky",
-    "type-check": "mypy ."
+    "type-check": "uv run mypy ."
   },
   "keywords": [],
   "author": "",
