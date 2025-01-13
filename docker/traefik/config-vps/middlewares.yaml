@@ -6,6 +6,15 @@ http:
         burst: 60
         period: 1m
 
+    public-rate-limit:
+      rateLimit:
+        average: 2400
+        burst: 60
+        period: 1m
+        sourceCriterion:
+          ipStrategy:
+            depth: 1
+
     basic-auth:
       basicAuth:
         users:
