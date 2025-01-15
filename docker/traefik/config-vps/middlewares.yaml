@@ -2,14 +2,14 @@ http:
   middlewares:
     rate-limit:
       rateLimit:
-        average: 2400
-        burst: 60
+        average: 600
+        burst: 100
         period: 1m
 
     public-rate-limit:
       rateLimit:
-        average: 2400
-        burst: 60
+        average: 600
+        burst: 100
         period: 1m
         sourceCriterion:
           ipStrategy:

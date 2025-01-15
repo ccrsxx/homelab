@@ -3,6 +3,9 @@ services:
     # The official v3 Traefik docker image
     image: traefik:v3.1
 
+    # Set traefik resource
+    cpus: 2
+
     # Name
     container_name: traefik
 

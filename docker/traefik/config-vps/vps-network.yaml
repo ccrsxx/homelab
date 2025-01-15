@@ -5,6 +5,7 @@ http:
       service: adguard-home
       middlewares:
         - cloudflare-ip-allowlist@file
+        - public-rate-limit@file
 
   services:
     adguard-home:
