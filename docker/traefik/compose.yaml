@@ -15,7 +15,7 @@ services:
     # Enables the web UI and tells Traefik to listen to docker
     command:
       # Debug log level
-      - '--log.level=DEBUG'
+      - '--log.level=INFO'
 
       # Enable the Secured Web UI
       - '--api.insecure=true'
