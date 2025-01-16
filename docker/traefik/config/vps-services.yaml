@@ -12,12 +12,6 @@ http:
       rule: Host(`cockpit-proxy.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: cockpit-proxy
 
-    traefik-vps:
-      rule: Host(`traefik-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: traefik-vps
-      middlewares:
-        - basic-auth@file
-
     pgadmin-vps:
       rule: Host(`pgadmin-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: pgadmin-vps
@@ -45,11 +39,6 @@ http:
       loadBalancer:
         servers:
           - url: https://{{ env "PROXY_VPS_IP" }}:9090
-
-    traefik-vps:
-      loadBalancer:
-        servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8010
 
     pgadmin-vps:
       loadBalancer:
