@@ -64,7 +64,7 @@ services:
       - 'DB_TIMEOUT=60'
     restart: always
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.librenms.rule=Host(`librenms.${SECONDARY_MAIN_DOMAIN}`)'
       - 'traefik.http.services.librenms.loadbalancer.server.port=8000'
 

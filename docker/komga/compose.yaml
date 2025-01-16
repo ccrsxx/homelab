@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
     cpus: 1
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.komga.rule=Host(`komga.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:

@@ -27,7 +27,7 @@ services:
       - ./entrypoint.sh:/entrypoint.sh
       - ./localnetworks.txt:/etc/ntopng/localnetworks.txt:ro
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.ntopng.rule=Host(`ntopng.${SECONDARY_MAIN_DOMAIN}`)'
 
   nprobe:

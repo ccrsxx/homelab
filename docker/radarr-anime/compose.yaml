@@ -13,7 +13,7 @@ services:
       - /docker/appdata/radarr-anime:/config
       - /mnt/data:/data
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.radarr-anime.rule=Host(`radarr-anime.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:

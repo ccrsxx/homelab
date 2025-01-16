@@ -6,7 +6,7 @@ services:
     ports:
       - 8081:3000
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.openspeedtest.rule=Host(`openspeedtest.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:

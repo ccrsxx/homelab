@@ -26,7 +26,7 @@ services:
     depends_on:
       - db
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.jellystat.rule=Host(`jellystat.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:

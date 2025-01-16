@@ -10,7 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /docker/appdata/portainer:/data
     labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED}'
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.portainer.rule=Host(`portainer.${SECONDARY_MAIN_DOMAIN}`)'
       - 'traefik.http.services.portainer.loadbalancer.server.port=9000'
 
