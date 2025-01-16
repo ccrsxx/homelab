@@ -6,10 +6,8 @@ services:
     command: run -c /etc/v2fly/config.json
     volumes:
       - '.${CUSTOM_CONFIG_DIR}/config.json:/etc/v2fly/config.json'
-
     ports:
       - 10086:10086
-
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED}'
       - 'traefik.http.routers.v2fly-vmess.rule=Host(`${VMESS_ROUTER}.${SECONDARY_MAIN_DOMAIN}`) && Path(`/vmess`)'
