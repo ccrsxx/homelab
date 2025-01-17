@@ -19,6 +19,23 @@
           "path": "/vmess"
         }
       }
+    },
+    {
+      "port": 10087,
+      "protocol": "trojan",
+      "settings": {
+        "clients": [
+          {
+            "password": "your-super-cute-password"
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/trojan"
+        }
+      }
     }
   ],
   "outbounds": [

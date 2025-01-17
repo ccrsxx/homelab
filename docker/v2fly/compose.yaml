@@ -8,11 +8,21 @@ services:
       - '.${CUSTOM_CONFIG_DIR}/config.json:/etc/v2fly/config.json'
     ports:
       - 10086:10086
+      - 10087:10087
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+
+      # Vmess labels
+      - 'traefik.http.routers.v2fly-vmess.service=v2fly-vmess'
       - 'traefik.http.routers.v2fly-vmess.rule=Host(`${VMESS_ROUTER}.${SECONDARY_MAIN_DOMAIN}`) && Path(`/vmess`)'
       - 'traefik.http.routers.v2fly-vmess.middlewares=rate-limit@file'
       - 'traefik.http.services.v2fly-vmess.loadbalancer.server.port=10086'
+
+      # Trojan labels
+      - 'traefik.http.routers.v2fly-trojan.service=v2fly-trojan'
+      - 'traefik.http.routers.v2fly-trojan.rule=Host(`${TROJAN_ROUTER}.${SECONDARY_MAIN_DOMAIN}`) && Path(`/trojan`)'
+      - 'traefik.http.routers.v2fly-trojan.middlewares=rate-limit@file'
+      - 'traefik.http.services.v2fly-trojan.loadbalancer.server.port=10087'
 
 networks:
   default:
