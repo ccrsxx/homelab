@@ -1,16 +1,8 @@
 http:
   routers:
-    cockpit-main:
-      rule: Host(`cockpit-main.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: cockpit-main
-
-    cockpit-dns:
-      rule: Host(`cockpit-dns.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: cockpit-dns
-
-    cockpit-proxy:
-      rule: Host(`cockpit-proxy.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: cockpit-proxy
+    beszel-vps:
+      rule: Host(`beszel-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: beszel-vps
 
     pgadmin-vps:
       rule: Host(`pgadmin-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
@@ -25,20 +17,10 @@ http:
       service: jdownloader-vps
 
   services:
-    cockpit-main:
+    beszel-vps:
       loadBalancer:
         servers:
-          - url: https://{{ env "MAIN_VPS_IP" }}:9090
-
-    cockpit-dns:
-      loadBalancer:
-        servers:
-          - url: https://{{ env "DNS_VPS_IP" }}:9090
-
-    cockpit-proxy:
-      loadBalancer:
-        servers:
-          - url: https://{{ env "PROXY_VPS_IP" }}:9090
+          - url: http://{{ env "MAIN_VPS_IP" }}:8088
 
     pgadmin-vps:
       loadBalancer:

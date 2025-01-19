@@ -4,9 +4,12 @@ services:
     container_name: beszel
     restart: unless-stopped
     ports:
-      - 8090:8090
+      - 8088:8090
     volumes:
       - /docker/appdata/beszel:/beszel_data
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.beszel.rule=Host(`beszel.${SECONDARY_MAIN_DOMAIN}`)'
 
 networks:
   default:
