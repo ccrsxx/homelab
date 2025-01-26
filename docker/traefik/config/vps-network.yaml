@@ -14,9 +14,13 @@ http:
       rule: Host(`smokeping-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: smokeping-vps
 
-    adguard-home-vps:
-      rule: Host(`adguard-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: adguard-home-vps
+    adguard-home-vps-main:
+      rule: Host(`adguard-vps-main.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home-vps-main
+
+    adguard-home-vps-dns:
+      rule: Host(`adguard-vps-dns.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home-vps-dns
 
     openspeedtest-vps:
       rule: Host(`openspeedtest-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
@@ -38,10 +42,15 @@ http:
         servers:
           - url: http://{{ env "MAIN_VPS_IP" }}:8070
 
-    adguard-home-vps:
+    adguard-home-vps-main:
       loadBalancer:
         servers:
-          - url: http://{{ env "DNS_VPS_IP" }}:80
+          - url: http://{{ env "MAIN_VPS_IP" }}:8888
+
+    adguard-home-vps-dns:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "DNS_VPS_IP" }}:8888
 
     openspeedtest-vps:
       loadBalancer:
