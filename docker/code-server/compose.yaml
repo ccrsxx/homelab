@@ -3,6 +3,8 @@ services:
     image: codercom/code-server:latest
     container_name: code-server
     restart: unless-stopped
+    ports:
+      - 8024:8080
     volumes:
       - './data:/home/coder'
     environment:
