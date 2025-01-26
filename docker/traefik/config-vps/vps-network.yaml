@@ -1,14 +1,26 @@
 http:
   routers:
-    adguard-home:
-      rule: (Host(`dns.{{ env "PRIMARY_MAIN_DOMAIN" }}`) || Host(`dns.{{ env "SECONDARY_MAIN_DOMAIN" }}`)) && Path(`/dns-query`)
-      service: adguard-home
+    v2fly-vmess-proxy:
+      rule: Host(`3706161e-d7a3-4786-9eef-7d087f5443ca.ccrsxx.my.id`) && Path(`/vmess`)
+      service: v2fly-vmess-proxy
+      middlewares:
+        - cloudflare-ip-allowlist@file
+        - public-rate-limit@file
+
+    v2fly-trojan-proxy:
+      rule: Host(`3706161e-d7a3-4786-9eef-7d087f5443ca.ccrsxx.my.id`) && Path(`/trojan`)
+      service: v2fly-trojan-proxy
       middlewares:
         - cloudflare-ip-allowlist@file
         - public-rate-limit@file
 
   services:
-    adguard-home:
+    v2fly-vmess-proxy:
       loadBalancer:
         servers:
-          - url: http://{{ env "DNS_VPS_IP" }}:80
+          - url: http://{{ env "PROXY_VPS_IP" }}:10086
+
+    v2fly-trojan-proxy:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "PROXY_VPS_IP" }}:10087
