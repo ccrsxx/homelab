@@ -14,6 +14,10 @@ http:
       rule: Host(`smokeping-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: smokeping-vps
 
+    adguard-home-sync:
+      rule: Host(`adguard-vps-sync.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: adguard-home-sync
+
     adguard-home-vps-main:
       rule: Host(`adguard-vps-main.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: adguard-home-vps-main
@@ -41,6 +45,11 @@ http:
       loadBalancer:
         servers:
           - url: http://{{ env "MAIN_VPS_IP" }}:8070
+
+    adguard-home-sync:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "MAIN_VPS_IP" }}:8022
 
     adguard-home-vps-main:
       loadBalancer:
