@@ -86,6 +86,7 @@ services:
       - 'PROXY_VPS_IP=${PROXY_VPS_IP}'
       - 'PRIMARY_MAIN_DOMAIN=${PRIMARY_MAIN_DOMAIN}'
       - 'SECONDARY_MAIN_DOMAIN=${SECONDARY_MAIN_DOMAIN}'
+      - 'WS_PROXY_ROUTER=${WS_PROXY_ROUTER}'
       - 'CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_token'
 
     labels:
