@@ -6,11 +6,12 @@ services:
     ports:
       - '8082:8081'
     volumes:
+      - ./config.json:/config/config.json
+      - ./secrets/cookies.txt:/config/cookies.txt
       - ~/share/caddy/metube:/downloads
-      - ./secrets:/cookies
     environment:
-      - YTDL_OPTIONS={"cookiefile":"/cookies/cookies.txt"}
       - PUBLIC_HOST_URL=${PUBLIC_HOST_URL}
+      - YTDL_OPTIONS_FILE=/config/config.json
       - DELETE_FILE_ON_TRASHCAN=true
       - DEFAULT_OPTION_PLAYLIST_ITEM_LIMIT=4
       - DEFAULT_OPTION_PLAYLIST_STRICT_MODE=true
