@@ -1,0 +1,10 @@
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - '8899:80'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ~/share/caddy:/static

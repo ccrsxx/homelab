@@ -1,0 +1,7 @@
+:80 {
+    root * /static
+    file_server browse {
+	hide .*
+    }
+}
+
