@@ -11,6 +11,7 @@ services:
       - ~/share/caddy/metube:/downloads
     environment:
       - PUBLIC_HOST_URL=${PUBLIC_HOST_URL}
+      - PUBLIC_HOST_AUDIO_URL=${PUBLIC_HOST_URL}
       - YTDL_OPTIONS_FILE=/config/config.json
       - DELETE_FILE_ON_TRASHCAN=true
       - DEFAULT_OPTION_PLAYLIST_ITEM_LIMIT=4
