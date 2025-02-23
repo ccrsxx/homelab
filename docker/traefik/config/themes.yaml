@@ -1,0 +1,30 @@
+http:
+  middlewares:
+    radarr-theme:
+      plugin:
+        themepark:
+          app: radarr
+          theme: hotline
+
+    sonarr-theme:
+      plugin:
+        themepark:
+          app: sonarr
+          theme: hotline
+
+    prowlarr-theme:
+      plugin:
+        themepark:
+          app: prowlarr
+          theme: hotline
+    adguard-home-theme:
+      plugin:
+        themepark:
+          app: adguard
+          theme: hotline
+
+    qbittorrent-theme:
+      plugin:
+        themepark:
+          app: vuetorrent
+          theme: hotline

@@ -15,6 +15,8 @@ http:
     adguard-home:
       rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: adguard-home
+      middlewares:
+        - adguard-home-theme@file
 
     uptime-kuma:
       rule: Host(`status.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
