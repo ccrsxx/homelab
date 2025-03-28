@@ -17,6 +17,7 @@ http:
         themepark:
           app: prowlarr
           theme: hotline
+
     adguard-home-theme:
       plugin:
         themepark:
