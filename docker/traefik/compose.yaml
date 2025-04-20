@@ -15,7 +15,7 @@ services:
     # Enables the web UI and tells Traefik to listen to docker
     command:
       # Debug log level
-      - '--log.level=INFO'
+      - '--log.level=DEBUG'
 
       # Enable the Secured Web UI
       - '--api.insecure=true'
@@ -55,6 +55,10 @@ services:
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare'
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53'
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=60'
+
+      # Experimental Plugins
+      - '--experimental.plugins.themepark.modulename=github.com/packruler/traefik-themepark'
+      - '--experimental.plugins.themepark.version=v1.4.2'
 
     ports:
       # The HTTP port
