@@ -1,14 +1,14 @@
 http:
   routers:
     v2fly-vmess-proxy:
-      rule: Host(`{{ env "ROUTER_PROXY_WS" }}.{{ env "DOMAIN_MAIN_SECONDARY" }}`) && Path(`/vmess`)
+      rule: Host(`{{ env "ROUTER_PROXY_WS" }}.{{ env "DOMAIN_MAIN_PRIMARY" }}`) && Path(`/vmess`)
       service: v2fly-vmess-proxy
       middlewares:
         - cloudflare-ip-allowlist@file
         - public-rate-limit@file
 
     v2fly-trojan-proxy:
-      rule: Host(`{{ env "ROUTER_PROXY_WS" }}.{{ env "DOMAIN_MAIN_SECONDARY" }}`) && Path(`/trojan`)
+      rule: Host(`{{ env "ROUTER_PROXY_WS" }}.{{ env "DOMAIN_MAIN_PRIMARY" }}`) && Path(`/trojan`)
       service: v2fly-trojan-proxy
       middlewares:
         - cloudflare-ip-allowlist@file
