@@ -14,7 +14,7 @@ services:
     mem_limit: '4gb'
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.code-server.rule=Host(`code.${PRIMARY_MAIN_DOMAIN}`) || Host(`code.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.code-server.rule=Host(`code.${DOMAIN_MAIN_PRIMARY}`) || Host(`code.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.code-server.middlewares=cloudflare-ip-allowlist@file,public-ip-allowlist@file'
 
 networks:

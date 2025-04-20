@@ -14,7 +14,7 @@ services:
       - /mnt/data:/data
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.radarr.rule=Host(`radarr.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.radarr.rule=Host(`radarr.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.radarr.middlewares=radarr-theme@file'
 
 networks:

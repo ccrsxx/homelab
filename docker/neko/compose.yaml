@@ -20,7 +20,7 @@ services:
       - ./policies.json:/etc/chromium/policies/managed/policies.json
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.neko.rule=Host(`neko.${PRIMARY_MAIN_DOMAIN}`) || Host(`neko.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.neko.rule=Host(`neko.${DOMAIN_MAIN_PRIMARY}`) || Host(`neko.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.neko.middlewares=cloudflare-ip-allowlist@file,public-rate-limit@file'
 
 volumes:

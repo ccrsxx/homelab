@@ -1,14 +1,14 @@
 http:
   routers:
     v2fly-vmess-proxy:
-      rule: Host(`{{ env "WS_PROXY_ROUTER" }}.{{ env "SECONDARY_MAIN_DOMAIN" }}`) && Path(`/vmess`)
+      rule: Host(`{{ env "ROUTER_PROXY_WS" }}.{{ env "DOMAIN_MAIN_SECONDARY" }}`) && Path(`/vmess`)
       service: v2fly-vmess-proxy
       middlewares:
         - cloudflare-ip-allowlist@file
         - public-rate-limit@file
 
     v2fly-trojan-proxy:
-      rule: Host(`{{ env "WS_PROXY_ROUTER" }}.{{ env "SECONDARY_MAIN_DOMAIN" }}`) && Path(`/trojan`)
+      rule: Host(`{{ env "ROUTER_PROXY_WS" }}.{{ env "DOMAIN_MAIN_SECONDARY" }}`) && Path(`/trojan`)
       service: v2fly-trojan-proxy
       middlewares:
         - cloudflare-ip-allowlist@file
@@ -18,9 +18,9 @@ http:
     v2fly-vmess-proxy:
       loadBalancer:
         servers:
-          - url: http://{{ env "PROXY_VPS_IP" }}:10086
+          - url: http://{{ env "IP_VPS_PROXY" }}:10086
 
     v2fly-trojan-proxy:
       loadBalancer:
         servers:
-          - url: http://{{ env "PROXY_VPS_IP" }}:10087
+          - url: http://{{ env "IP_VPS_PROXY" }}:10087

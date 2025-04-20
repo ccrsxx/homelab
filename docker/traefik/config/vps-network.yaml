@@ -1,67 +1,67 @@
 http:
   routers:
     wg-easy:
-      rule: Host(`wireguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`wireguard.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: wg-easy
 
     traefik-vps:
-      rule: Host(`traefik-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`traefik-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: traefik-vps
       middlewares:
         - basic-auth@file
 
     smokeping-vps:
-      rule: Host(`smokeping-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`smokeping-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: smokeping-vps
 
     adguard-home-sync:
-      rule: Host(`adguard-vps-sync.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`adguard-vps-sync.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: adguard-home-sync
 
     adguard-home-vps-main:
-      rule: Host(`adguard-vps-main.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`adguard-vps-main.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: adguard-home-vps-main
 
     adguard-home-vps-dns:
-      rule: Host(`adguard-vps-dns.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`adguard-vps-dns.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: adguard-home-vps-dns
 
     openspeedtest-vps:
-      rule: Host(`openspeedtest-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`openspeedtest-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: openspeedtest-vps
 
   services:
     wg-easy:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:51821
+          - url: http://{{ env "IP_VPS_MAIN" }}:51821
 
     traefik-vps:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8010
+          - url: http://{{ env "IP_VPS_MAIN" }}:8010
 
     smokeping-vps:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8070
+          - url: http://{{ env "IP_VPS_MAIN" }}:8070
 
     adguard-home-sync:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8022
+          - url: http://{{ env "IP_VPS_MAIN" }}:8022
 
     adguard-home-vps-main:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8888
+          - url: http://{{ env "IP_VPS_MAIN" }}:8888
 
     adguard-home-vps-dns:
       loadBalancer:
         servers:
-          - url: http://{{ env "DNS_VPS_IP" }}:8888
+          - url: http://{{ env "IP_VPS_DNS" }}:8888
 
     openspeedtest-vps:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8081
+          - url: http://{{ env "IP_VPS_MAIN" }}:8081

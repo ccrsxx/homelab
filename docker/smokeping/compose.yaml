@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.smokeping.rule=Host(`smokeping.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.smokeping.rule=Host(`smokeping.${DOMAIN_MAIN_SECONDARY}`)'
 
 networks:
   default:

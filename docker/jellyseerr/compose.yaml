@@ -12,7 +12,7 @@ services:
       - /docker/appdata/jellyseerr:/app/config
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${DOMAIN_MAIN_SECONDARY}`)'
 
 networks:
   default:

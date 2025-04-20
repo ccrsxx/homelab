@@ -9,7 +9,7 @@ services:
       - /docker/appdata/beszel:/beszel_data
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.beszel.rule=Host(`beszel.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.beszel.rule=Host(`beszel.${DOMAIN_MAIN_SECONDARY}`)'
 
 networks:
   default:

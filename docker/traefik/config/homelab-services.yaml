@@ -1,27 +1,27 @@
 http:
   routers:
     upsnap:
-      rule: Host(`upsnap.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`upsnap.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: upsnap
 
     proxmox:
-      rule: Host(`proxmox.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`proxmox.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: proxmox
 
     jellyfin:
-      rule: Host(`jellyfin.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: jellyfin
 
     nextcloud:
-      rule: Host(`nextcloud.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`nextcloud.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: nextcloud
 
     home-assistant:
-      rule: Host(`home.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`home.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: home-assistant
 
     development-server:
-      rule: Host(`dev.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`dev.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: development-server
 
   services:

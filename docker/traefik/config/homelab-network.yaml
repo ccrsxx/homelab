@@ -1,25 +1,25 @@
 http:
   routers:
     iconnet-router:
-      rule: Host(`iconnet.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`iconnet.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: iconnet-router
 
     mikrotik-router:
-      rule: Host(`mikrotik.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`mikrotik.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: mikrotik-router
 
     main-switch:
-      rule: Host(`switch.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`switch.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: main-switch
 
     adguard-home:
-      rule: Host(`adguard.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`adguard.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: adguard-home
       middlewares:
         - adguard-home-theme@file
 
     uptime-kuma:
-      rule: Host(`status.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`status.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: uptime-kuma
 
   services:

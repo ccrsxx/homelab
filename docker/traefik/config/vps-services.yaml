@@ -1,29 +1,29 @@
 http:
   routers:
     pgadmin-vps:
-      rule: Host(`pgadmin-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`pgadmin-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: pgadmin-vps
 
     portainer-vps:
-      rule: Host(`portainer-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`portainer-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: portainer-vps
 
     jdownloader-vps:
-      rule: Host(`download-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      rule: Host(`download-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: jdownloader-vps
 
   services:
     pgadmin-vps:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:5050
+          - url: http://{{ env "IP_VPS_MAIN" }}:5050
 
     portainer-vps:
       loadBalancer:
         servers:
-          - url: https://{{ env "MAIN_VPS_IP" }}:9443
+          - url: https://{{ env "IP_VPS_MAIN" }}:9443
 
     jdownloader-vps:
       loadBalancer:
         servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:5800
+          - url: http://{{ env "IP_VPS_MAIN" }}:5800

@@ -10,7 +10,7 @@ services:
       - '/mnt/docker/pingvin-share/data/images:/opt/app/frontend/public/img'
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.pingvin-share.rule=Host(`share.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.pingvin-share.rule=Host(`share.${DOMAIN_MAIN_SECONDARY}`)'
 
 networks:
   default:

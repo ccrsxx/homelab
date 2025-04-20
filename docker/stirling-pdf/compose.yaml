@@ -16,7 +16,7 @@ services:
       - LANGS=en_GB
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.stirling-pdf.rule=Host(`pdf.${PRIMARY_MAIN_DOMAIN}`) || Host(`pdf.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.stirling-pdf.rule=Host(`pdf.${DOMAIN_MAIN_PRIMARY}`) || Host(`pdf.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.stirling-pdf.middlewares=cloudflare-ip-allowlist@file,public-rate-limit@file'
 
 networks:

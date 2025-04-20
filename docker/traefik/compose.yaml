@@ -38,15 +38,15 @@ services:
       - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
       - '--entrypoints.websecure.address=:443'
       - '--entrypoints.websecure.asdefault=true'
-      - '--entrypoints.websecure.forwardedheaders.trustedips=${CLOUDFLARE_IPS}'
+      - '--entrypoints.websecure.forwardedheaders.trustedips=${IP_ALLOWLIST_CLOUDFLARE}'
 
       # Setup Domain and DNS challenge for Let's Encrypt
       - '--entrypoints.websecure.http.tls=true'
       - '--entrypoints.websecure.http.tls.certresolver=letsencrypt'
-      - '--entrypoints.websecure.http.tls.domains[0].main=${PRIMARY_MAIN_DOMAIN}'
-      - '--entrypoints.websecure.http.tls.domains[0].sans=${PRIMARY_WILDCARD_DOMAIN}'
-      - '--entrypoints.websecure.http.tls.domains[1].main=${SECONDARY_MAIN_DOMAIN}'
-      - '--entrypoints.websecure.http.tls.domains[1].sans=${SECONDARY_WILDCARD_DOMAIN}'
+      - '--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN_MAIN_PRIMARY}'
+      - '--entrypoints.websecure.http.tls.domains[0].sans=${DOMAIN_WILDCARD_PRIMARY}'
+      - '--entrypoints.websecure.http.tls.domains[1].main=${DOMAIN_MAIN_SECONDARY}'
+      - '--entrypoints.websecure.http.tls.domains[1].sans=${DOMAIN_WILDCARD_SECONDARY}'
 
       # Setup Let's Encrypt certificates resolver
       - '--certificatesresolvers.letsencrypt.acme.email=${CLOUDFLARE_EMAIL}'
@@ -82,20 +82,20 @@ services:
 
     environment:
       - 'AUTH_USERS=${AUTH_USERS}'
-      - 'ALLOWED_PUBLIC_IPS=${ALLOWED_PUBLIC_IPS}'
-      - 'ALLOWED_INTERNAL_IPS=${ALLOWED_INTERNAL_IPS}'
-      - 'CLOUDFLARE_IPS=${CLOUDFLARE_IPS}'
-      - 'MAIN_VPS_IP=${MAIN_VPS_IP}'
-      - 'DNS_VPS_IP=${DNS_VPS_IP}'
-      - 'PROXY_VPS_IP=${PROXY_VPS_IP}'
-      - 'PRIMARY_MAIN_DOMAIN=${PRIMARY_MAIN_DOMAIN}'
-      - 'SECONDARY_MAIN_DOMAIN=${SECONDARY_MAIN_DOMAIN}'
-      - 'WS_PROXY_ROUTER=${WS_PROXY_ROUTER}'
+      - 'IP_ALLOWLIST_PUBLIC=${IP_ALLOWLIST_PUBLIC}'
+      - 'IP_ALLOWLIST_INTERNAL=${IP_ALLOWLIST_INTERNAL}'
+      - 'IP_ALLOWLIST_CLOUDFLARE=${IP_ALLOWLIST_CLOUDFLARE}'
+      - 'IP_VPS_DNS=${IP_VPS_DNS}'
+      - 'IP_VPS_MAIN=${IP_VPS_MAIN}'
+      - 'IP_VPS_PROXY=${IP_VPS_PROXY}'
+      - 'DOMAIN_MAIN_PRIMARY=${DOMAIN_MAIN_PRIMARY}'
+      - 'DOMAIN_MAIN_SECONDARY=${DOMAIN_MAIN_SECONDARY}'
+      - 'ROUTER_PROXY_WS=${ROUTER_PROXY_WS:-false}'
       - 'CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_token'
 
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.traefik.rule=Host(`traefik.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.traefik.service=api@internal'
       - 'traefik.http.routers.traefik.middlewares=internal-ip-allowlist@file,basic-auth@file'
 

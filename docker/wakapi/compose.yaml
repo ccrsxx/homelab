@@ -20,7 +20,7 @@ services:
       WAKAPI_MAIL_SMTP_PASS: ${WAKAPI_MAIL_SMTP_PASS}
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.wakapi.rule=Host(`wakapi.${PRIMARY_MAIN_DOMAIN}`) || Host(`wakapi.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.wakapi.rule=Host(`wakapi.${DOMAIN_MAIN_PRIMARY}`) || Host(`wakapi.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.wakapi.middlewares=cloudflare-ip-allowlist@file'
 
   db:

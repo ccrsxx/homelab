@@ -12,7 +12,7 @@ services:
       - '${DOWNLOADS_PATH:-/mnt/docker/jdownloader2/downloads}:/output:rw'
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.jdownloader.rule=Host(`jdownloader.${SECONDARY_MAIN_DOMAIN}`)'
+      - 'traefik.http.routers.jdownloader.rule=Host(`jdownloader.${DOMAIN_MAIN_SECONDARY}`)'
 
 networks:
   default:
