@@ -1,0 +1,6 @@
+services:
+  replica-cloudflared:
+    extends:
+      file: ../cloudflared/compose.yaml
+      service: cloudflared
+    container_name: replica-cloudflared
