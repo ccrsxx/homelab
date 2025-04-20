@@ -1,0 +1,11 @@
+http:
+  routers:
+    dev-webot:
+      rule: Host(`dev-webot.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
+      service: dev-webot
+
+  services:
+    dev-webot:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.2:8000

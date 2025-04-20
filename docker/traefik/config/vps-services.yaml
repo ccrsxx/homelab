@@ -1,9 +1,5 @@
 http:
   routers:
-    beszel-vps:
-      rule: Host(`beszel-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
-      service: beszel-vps
-
     pgadmin-vps:
       rule: Host(`pgadmin-vps.{{ env "SECONDARY_MAIN_DOMAIN" }}`)
       service: pgadmin-vps
@@ -17,11 +13,6 @@ http:
       service: jdownloader-vps
 
   services:
-    beszel-vps:
-      loadBalancer:
-        servers:
-          - url: http://{{ env "MAIN_VPS_IP" }}:8088
-
     pgadmin-vps:
       loadBalancer:
         servers:
