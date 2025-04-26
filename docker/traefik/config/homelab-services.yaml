@@ -13,7 +13,7 @@ http:
       service: jellyfin
 
     nextcloud:
-      rule: Host(`nextcloud.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      rule: Host(`nextcloud.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
       service: nextcloud
 
     home-assistant:
