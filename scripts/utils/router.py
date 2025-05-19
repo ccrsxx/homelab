@@ -1,4 +1,5 @@
 import base64
+import json
 from typing import TypedDict
 from urllib.parse import urljoin
 
@@ -144,7 +145,7 @@ def get_device_status() -> DeviceStatus:
         'memory_usage': context.memUsed,
     }
 
-    print('Device Status:', device_status)
+    print('Router stats:', json.dumps(device_status, indent=2))
 
     return device_status
 
