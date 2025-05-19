@@ -14,6 +14,10 @@ class AppEnv(BaseModel):
     EMAIL_API_KEY: str = Field(description='Gmail API key')
     TARGET_EMAIL_SENDER: str = Field(description='Email recipient')
 
+    ROUTER_URL: str = Field(description='Router URL')
+    ROUTER_USERNAME: str = Field(description='Router username')
+    ROUTER_PASSWORD: str = Field(description='Router password')
+
     PC_USERNAME: str = Field(description='PC username')
     PC_PASSWORD: str = Field(description='PC password')
     PC_IP_ADDRESS: str = Field(description='PC IP address')

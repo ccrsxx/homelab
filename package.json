@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "uv run ruff check --fix",
-    "format": "uv run ruff format && prettier --write .",
+    "format": "uv run ruff check --fix && uv run ruff format && prettier --write .",
     "prepare": "husky",
     "type-check": "uv run mypy ."
   },

@@ -4,7 +4,6 @@ from uptime_kuma_api import UptimeKumaApi
 
 from .env import app_env
 
-
 UPTIME_KUMA_API: Final = UptimeKumaApi(app_env.UPTIME_KUMA_URL)
 
 

@@ -3,8 +3,10 @@ name = "homelab"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
+  "beautifulsoup4>=4.13.4",
+  "js2py>=0.74",
   "pydantic>=2.10.4",
   "python-dotenv>=1.0.1",
   "qbittorrent-api>=2024.12.71",
@@ -12,7 +14,7 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["mypy>=1.14.1", "ruff>=0.8.6"]
+dev = ["mypy>=1.14.1", "ruff>=0.8.6", "types-requests>=2.32.0.20250328"]
 
 [tool.ruff]
 line-length = 88
@@ -20,9 +22,12 @@ line-length = 88
 [tool.ruff.format]
 quote-style = "single"
 
+[tool.ruff.lint]
+select = ["I"]
+
 [tool.mypy]
 strict = true
 
 [[tool.mypy.overrides]]
-module = "uptime_kuma_api.*"
+module = ["uptime_kuma_api", "js2py"]
 ignore_missing_imports = true
