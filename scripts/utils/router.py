@@ -66,10 +66,7 @@ def login() -> None:
         'x.X_HW_Token': hw_token,
     }
 
-    res = session.post(
-        url,
-        data=params,
-    )
+    res = session.post(url, data=params)
 
     res.raise_for_status()
 
