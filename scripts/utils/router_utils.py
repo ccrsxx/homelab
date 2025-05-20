@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timezone
 from typing import Literal, TypedDict
 
 WanType = Literal['IP_Routed', 'PPPoE_Bridged']
@@ -13,7 +14,7 @@ class WanStatus(TypedDict):
     connection_status: str
 
 
-def decode_escaped(s: str) -> str:
+def decode_unicode_escape(s: str) -> str:
     return bytes(s, 'utf-8').decode('unicode_escape')
 
 
@@ -24,7 +25,7 @@ def get_wan_list(js_data: str) -> list[WanStatus]:
 
     for match in raw_wan_list:
         fields = re.findall(r'"(.*?)"|([^,]+)', match)
-        fields = [decode_escaped(f[0] or f[1]).strip() for f in fields]
+        fields = [decode_unicode_escape(f[0] or f[1]).strip() for f in fields]
 
         if not fields or fields[0] == '':
             continue
@@ -41,3 +42,13 @@ def get_wan_list(js_data: str) -> list[WanStatus]:
         parsed_wan_list.append(wan)
 
     return parsed_wan_list
+
+
+def parse_local_date_to_iso_date(local_date_str: str) -> str:
+    local_dt = datetime.fromisoformat(local_date_str)
+
+    utc_dt = local_dt.astimezone(timezone.utc)
+
+    parsed_dt = utc_dt.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+
+    return parsed_dt

@@ -8,7 +8,7 @@ from bs4.element import Tag
 
 from .env import app_env
 from .router_client import Client
-from .router_utils import WanType, get_wan_list
+from .router_utils import WanType, get_wan_list, parse_local_date_to_iso_date
 
 client = Client()
 
@@ -40,7 +40,7 @@ def get_hardware_token_on_wan_page() -> str:
 def change_device_to_bridge_mode() -> None:
     print('Changing router to bridge mode...')
 
-    wan_type = get_device_wan_type()
+    wan_type = get_client_wan_type()
 
     if wan_type == 'PPPoE_Bridged':
         print('Router is already in bridge mode.')
@@ -78,7 +78,7 @@ def change_device_to_bridge_mode() -> None:
     print('Successfully changed router to bridge mode.')
 
 
-class DeviceStatus(TypedDict):
+class ClientStatus(TypedDict):
     cpu_usage: str
     ont_status: str
     system_time: str
@@ -86,7 +86,7 @@ class DeviceStatus(TypedDict):
 
 
 @client.is_authenticated
-def get_device_status() -> DeviceStatus:
+def get_client_status() -> ClientStatus:
     url = urljoin(app_env.ROUTER_URL, '/html/ssmp/deviceinfo/deviceinfo.asp')
 
     res = client.session.get(url)
@@ -104,20 +104,22 @@ def get_device_status() -> DeviceStatus:
     context = js2py.EvalJs()
     context.execute(script_content)
 
-    device_status: DeviceStatus = {
+    parsed_system_time = parse_local_date_to_iso_date(context.systemdsttime)
+
+    client_status: ClientStatus = {
         'cpu_usage': context.cpuUsed,
         'ont_status': context.ontInfo.Status,
-        'system_time': context.systemdsttime,
+        'system_time': parsed_system_time,
         'memory_usage': context.memUsed,
     }
 
-    print('Router stats:', json.dumps(device_status, indent=2))
+    print('Router stats:', json.dumps(client_status, indent=2))
 
-    return device_status
+    return client_status
 
 
 @client.is_authenticated
-def get_device_wan_type() -> WanType:
+def get_client_wan_type() -> WanType:
     url = urljoin(app_env.ROUTER_URL, '/html/bbsp/common/getwanlist.asp')
 
     res = client.session.get(url)

@@ -11,10 +11,7 @@ qbt_client: Final = qbittorrentapi.Client(
     password=app_env.QBITTORRENT_PASSWORD,
 )
 
-try:
-    qbt_client.auth_log_in()
-except qbittorrentapi.LoginFailed as e:
-    print('Failed to log in qBittorrent', e)
+qbt_client.auth_log_in()
 
 
 def enable_torrents() -> None:
