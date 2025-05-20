@@ -3,7 +3,7 @@ from typing import Final, Literal, cast
 
 from utils.mail import send_email
 from utils.qbittorrent import disable_torrents, enable_torrents
-from utils.router import change_device_to_bridge_mode
+from utils.router import change_client_to_bridge_mode
 from utils.uptime_kuma import add_failover_notice, remove_failover_notice
 
 VALID_EVENT = Literal['up', 'down']
@@ -24,7 +24,7 @@ def get_event() -> VALID_EVENT:
 
 
 def trigger_up_event() -> None:
-    change_device_to_bridge_mode()
+    change_client_to_bridge_mode()
 
     remove_failover_notice()
     enable_torrents()

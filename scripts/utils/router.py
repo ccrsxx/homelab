@@ -37,7 +37,7 @@ def get_hardware_token_on_wan_page() -> str:
 
 
 @client.is_authenticated
-def change_device_to_bridge_mode() -> None:
+def change_client_to_bridge_mode() -> None:
     print('Changing router to bridge mode...')
 
     wan_type = get_client_wan_type()
