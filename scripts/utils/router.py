@@ -1,41 +1,23 @@
-import base64
 import json
 from typing import TypedDict
 from urllib.parse import urljoin
 
 import js2py
-import requests
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
 from .env import app_env
+from .router_client import Client
 from .router_utils import WanType, get_wan_list
 
-ROUTER_URL = app_env.ROUTER_URL
-ROUTER_USERNAME = app_env.ROUTER_USERNAME
-ROUTER_PASSWORD = app_env.ROUTER_PASSWORD
-
-session = requests.Session()
+client = Client()
 
 
-def get_hardware_token() -> str:
-    url = urljoin(ROUTER_URL, '/asp/GetRandCount.asp')
-
-    res = session.post(url)
-
-    res.raise_for_status()
-
-    raw_token = res.text.strip()
-
-    parsed_token = raw_token[-48:]
-
-    return parsed_token
-
-
+@client.is_authenticated
 def get_hardware_token_on_wan_page() -> str:
-    url = urljoin(ROUTER_URL, '/html/bbsp/wan/wan.asp')
+    url = urljoin(app_env.ROUTER_URL, '/html/bbsp/wan/wan.asp')
 
-    res = session.get(url)
+    res = client.session.get(url)
 
     res.raise_for_status()
 
@@ -54,24 +36,7 @@ def get_hardware_token_on_wan_page() -> str:
     return hw_token
 
 
-def login() -> None:
-    url = urljoin(ROUTER_URL, '/login.cgi')
-
-    encrypted_password = base64.b64encode(ROUTER_PASSWORD.encode()).decode()
-
-    hw_token = get_hardware_token()
-
-    params = {
-        'UserName': ROUTER_USERNAME,
-        'PassWord': encrypted_password,
-        'x.X_HW_Token': hw_token,
-    }
-
-    res = session.post(url, data=params)
-
-    res.raise_for_status()
-
-
+@client.is_authenticated
 def change_device_to_bridge_mode() -> None:
     print('Changing router to bridge mode...')
 
@@ -82,7 +47,7 @@ def change_device_to_bridge_mode() -> None:
         return
 
     url = urljoin(
-        ROUTER_URL,
+        app_env.ROUTER_URL,
         '/html/bbsp/wan/complex.cgi?y=InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.1&RequestFile=html/bbsp/wan/confirmwancfginfo.html',
     )
 
@@ -106,7 +71,7 @@ def change_device_to_bridge_mode() -> None:
         'x.X_HW_Token': hw_token,
     }
 
-    res = session.post(url, data=params)
+    res = client.session.post(url, data=params)
 
     res.raise_for_status()
 
@@ -120,10 +85,11 @@ class DeviceStatus(TypedDict):
     memory_usage: str
 
 
+@client.is_authenticated
 def get_device_status() -> DeviceStatus:
-    url = urljoin(ROUTER_URL, '/html/ssmp/deviceinfo/deviceinfo.asp')
+    url = urljoin(app_env.ROUTER_URL, '/html/ssmp/deviceinfo/deviceinfo.asp')
 
-    res = session.get(url)
+    res = client.session.get(url)
 
     res.raise_for_status()
 
@@ -150,10 +116,11 @@ def get_device_status() -> DeviceStatus:
     return device_status
 
 
+@client.is_authenticated
 def get_device_wan_type() -> WanType:
-    url = urljoin(ROUTER_URL, '/html/bbsp/common/getwanlist.asp')
+    url = urljoin(app_env.ROUTER_URL, '/html/bbsp/common/getwanlist.asp')
 
-    res = session.get(url)
+    res = client.session.get(url)
 
     res.raise_for_status()
 
