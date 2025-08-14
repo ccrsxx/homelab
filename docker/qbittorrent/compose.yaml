@@ -36,7 +36,8 @@ services:
     container_name: qbittorrent
     restart: unless-stopped
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     network_mode: service:gluetun
     environment:
       - PUID=1000

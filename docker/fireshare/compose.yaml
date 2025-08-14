@@ -2,6 +2,7 @@ services:
   fireshare:
     container_name: fireshare
     image: shaneisrael/fireshare:latest
+    restart: unless-stopped
     ports:
       - '8077:80'
     volumes:
