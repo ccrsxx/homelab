@@ -1,21 +1,46 @@
 import base64
 import functools
-from dataclasses import dataclass, field
-from typing import Callable, ParamSpec, TypeVar
+from typing import Any, Callable, ParamSpec, TypeVar
 from urllib.parse import urljoin
 
 import requests
 
+from .config import app_config
 from .env import app_env
 
 Param = ParamSpec('Param')
 ReType = TypeVar('ReType')
 
 
-@dataclass
+class TimeoutHTTPAdapter(requests.adapters.HTTPAdapter):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        if 'timeout' in kwargs:
+            self.timeout = kwargs['timeout']
+            del kwargs['timeout']
+
+        super().__init__(*args, **kwargs)
+
+    def send(  # type: ignore
+        self,
+        request: requests.models.PreparedRequest,
+        **kwargs: Any,
+    ) -> requests.models.Response:
+        timeout = kwargs.get('timeout')
+
+        if timeout is None and hasattr(self, 'timeout'):
+            kwargs['timeout'] = self.timeout
+
+        return super().send(request, **kwargs)
+
+
 class Client:
-    session: requests.Session = field(default_factory=requests.Session)
-    session_authenticated: bool = False
+    def __init__(self) -> None:
+        self.session = requests.Session()
+
+        timeout_adapter = TimeoutHTTPAdapter(timeout=app_config['REQUEST_TIMEOUT'])
+
+        self.session.mount('http://', timeout_adapter)
+        self.session.mount('https://', timeout_adapter)
 
     def login(self) -> None:
         print('Logging in to the router...')
@@ -36,14 +61,33 @@ class Client:
 
         res.raise_for_status()
 
-        self.session_authenticated = True
+    def check_is_authenticated(self) -> bool:
+        url = urljoin(app_env.ROUTER_URL, '/html/ssmp/common/refreshTime.asp')
+
+        response = self.session.get(url)
+
+        try:
+            response.raise_for_status()
+
+            parsed_text_response = response.text.strip()
+
+            is_logged_in = parsed_text_response == '1'
+
+            return is_logged_in
+        except Exception as e:
+            print('Error checking authentication status:', e)
+            return False
 
     def is_authenticated(
         self, func: Callable[Param, ReType]
     ) -> Callable[Param, ReType]:
         @functools.wraps(func)
         def wrapper(*args: Param.args, **kwargs: Param.kwargs) -> ReType:
-            if not self.session_authenticated:
+            is_currently_authenticated = self.check_is_authenticated()
+
+            print(f'Currently authenticated: {is_currently_authenticated}')
+
+            if not is_currently_authenticated:
                 self.login()
 
             return func(*args, **kwargs)
