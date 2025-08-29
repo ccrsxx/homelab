@@ -8,8 +8,12 @@ http:
       rule: Host(`mikrotik.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: mikrotik-router
 
+    work-switch:
+      rule: Host(`switch-work.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: work-switch
+
     main-switch:
-      rule: Host(`switch.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      rule: Host(`switch-main.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: main-switch
 
     adguard-home:
@@ -33,10 +37,15 @@ http:
         servers:
           - url: http://192.168.1.1:80
 
+    work-switch:
+      loadBalancer:
+        servers:
+          - url: http://192.168.20.10:80
+
     main-switch:
       loadBalancer:
         servers:
-          - url: http://10.0.100.100:80
+          - url: http://192.168.20.20:80
 
     adguard-home:
       loadBalancer:
