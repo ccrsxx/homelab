@@ -16,8 +16,8 @@ services:
       - MINUTES_BETWEEN_VIDEO_SCANS=5
       - THUMBNAIL_VIDEO_LOCATION=0
       - DOMAIN=fireshare.${DOMAIN_MAIN_PRIMARY}
-      - PUID=1000
-      - PGID=1000
+      - PUID=10000
+      - PGID=10000
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.fireshare.rule=Host(`fireshare.${DOMAIN_MAIN_SECONDARY}`)'

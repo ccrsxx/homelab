@@ -40,8 +40,9 @@ services:
         condition: service_healthy
     network_mode: service:gluetun
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=10000
+      - PGID=10000
+      - UMASK=002
       - TZ=Asia/Jakarta
       - WEBUI_PORT=8080
     volumes:
