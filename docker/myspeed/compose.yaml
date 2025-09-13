@@ -5,14 +5,11 @@ services:
     ports:
       - 5216:5216
     volumes:
-      - myspeed:/myspeed/data
+      - /docker/appdata/myspeed:/myspeed/data
     restart: unless-stopped
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.myspeed.rule=Host(`myspeed.${DOMAIN_MAIN_SECONDARY}`)'
-
-volumes:
-  myspeed:
 
 networks:
   default:

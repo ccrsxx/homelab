@@ -1,0 +1,24 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    ports:
+      - 8096:8096/tcp
+      - 7359:7359/udp
+    group_add:
+      - 104
+    volumes:
+      - /docker/appdata/jellyfin/config:/config
+      - /docker/appdata/jellyfin/cache:/cache
+      - /mnt/data/media:/data/media
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.jellyfin.rule=Host(`jellyfin.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.services.jellyfin.loadbalancer.server.port=8096'
+
+networks:
+  default:
+    name: traefik
+    external: true

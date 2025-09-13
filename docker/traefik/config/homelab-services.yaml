@@ -8,10 +8,6 @@ http:
       rule: Host(`proxmox.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: proxmox
 
-    jellyfin:
-      rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: jellyfin
-
     nextcloud:
       rule: Host(`nextcloud.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
       service: nextcloud
@@ -33,22 +29,17 @@ http:
     proxmox:
       loadBalancer:
         servers:
-          - url: https://192.168.1.3:8006
-
-    jellyfin:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.30:8096
+          - url: https://192.168.1.254:8006
 
     nextcloud:
       loadBalancer:
         servers:
-          - url: http://192.168.1.10:11000
+          - url: http://192.168.1.100:11000
 
     home-assistant:
       loadBalancer:
         servers:
-          - url: http://192.168.1.210:8123
+          - url: http://192.168.1.201:8123
 
     development-server:
       loadBalancer:

@@ -8,11 +8,12 @@ services:
     environment:
       - TZ=Asia/Jakarta
     volumes:
-      - '${CONFIG_PATH:-/mnt/docker/jdownloader2/config}:/config:rw'
-      - '${DOWNLOADS_PATH:-/mnt/docker/jdownloader2/downloads}:/output:rw'
+      - '${CONFIG_PATH:-/mnt/docker/appdata/jdownloader2/config}:/config:rw'
+      - '${DOWNLOADS_PATH:-/mnt/docker/appdata/jdownloader2/downloads}:/output:rw'
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.jdownloader.rule=Host(`jdownloader.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.services.jdownloader.loadbalancer.server.port=5800'
 
 networks:
   default:
