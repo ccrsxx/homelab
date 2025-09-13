@@ -43,23 +43,43 @@ class Client:
         self.session.mount('https://', timeout_adapter)
 
     def login(self) -> None:
-        print('Logging in to the router...')
+        LOGIN_RETRIES = 3
 
-        url = urljoin(app_env.ROUTER_URL, '/login.cgi')
+        for attempt in range(1, LOGIN_RETRIES + 1):
+            try:
+                print('Logging in to the router...')
 
-        encrypted_password = base64.b64encode(app_env.ROUTER_PASSWORD.encode()).decode()
+                url = urljoin(app_env.ROUTER_URL, '/login.cgi')
 
-        hw_token = self.get_hardware_token()
+                encrypted_password = base64.b64encode(
+                    app_env.ROUTER_PASSWORD.encode()
+                ).decode()
 
-        params = {
-            'UserName': app_env.ROUTER_USERNAME,
-            'PassWord': encrypted_password,
-            'x.X_HW_Token': hw_token,
-        }
+                hw_token = self.get_hardware_token()
 
-        res = self.session.post(url, data=params)
+                params = {
+                    'UserName': app_env.ROUTER_USERNAME,
+                    'PassWord': encrypted_password,
+                    'x.X_HW_Token': hw_token,
+                }
 
-        res.raise_for_status()
+                res = self.session.post(url, data=params)
+
+                res.raise_for_status()
+
+                break
+            except Exception as e:
+                print(f'Login attempt {attempt } failed: {e}')
+
+                if attempt == LOGIN_RETRIES:
+                    print('All login attempts failed.')
+                else:
+                    print('Retrying...')
+
+        is_authenticated = self.check_is_authenticated()
+
+        if not is_authenticated:
+            raise Exception('Failed to authenticate with the router.')
 
     def check_is_authenticated(self) -> bool:
         url = urljoin(app_env.ROUTER_URL, '/html/ssmp/common/refreshTime.asp')

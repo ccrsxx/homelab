@@ -1,3 +1,3 @@
 app_config = {
-    'REQUEST_TIMEOUT': 3,
+    'REQUEST_TIMEOUT': 10,
 }
