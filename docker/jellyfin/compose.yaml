@@ -2,7 +2,6 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:latest
     container_name: jellyfin
-    user: 10000:10000
     ports:
       - 8096:8096/tcp
       - 7359:7359/udp
@@ -12,6 +11,8 @@ services:
       - /docker/appdata/jellyfin/config:/config
       - /docker/appdata/jellyfin/cache:/cache
       - /mnt/data/media:/data/media
+      - ./patch.sh:/patch.sh:ro
+    entrypoint: /patch.sh
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
     labels:
