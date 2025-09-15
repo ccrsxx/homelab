@@ -1,6 +1,7 @@
 services:
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr:7.4
+    restart: unless-stopped
     container_name: recyclarr
     user: 10000:10000
     volumes:
