@@ -2,6 +2,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:latest
     container_name: jellyfin
+    user: 10000:10000
     ports:
       - 8096:8096/tcp
       - 7359:7359/udp
