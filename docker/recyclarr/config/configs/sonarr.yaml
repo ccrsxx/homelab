@@ -25,3 +25,13 @@ sonarr:
       # WEB-2160p
       - template: sonarr-v4-quality-profile-web-2160p
       - template: sonarr-v4-custom-formats-web-2160p
+
+    # Disable upgrades on all profiles
+    quality_profiles:
+      - name: WEB-1080p
+        upgrade:
+          allowed: false
+
+      - name: WEB-2160p
+        upgrade:
+          allowed: false

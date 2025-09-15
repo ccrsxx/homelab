@@ -18,3 +18,9 @@ radarr:
       # Remux-1080p - Anime
       - template: radarr-quality-profile-anime
       - template: radarr-custom-formats-anime
+
+    # Disable upgrades on all profiles
+    quality_profiles:
+      - name: Remux-1080p - Anime
+        upgrade:
+          allowed: false
