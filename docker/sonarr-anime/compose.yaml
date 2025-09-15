@@ -1,6 +1,6 @@
 services:
   sonarr-anime:
-    image: linuxserver/sonarr:4.0
+    image: linuxserver/sonarr:4.0.15
     container_name: sonarr-anime
     environment:
       - PUID=10000
