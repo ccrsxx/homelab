@@ -12,6 +12,9 @@ radarr:
         standard: standard
 
     include:
+      # Quality Definition
       - template: radarr-quality-definition-anime
+
+      # Remux-1080p - Anime
       - template: radarr-quality-profile-anime
       - template: radarr-custom-formats-anime

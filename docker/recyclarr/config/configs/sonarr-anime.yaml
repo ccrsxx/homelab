@@ -15,7 +15,10 @@ sonarr:
         anime: default
 
     include:
+      # Quality Definition
       - template: sonarr-quality-definition-anime
+
+      # Remux-1080p - Anime
       - template: sonarr-v4-quality-profile-anime
       - template: sonarr-v4-custom-formats-anime
 
