@@ -22,13 +22,6 @@ sonarr:
       - template: sonarr-v4-quality-profile-anime
       - template: sonarr-v4-custom-formats-anime
 
-    # Disable upgrades on all profiles
-    quality_profiles:
-      - name: Remux-1080p - Anime
-        upgrade:
-          # Disable upgrades
-          allowed: false
-
     custom_formats:
       - trash_ids:
           - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
