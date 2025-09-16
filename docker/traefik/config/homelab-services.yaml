@@ -1,16 +1,8 @@
 http:
   routers:
-    upsnap:
-      rule: Host(`upsnap.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: upsnap
-
     proxmox:
       rule: Host(`proxmox.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: proxmox
-
-    jellyfin:
-      rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: jellyfin
 
     nextcloud:
       rule: Host(`nextcloud.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
@@ -25,20 +17,10 @@ http:
       service: development-server
 
   services:
-    upsnap:
-      loadBalancer:
-        servers:
-          - url: http://host.docker.internal:8090
-
     proxmox:
       loadBalancer:
         servers:
           - url: https://192.168.1.254:8006
-
-    jellyfin:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.100:8096
 
     nextcloud:
       loadBalancer:
