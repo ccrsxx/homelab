@@ -1,6 +1,7 @@
 services:
   jellyfin:
     image: jellyfin/jellyfin:latest
+    restart: unless-stopped
     container_name: jellyfin
     ports:
       - 8096:8096/tcp
@@ -10,7 +11,8 @@ services:
     volumes:
       - /docker/appdata/jellyfin/config:/config
       - /docker/appdata/jellyfin/cache:/cache
-      - /mnt/data/media:/data/media
+      - /mnt/data/media:/data/media:ro
+      - /mnt/data/torrents:/data/torrents:ro
       - ./patch.sh:/patch.sh:ro
     entrypoint: /patch.sh
     devices:
