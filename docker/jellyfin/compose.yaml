@@ -3,9 +3,7 @@ services:
     image: jellyfin/jellyfin:latest
     restart: unless-stopped
     container_name: jellyfin
-    ports:
-      - 8096:8096/tcp
-      - 7359:7359/udp
+    network_mode: 'host'
     group_add:
       - 104
     volumes:
