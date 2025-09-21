@@ -10,7 +10,6 @@ services:
     environment:
       - TZ=Asia/Jakarta
     restart: unless-stopped
-    cpus: 1
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.komga.rule=Host(`komga.${DOMAIN_MAIN_SECONDARY}`)'

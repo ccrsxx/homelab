@@ -1,5 +1,11 @@
 http:
   middlewares:
+    bazarr-theme:
+      plugin:
+        themepark:
+          app: bazarr
+          theme: hotline
+
     radarr-theme:
       plugin:
         themepark:

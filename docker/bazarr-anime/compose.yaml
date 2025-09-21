@@ -1,0 +1,24 @@
+services:
+  bazarr:
+    image: linuxserver/bazarr:latest
+    container_name: bazarr-anime
+    environment:
+      - PUID=10000
+      - PGID=10000
+      - UMASK=002
+      - TZ=Asia/Jakarta
+    volumes:
+      - /docker/appdata/bazarr-anime:/config
+      - /mnt/data/media:/data/media
+    ports:
+      - 7676:6767
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.bazarr-anime.rule=Host(`bazarr-anime.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.routers.bazarr-anime.middlewares=bazarr-theme@file'
+
+networks:
+  default:
+    name: traefik
+    external: true
