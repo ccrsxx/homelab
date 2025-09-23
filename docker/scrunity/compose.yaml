@@ -34,7 +34,6 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN_MAIN_SECONDARY}`)'
-      - 'traefik.http.services.scrutiny.loadbalancer.server.port=8080'
 
 networks:
   default:
