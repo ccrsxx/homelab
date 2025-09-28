@@ -1,2 +1,4 @@
-middlewares.yaml
+model_cache
+.search_stats.json
 
+middlewares.yaml
