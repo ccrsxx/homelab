@@ -8,7 +8,7 @@ services:
       - 104
     volumes:
       - /docker/appdata/jellyfin/config:/config
-      - /docker/appdata/jellyfin/cache:/cache
+      - /mnt/docker/appdata/jellyfin/cache:/cache
       - /mnt/data/media:/data/media:ro
       - /mnt/data/torrents:/data/torrents:ro
       - ./patch.sh:/patch.sh:ro
