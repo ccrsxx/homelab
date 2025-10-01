@@ -16,15 +16,14 @@ services:
     volumes:
       - /docker/appdata/unifi/config:/config
     ports:
-      - 8443:8443
+      - 6789:6789
       - 8080:8080
+      - 8443:8443
+      - 8880:8880
+      - 1900:1900/udp
       - 3478:3478/udp
+      - 5514:5514/udp
       - 10001:10001/udp
-      - 1900:1900/udp #optional
-      - 8843:8843 #optional
-      - 8880:8880 #optional
-      - 6789:6789 #optional
-      - 5514:5514/udp #optional
     restart: unless-stopped
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
