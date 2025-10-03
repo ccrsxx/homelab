@@ -6,8 +6,8 @@ services:
     ports:
       - '8077:80'
     volumes:
-      - '/mnt/docker/appdata/fireshare/data:/data'
-      - '/mnt/docker/appdata/fireshare/processed:/processed'
+      - '/docker/appdata/fireshare/data:/data'
+      - '/docker/appdata/fireshare/processed:/processed'
       - '/mnt/docker/appdata/fireshare/videos:/videos'
     environment:
       - ADMIN_USERNAME=${ADMIN_USERNAME}
