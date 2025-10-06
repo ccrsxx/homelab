@@ -13,8 +13,8 @@ services:
       LANG: en
       WG_HOST: ${WG_HOST}
       PASSWORD_HASH: ${PASSWORD_HASH}
-      WG_DEFAULT_ADDRESS: ${WG_DEFAULT_ADDRESS}
       WG_DEFAULT_DNS: ${WG_DEFAULT_DNS}
+      WG_DEFAULT_ADDRESS: ${WG_DEFAULT_ADDRESS}
       WG_POST_UP: >
         iptables -A FORWARD -i wg0 -j ACCEPT;
         iptables -t nat -A POSTROUTING -o wg+ -j MASQUERADE;
