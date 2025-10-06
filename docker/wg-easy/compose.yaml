@@ -18,10 +18,12 @@ services:
       WG_POST_UP: >
         iptables -A FORWARD -i wg0 -j ACCEPT;
         iptables -t nat -A POSTROUTING -o wg+ -j MASQUERADE;
+        iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;
         iptables -t nat -A PREROUTING -i eth0 -p udp --dport 42780 -j DNAT --to-destination 10.8.0.10:42780;
       WG_POST_DOWN: >
         iptables -D FORWARD -i wg0 -j ACCEPT;
         iptables -t nat -D POSTROUTING -o wg+ -j MASQUERADE;
+        iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE;
         iptables -t nat -D PREROUTING -i eth0 -p udp --dport 42780 -j DNAT --to-destination 10.8.0.10:42780;
     volumes:
       - etc_wireguard:/etc/wireguard
