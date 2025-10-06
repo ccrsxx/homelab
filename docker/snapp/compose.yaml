@@ -1,0 +1,31 @@
+services:
+  snapp:
+    image: uraniadev/snapp:0.9-rc-027
+    container_name: snapp
+    restart: unless-stopped
+    ports:
+      - '8044:3000'
+    environment:
+      - DATABASE_PROVIDER=postgres
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/snapp
+      - TOKEN_SECRET=${TOKEN_SECRET}
+      - ORIGIN=${PUBLIC_URL}
+      - PUBLIC_URL=${PUBLIC_URL}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ENABLE_SIGNUP=true
+      - ENABLED_MFA=true
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    container_name: snapp_db
+    restart: unless-stopped
+    environment:
+      # These variables are read from the .env file
+      - POSTGRES_DB=snapp
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      # Mounts a host directory to persist database data.
+      - /docker/appdata/snapp/db:/var/lib/postgresql/data
