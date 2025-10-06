@@ -5,12 +5,12 @@ services:
     volumes:
       - /docker/appdata/komga:/config
       - /mnt/data/media:/data/media
+    cpus: 2
     ports:
       - 25600:25600
     environment:
       - TZ=Asia/Jakarta
     restart: unless-stopped
-    cpus: 1
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.komga.rule=Host(`komga.${DOMAIN_MAIN_SECONDARY}`)'

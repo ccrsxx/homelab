@@ -2,12 +2,13 @@ services:
   fireshare:
     container_name: fireshare
     image: shaneisrael/fireshare:latest
+    restart: unless-stopped
     ports:
       - '8077:80'
     volumes:
-      - '/mnt/docker/fireshare/data:/data'
-      - '/mnt/docker/fireshare/processed:/processed'
-      - '/mnt/docker/fireshare/videos:/videos'
+      - '/docker/appdata/fireshare/data:/data'
+      - '/docker/appdata/fireshare/processed:/processed'
+      - '/mnt/docker/appdata/fireshare/videos:/videos'
     environment:
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
@@ -15,8 +16,8 @@ services:
       - MINUTES_BETWEEN_VIDEO_SCANS=5
       - THUMBNAIL_VIDEO_LOCATION=0
       - DOMAIN=fireshare.${DOMAIN_MAIN_PRIMARY}
-      - PUID=1000
-      - PGID=1000
+      - PUID=10000
+      - PGID=10000
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.fireshare.rule=Host(`fireshare.${DOMAIN_MAIN_SECONDARY}`)'

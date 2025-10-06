@@ -27,6 +27,7 @@ select = ["I"]
 
 [tool.mypy]
 strict = true
+exclude = "docker"
 
 [[tool.mypy.overrides]]
 module = ["uptime_kuma_api", "js2py"]

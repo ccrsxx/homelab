@@ -3,8 +3,9 @@ services:
     image: linuxserver/smokeping:latest
     container_name: smokeping
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=10000
+      - PGID=10000
+      - UMASK=002
       - TZ=Asia/Jakarta
     ports:
       - 8070:80

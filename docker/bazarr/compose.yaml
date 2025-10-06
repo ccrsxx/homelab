@@ -1,0 +1,24 @@
+services:
+  bazarr:
+    image: linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=10000
+      - PGID=10000
+      - UMASK=002
+      - TZ=Asia/Jakarta
+    volumes:
+      - /docker/appdata/bazarr:/config
+      - /mnt/data/media:/data/media
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.bazarr.rule=Host(`bazarr.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.routers.bazarr.middlewares=bazarr-theme@file'
+
+networks:
+  default:
+    name: traefik
+    external: true

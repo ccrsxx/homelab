@@ -1,0 +1,41 @@
+services:
+  influxdb:
+    container_name: influxdb
+    image: influxdb:2.1-alpine
+    volumes:
+      - /docker/appdata/scrutiny/influxdb2/db:/var/lib/influxdb2
+      - /docker/appdata/scrutiny/influxdb2/config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=Admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=homelab
+      - DOCKER_INFLUXDB_INIT_BUCKET=scrutiny
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${SECRET_TOKEN}
+    restart: unless-stopped
+
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:master-web
+    ports:
+      - 8011:8080
+    volumes:
+      - /docker/appdata/scrutiny/config:/opt/scrutiny/config
+    environment:
+      - SCRUTINY_WEB_INFLUXDB_HOST=influxdb
+      - SCRUTINY_WEB_INFLUXDB_PORT=8086
+      - SCRUTINY_WEB_INFLUXDB_TOKEN=${SECRET_TOKEN}
+      - SCRUTINY_WEB_INFLUXDB_ORG=homelab
+      - SCRUTINY_WEB_INFLUXDB_BUCKET=scrutiny
+      - SCRUTINY_NOTIFY_URLS=${SMTP_URL}
+    depends_on:
+      - influxdb
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN_MAIN_SECONDARY}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true
