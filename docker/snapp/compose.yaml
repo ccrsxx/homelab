@@ -13,7 +13,7 @@ services:
       - PUBLIC_URL=${PUBLIC_URL}
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-      - ENABLE_SIGNUP=true
+      - ENABLE_SIGNUP=false
       - ENABLED_MFA=true
     depends_on:
       - db
