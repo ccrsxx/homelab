@@ -8,7 +8,7 @@ services:
     volumes:
       - ./config.json:/config/config.json
       - ./secrets/cookies.txt:/config/cookies.txt
-      - ~/share/caddy/metube:/downloads
+      - ~/drive/share/caddy/metube:/downloads
     environment:
       - PUBLIC_HOST_URL=${PUBLIC_HOST_URL}
       - PUBLIC_HOST_AUDIO_URL=${PUBLIC_HOST_URL}

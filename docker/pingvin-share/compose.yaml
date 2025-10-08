@@ -6,8 +6,9 @@ services:
     ports:
       - 8099:3000
     volumes:
-      - '/mnt/docker/appdata/pingvin-share/data:/opt/app/backend/data'
-      - '/mnt/docker/appdata/pingvin-share/data/images:/opt/app/frontend/public/img'
+      - '/docker/appdata/pingvin-share/data:/opt/app/backend/data'
+      - '/docker/appdata/pingvin-share/data/images:/opt/app/frontend/public/img'
+      - '${DOWNLOADS_PATH:-/mnt/docker/pingvin-share/data/uploads}:/opt/app/backend/data/uploads'
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.pingvin-share.rule=Host(`share.${DOMAIN_MAIN_SECONDARY}`)'
