@@ -190,3 +190,11 @@ node_modules/
 # ...except for the configs directory inside it
 !/docker/recyclarr/config/configs
 
+# Frigate specific ignores
+
+# Ignore all contents of the frigate directory...
+/docker/frigate/config/*
+
+# ...except for the config.yaml inside it
+!/docker/frigate/config/config.yaml
+
