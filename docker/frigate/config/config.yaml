@@ -1,5 +1,8 @@
 version: 0.16-0
 
+ui:
+  time_format: 24hour
+
 mqtt:
   enabled: false
 
