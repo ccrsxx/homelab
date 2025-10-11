@@ -1,0 +1,76 @@
+version: 0.16-0
+
+mqtt:
+  enabled: false
+
+detectors:
+  ov:
+    type: openvino
+    device: GPU
+
+model:
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  path: /openvino-model/ssdlite_mobilenet_v2.xml
+  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+
+ffmpeg:
+  hwaccel_args: preset-intel-qsv-h264
+
+detect:
+  enabled: true
+
+notifications:
+  enabled: true
+  email: 'frigate@ccrsxx.com'
+
+record:
+  enabled: true
+  retain:
+    days: 7
+    mode: all
+  alerts:
+    retain:
+      days: 30
+      mode: motion
+  detections:
+    retain:
+      days: 30
+      mode: motion
+
+semantic_search:
+  enabled: true
+  reindex: false
+  model_size: large
+
+genai:
+  enabled: true
+  provider: gemini
+  api_key: '{FRIGATE_GEMINI_API_KEY}'
+  model: gemini-2.5-flash
+
+go2rtc:
+  streams:
+    bedroom_cam:
+      - '{FRIGATE_RTSP_CAM_BEDROOM}'
+      - '{FRIGATE_ISAPI_CAM_BEDROOM}'
+      - ffmpeg:bedroom_cam#audio=opus
+  webrtc:
+    candidates:
+      - 192.168.1.100:8555
+      - stun:8555
+
+cameras:
+  bedroom_cam:
+    ffmpeg:
+      inputs:
+        - path: '{FRIGATE_RTSP_CAM_BEDROOM}'
+          roles:
+            - detect
+            - record
+    genai:
+      enabled: false
+    notifications:
+      enabled: true
