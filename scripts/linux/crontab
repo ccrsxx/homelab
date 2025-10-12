@@ -1,0 +1,5 @@
+# Turn LED off at 23:00 every day
+0 23 * * * /home/ccrsxx/homelab/scripts/linux/unifi-led.sh off
+
+# Turn LED on at 06:00 every day
+0 6 * * * /home/ccrsxx/homelab/scripts/linux/unifi-led.sh on
