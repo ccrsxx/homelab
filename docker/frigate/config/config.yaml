@@ -32,7 +32,7 @@ notifications:
 record:
   enabled: true
   retain:
-    days: 7
+    days: 30
     mode: all
   alerts:
     retain:
