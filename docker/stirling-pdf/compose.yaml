@@ -6,11 +6,10 @@ services:
     ports:
       - '8085:8080'
     volumes:
-      - /docker/appdata/stirling-pdf/training:/usr/share/tessdata #Required for extra OCR languages
+      - /docker/appdata/stirling-pdf/training:/usr/share/tessdata
       - /docker/appdata/stirling-pdf/config:/configs
-      # - ./customFiles:/customFiles/
-      # - ./logs:/logs/
     environment:
+      - DISABLE_PIXEL=true
       - DOCKER_ENABLE_SECURITY=false
       - INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false
       - LANGS=en_GB
