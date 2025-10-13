@@ -1,0 +1,39 @@
+services:
+  frigate:
+    container_name: frigate
+    restart: unless-stopped
+    stop_grace_period: 30s
+    image: ghcr.io/blakeblackshear/frigate:stable
+    shm_size: '512mb'
+    cap_add:
+      - CAP_PERFMON
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    volumes:
+      - ./config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/docker/appdata/frigate/storage:/media/frigate
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - '8971:8971'
+      - '8554:8554'
+      - '8555:8555/tcp'
+      - '8555:8555/udp'
+    environment:
+      - FRIGATE_RTSP_PASSWORD=${FRIGATE_RTSP_PASSWORD}
+      - FRIGATE_GEMINI_API_KEY=${FRIGATE_GEMINI_API_KEY}
+      - FRIGATE_RTSP_CAM_BEDROOM=${FRIGATE_RTSP_CAM_BEDROOM}
+      - FRIGATE_ISAPI_CAM_BEDROOM=${FRIGATE_ISAPI_CAM_BEDROOM}
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.frigate.rule=Host(`frigate.${DOMAIN_MAIN_PRIMARY}`) || Host(`frigate.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.services.frigate.loadbalancer.server.port=8971'
+      - 'traefik.http.services.frigate.loadbalancer.server.scheme=https'
+
+networks:
+  default:
+    name: traefik
+    external: true
