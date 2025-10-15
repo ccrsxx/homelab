@@ -9,7 +9,7 @@ SSH_USER="ccrsxx"
 # List of AP IPs
 APS=(
   "192.168.20.100"
-  # Add more APs here...
+  "192.168.20.110"
 )
 
 # Path to config file on each AP
