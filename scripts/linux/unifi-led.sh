@@ -53,6 +53,7 @@ if [ -f "$CFG" ]; then
   else
     echo "[$(timestamp)] LED already $STATE"
   fi
+  syswrapper.sh save-config
 else
   echo "Error: config file not found ($CFG)"
 fi
