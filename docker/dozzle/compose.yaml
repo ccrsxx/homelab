@@ -1,0 +1,31 @@
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    ports:
+      - '8022:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /docker/appdata/dozzle:/data
+    secrets:
+      - source: users
+        target: /data/users.yaml
+    restart: unless-stopped
+    environment:
+      - DOZZLE_HOSTNAME=${DOZZLE_HOSTNAME}
+      - DOZZLE_AUTH_PROVIDER=simple
+      - DOZZLE_ENABLE_ACTIONS=true
+      - DOZZLE_ENABLE_SHELL=true
+      - DOZZLE_REMOTE_AGENT=${DOZZLE_REMOTE_AGENT}
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.dozzle.rule=Host(`dozzle.${DOMAIN_MAIN_SECONDARY}`)'
+
+secrets:
+  users:
+    file: './secrets/users.yaml'
+
+networks:
+  default:
+    name: traefik
+    external: true
