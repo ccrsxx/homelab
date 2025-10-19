@@ -5,7 +5,7 @@ services:
     ports:
       - '8022:8080'
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /docker/appdata/dozzle:/data
     secrets:
       - source: users
@@ -14,8 +14,8 @@ services:
     environment:
       - DOZZLE_HOSTNAME=${DOZZLE_HOSTNAME}
       - DOZZLE_AUTH_PROVIDER=simple
-      - DOZZLE_ENABLE_ACTIONS=true
-      - DOZZLE_ENABLE_SHELL=true
+      - DOZZLE_ENABLE_ACTIONS=false
+      - DOZZLE_ENABLE_SHELL=false
       - DOZZLE_REMOTE_AGENT=${DOZZLE_REMOTE_AGENT}
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
