@@ -5,5 +5,7 @@ services:
     command: agent
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - DOZZLE_HOSTNAME=${DOZZLE_HOSTNAME}
     ports:
       - 7007:7007
