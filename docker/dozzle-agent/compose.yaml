@@ -1,0 +1,11 @@
+services:
+  dozzle-agent:
+    image: amir20/dozzle:latest
+    container_name: dozzle-agent
+    command: agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - DOZZLE_HOSTNAME=${DOZZLE_HOSTNAME}
+    ports:
+      - 7007:7007
