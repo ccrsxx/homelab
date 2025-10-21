@@ -1,6 +1,6 @@
 services:
   unifi:
-    image: lscr.io/linuxserver/unifi-network-application:9.4.19
+    image: lscr.io/linuxserver/unifi-network-application:latest
     container_name: unifi
     environment:
       - PUID=10000
