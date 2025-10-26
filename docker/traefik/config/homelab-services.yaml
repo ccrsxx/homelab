@@ -4,6 +4,10 @@ http:
       rule: Host(`proxmox.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: proxmox
 
+    glances:
+      rule: Host(`glances.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: glances
+
     nextcloud:
       rule: Host(`nextcloud.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
       service: nextcloud
@@ -12,15 +16,16 @@ http:
       rule: Host(`home.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: home-assistant
 
-    development-server:
-      rule: Host(`dev.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: development-server
-
   services:
     proxmox:
       loadBalancer:
         servers:
           - url: https://192.168.1.254:8006
+
+    glances:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.254:61208
 
     nextcloud:
       loadBalancer:
@@ -31,8 +36,3 @@ http:
       loadBalancer:
         servers:
           - url: http://192.168.1.201:8123
-
-    development-server:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.2:3000

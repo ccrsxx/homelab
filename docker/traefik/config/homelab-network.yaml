@@ -55,4 +55,4 @@ http:
     uptime-kuma:
       loadBalancer:
         servers:
-          - url: http://10.0.10.20:3001
+          - url: http://192.168.1.3:3001

@@ -4,8 +4,26 @@ http:
       rule: Host(`dev-webot.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: dev-webot
 
+    dev-frontend:
+      rule: Host(`dev-frontend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: dev-frontend
+
+    dev-backend:
+      rule: Host(`dev-backend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: dev-backend
+
   services:
     dev-webot:
       loadBalancer:
         servers:
           - url: http://192.168.1.2:8000
+
+    dev-frontend:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.2:3000
+
+    dev-backend:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.2:4000
