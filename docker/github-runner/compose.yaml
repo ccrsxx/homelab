@@ -1,5 +1,5 @@
 services:
-  github-runner:
+  worker:
     image: myoung34/github-runner:latest
     restart: unless-stopped
     environment:
