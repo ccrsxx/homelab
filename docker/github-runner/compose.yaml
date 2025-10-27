@@ -1,0 +1,13 @@
+services:
+  github-runner:
+    image: myoung34/github-runner:latest
+    restart: unless-stopped
+    environment:
+      REPO_URL: ${REPO_URL}
+      EPHEMERAL: true
+      ACCESS_TOKEN: ${ACCESS_TOKEN}
+      DISABLE_AUTO_UPDATE: true
+    deploy:
+      replicas: 4
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
