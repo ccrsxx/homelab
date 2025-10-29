@@ -14,6 +14,12 @@ class AppEnv(BaseModel):
     EMAIL_API_KEY: str = Field(description='Gmail API key')
     TARGET_EMAIL_SENDER: str = Field(description='Email recipient')
 
+    DISCORD_WEBHOOK_ID: str = Field(description='Discord webhook ID')
+    DISCORD_WEBHOOK_TOKEN: str = Field(description='Discord webhook token')
+
+    PUSHOVER_USER: str = Field(description='Pushover user key')
+    PUSHOVER_TOKEN: str = Field(description='Pushover app token')
+
     ROUTER_URL: str = Field(description='Router URL')
     ROUTER_USERNAME: str = Field(description='Router username')
     ROUTER_PASSWORD: str = Field(description='Router password')
