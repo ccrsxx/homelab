@@ -1,0 +1,46 @@
+title: Homepage
+
+color: violet
+
+background:
+  image: { { HOMEPAGE_VAR_BACKGROUND_IMAGE } }
+
+cardBlur: xs
+
+headerStyle: boxed
+
+fullwidth: true
+hideVersion: true
+disableCollapse: true
+useEqualHeights: true
+
+quicklaunch:
+  hideVisitURL: false
+  searchDescriptions: true
+  hideInternetSearch: true
+
+layout:
+  System:
+    tab: System
+    style: row
+    columns: 3
+  Network:
+    tab: System
+    style: row
+    columns: 3
+  Media:
+    tab: Media
+    style: row
+    columns: 3
+  Starr:
+    tab: Media
+    style: row
+    columns: 3
+  Misc:
+    tab: Misc
+    style: row
+    columns: 5
+
+providers:
+  finnhub: { { HOMEPAGE_VAR_FINNHUB_API_KEY } }
+  openweathermap: { { HOMEPAGE_VAR_OPENWEATHERMAP_API_KEY } }

@@ -1,0 +1,39 @@
+- glances:
+    url: https://glances.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+    version: 4
+    cpu: true
+    mem: true
+    cputemp: true
+    uptime: true
+    disk: /
+
+- stocks:
+    provider: finnhub
+    color: true
+    cache: 1
+    watchlist:
+      - VOO
+      - VXUS
+      - AMD
+      - NVDA
+      - GOOG
+
+- greeting:
+    text_size: 2xl
+    text: Be Thankful Always!
+
+- datetime:
+    text_size: 2xl
+    locale: en-gb
+    format:
+      dateStyle: full
+      timeStyle: medium
+
+- openweathermap:
+    latitude: { { HOMEPAGE_VAR_OPENWEATHERMAP_LATITUDE } }
+    longitude: { { HOMEPAGE_VAR_OPENWEATHERMAP_LONGITUDE } }
+    units: metric
+    provider: openweathermap
+    cache: 5
+    format:
+      maximumFractionDigits: 1

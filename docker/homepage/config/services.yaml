@@ -1,0 +1,270 @@
+- System:
+    - Info:
+        widget:
+          type: glances
+          url: https://glances.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          metric: info
+          version: 4
+
+    - Network:
+        widget:
+          type: glances
+          url: https://glances.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          metric: network:vmbr0
+          version: 4
+
+    - Top Processes:
+        widget:
+          type: glances
+          url: https://glances.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          metric: process
+          version: 4
+
+    - Proxmox:
+        icon: proxmox.png
+        href: https://proxmox.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Virtualization Server
+        widget:
+          type: proxmox
+          url: https://proxmox.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          username: { { HOMEPAGE_VAR_PROXMOX_USERNAME } }
+          password: { { HOMEPAGE_VAR_PROXMOX_PASSWORD } }
+          node: pve
+
+    - Ubuntu:
+        icon: ubuntu-linux.png
+        href: https://beszel.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Dashboard Server
+        widget:
+          type: beszel
+          url: https://beszel.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          username: { { HOMEPAGE_VAR_BESZEL_USERNAME } }
+          password: { { HOMEPAGE_VAR_BESZEL_PASSWORD } }
+          systemId: Homelab Ubuntu
+          version: 2
+          fields: ['status', 'cpu', 'memory', 'disk']
+
+    - Power:
+        icon: home-assistant.png
+        description: Power Monitoring
+        widgets:
+          - type: homeassistant
+            url: https://home.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+            key: { { HOMEPAGE_VAR_HOME_ASSISTANT_API_KEY } }
+            custom:
+              - state: sensor.ac_power
+                label: AC
+              - state: sensor.rack_power
+                label: Rack
+              - state: sensor.setup_power
+                label: Setup
+              - state: sensor.homelab_power
+                label: Homelab
+
+- Network:
+    - MikroTik:
+        icon: mikrotik.png
+        href: https://mikrotik.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Main Router
+        widget:
+          type: mikrotik
+          fields: ['cpuLoad', 'memoryUsed', 'numberOfLeases']
+          url: https://mikrotik.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          username: { { HOMEPAGE_VAR_MIKROTIK_USERNAME } }
+          password: { { HOMEPAGE_VAR_MIKROTIK_PASSWORD } }
+
+    - AdGuard Home:
+        icon: adguard-home.png
+        href: https://adguard.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: DNS Server
+        widget:
+          type: adguard
+          fields: ['queries', 'blocked', 'filtered', 'latency']
+          url: https://adguard.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          username: { { HOMEPAGE_VAR_ADGUARD_HOME_USERNAME } }
+          password: { { HOMEPAGE_VAR_ADGUARD_HOME_PASSWORD } }
+
+    - Traefik:
+        icon: traefik.png
+        href: https://traefik.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Reverse Proxy
+        widget:
+          type: traefik
+          url: http://192.168.1.100:8010
+          username: { { HOMEPAGE_VAR_TRAEFIK_USERNAME } }
+          password: { { HOMEPAGE_VAR_TRAEFIK_PASSWORD } }
+
+    - Tunnel Main:
+        icon: cloudflare.png
+        description: Tunnel for Main Services
+        widget:
+          type: cloudflared
+          fields: ['status']
+          accountid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ACCOUNT_ID } }
+          tunnelid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_MAIN_TUNNEL_ID } }
+          key: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY } }
+
+    - Tunnel Monitor:
+        icon: cloudflare.png
+        description: Tunnel for Monitoring Services
+        widget:
+          type: cloudflared
+          fields: ['status']
+          accountid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ACCOUNT_ID } }
+          tunnelid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_MONITOR_TUNNEL_ID } }
+          key: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY } }
+
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: https://status.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Uptime Monitor
+        widget:
+          type: uptimekuma
+          url: https://status.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          slug: homelab
+
+- Media:
+    - Nextcloud:
+        icon: nextcloud.png
+        href: https://nextcloud.{{HOMEPAGE_VAR_DOMAIN_MAIN_PRIMARY}}
+        description: Cloud Storage
+        widget:
+          type: nextcloud
+          fields: ['freespace', 'numfiles', 'numshares']
+          url: https://nextcloud.{{HOMEPAGE_VAR_DOMAIN_MAIN_PRIMARY}}
+          key: { { HOMEPAGE_VAR_NEXTCLOUD_API_KEY } }
+
+    - qBittorrent:
+        icon: qbittorrent.png
+        href: https://qbittorrent.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Torrent Client
+        widget:
+          type: qbittorrent
+          url: https://qbittorrent.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          fields: ['download', 'seed', 'upload']
+          username: { { HOMEPAGE_VAR_QBITTORRENT_USERNAME } }
+          password: { { HOMEPAGE_VAR_QBITTORRENT_PASSWORD } }
+
+    - Scrutiny:
+        icon: scrutiny.png
+        href: https://scrutiny.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Disk Health Monitor
+        widget:
+          type: scrutiny
+          url: https://scrutiny.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+
+    - Jellyfin:
+        icon: jellyfin.png
+        href: https://jellyfin.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Media Server
+        widget:
+          type: jellyfin
+          fields: ['movies', 'series', 'episodes']
+          url: https://jellyfin.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_JELLYFIN_API_KEY } }
+          enableBlocks: true
+          enableNowPlaying: true
+
+    - Jellyseerr:
+        icon: jellyseerr.png
+        href: https://jellyseerr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Jellyfin Request
+        widget:
+          type: jellyseerr
+          url: https://jellyseerr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_JELLYSEERR_API_KEY } }
+
+    - Komga:
+        icon: komga.png
+        href: https://komga.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Comics Server
+        widget:
+          type: komga
+          url: https://komga.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_KOMGA_API_KEY } }
+
+- Starr:
+    - Sonarr:
+        icon: sonarr.png
+        href: https://sonarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: TV Show Manager
+        widget:
+          type: sonarr
+          url: https://sonarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_SONARR_API_KEY } }
+
+    - Radarr:
+        icon: radarr.png
+        href: https://radarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Movie Manager
+        widget:
+          type: radarr
+          url: https://radarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_RADARR_API_KEY } }
+
+    - Bazarr:
+        icon: bazarr.png
+        href: https://bazarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Subtitle Manager
+        widget:
+          type: bazarr
+          url: https://bazarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_BAZARR_API_KEY } }
+
+    - Sonarr Anime:
+        icon: sonarr.png
+        href: https://sonarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Anime Show Manager
+        widget:
+          type: sonarr
+          url: https://sonarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_SONARR_ANIME_API_KEY } }
+
+    - Radarr Anime:
+        icon: radarr.png
+        href: https://radarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Anime Movie Manager
+        widget:
+          type: radarr
+          url: https://radarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_RADARR_ANIME_API_KEY } }
+
+    - Bazarr Anime:
+        icon: bazarr.png
+        href: https://bazarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Anime Subtitle Manager
+        widget:
+          type: bazarr
+          url: https://bazarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: { { HOMEPAGE_VAR_BAZARR_ANIME_API_KEY } }
+
+- Misc:
+    - Neko:
+        icon: neko.png
+        href: https://neko.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Collaborative Virtual Browser
+        siteMonitor: https://neko.{{HOMEPAGE_VAR_DOMAIN_MAIN_PRIMARY}}
+
+    - Smokeping:
+        icon: smokeping.png
+        href: https://smokeping.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Network Latency
+        siteMonitor: https://smokeping.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+
+    - OpenSpeedTest:
+        icon: openspeedtest.png
+        href: http://192.168.1.100:8081
+        description: Speedtest Server
+        siteMonitor: http://192.168.1.100:8081
+
+    - UpSnap:
+        icon: upsnap.png
+        href: https://upsnap.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+        description: Wake on LAN
+        siteMonitor: https://upsnap.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+
+    - UPS:
+        icon: apc.png
+        href: http://192.168.1.200:6547
+        description: APC UPS Management
+        siteMonitor: http://192.168.1.200:6547
