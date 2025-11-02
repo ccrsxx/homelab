@@ -30,8 +30,8 @@
       timeStyle: medium
 
 - openweathermap:
-    latitude: { { HOMEPAGE_VAR_OPENWEATHERMAP_LATITUDE } }
-    longitude: { { HOMEPAGE_VAR_OPENWEATHERMAP_LONGITUDE } }
+    latitude: {{HOMEPAGE_VAR_OPENWEATHERMAP_LATITUDE}}
+    longitude: {{HOMEPAGE_VAR_OPENWEATHERMAP_LONGITUDE}}
     units: metric
     provider: openweathermap
     cache: 5

@@ -27,8 +27,8 @@
         widget:
           type: proxmox
           url: https://proxmox.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          username: { { HOMEPAGE_VAR_PROXMOX_USERNAME } }
-          password: { { HOMEPAGE_VAR_PROXMOX_PASSWORD } }
+          username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
+          password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
           node: pve
 
     - Ubuntu:
@@ -38,8 +38,8 @@
         widget:
           type: beszel
           url: https://beszel.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          username: { { HOMEPAGE_VAR_BESZEL_USERNAME } }
-          password: { { HOMEPAGE_VAR_BESZEL_PASSWORD } }
+          username: {{HOMEPAGE_VAR_BESZEL_USERNAME}}
+          password: {{HOMEPAGE_VAR_BESZEL_PASSWORD}}
           systemId: Homelab Ubuntu
           version: 2
           fields: ['status', 'cpu', 'memory', 'disk']
@@ -50,7 +50,7 @@
         widgets:
           - type: homeassistant
             url: https://home.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-            key: { { HOMEPAGE_VAR_HOME_ASSISTANT_API_KEY } }
+            key: {{HOMEPAGE_VAR_HOME_ASSISTANT_API_KEY}}
             custom:
               - state: sensor.ac_power
                 label: AC
@@ -70,8 +70,8 @@
           type: mikrotik
           fields: ['cpuLoad', 'memoryUsed', 'numberOfLeases']
           url: https://mikrotik.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          username: { { HOMEPAGE_VAR_MIKROTIK_USERNAME } }
-          password: { { HOMEPAGE_VAR_MIKROTIK_PASSWORD } }
+          username: {{HOMEPAGE_VAR_MIKROTIK_USERNAME}}
+          password: {{HOMEPAGE_VAR_MIKROTIK_PASSWORD}}
 
     - AdGuard Home:
         icon: adguard-home.png
@@ -81,8 +81,8 @@
           type: adguard
           fields: ['queries', 'blocked', 'filtered', 'latency']
           url: https://adguard.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          username: { { HOMEPAGE_VAR_ADGUARD_HOME_USERNAME } }
-          password: { { HOMEPAGE_VAR_ADGUARD_HOME_PASSWORD } }
+          username: {{HOMEPAGE_VAR_ADGUARD_HOME_USERNAME}}
+          password: {{HOMEPAGE_VAR_ADGUARD_HOME_PASSWORD}}
 
     - Traefik:
         icon: traefik.png
@@ -91,8 +91,8 @@
         widget:
           type: traefik
           url: http://192.168.1.100:8010
-          username: { { HOMEPAGE_VAR_TRAEFIK_USERNAME } }
-          password: { { HOMEPAGE_VAR_TRAEFIK_PASSWORD } }
+          username: {{HOMEPAGE_VAR_TRAEFIK_USERNAME}}
+          password: {{HOMEPAGE_VAR_TRAEFIK_PASSWORD}}
 
     - Tunnel Main:
         icon: cloudflare.png
@@ -100,9 +100,9 @@
         widget:
           type: cloudflared
           fields: ['status']
-          accountid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ACCOUNT_ID } }
-          tunnelid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_MAIN_TUNNEL_ID } }
-          key: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY } }
+          accountid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ACCOUNT_ID}}
+          tunnelid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_MAIN_TUNNEL_ID}}
+          key: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY}}
 
     - Tunnel Monitor:
         icon: cloudflare.png
@@ -110,9 +110,9 @@
         widget:
           type: cloudflared
           fields: ['status']
-          accountid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ACCOUNT_ID } }
-          tunnelid: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_MONITOR_TUNNEL_ID } }
-          key: { { HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY } }
+          accountid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ACCOUNT_ID}}
+          tunnelid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_MONITOR_TUNNEL_ID}}
+          key: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY}}
 
     - Uptime Kuma:
         icon: uptime-kuma.png
@@ -132,7 +132,7 @@
           type: nextcloud
           fields: ['freespace', 'numfiles', 'numshares']
           url: https://nextcloud.{{HOMEPAGE_VAR_DOMAIN_MAIN_PRIMARY}}
-          key: { { HOMEPAGE_VAR_NEXTCLOUD_API_KEY } }
+          key: {{HOMEPAGE_VAR_NEXTCLOUD_API_KEY}}
 
     - qBittorrent:
         icon: qbittorrent.png
@@ -142,8 +142,8 @@
           type: qbittorrent
           url: https://qbittorrent.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
           fields: ['download', 'seed', 'upload']
-          username: { { HOMEPAGE_VAR_QBITTORRENT_USERNAME } }
-          password: { { HOMEPAGE_VAR_QBITTORRENT_PASSWORD } }
+          username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
+          password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
 
     - Scrutiny:
         icon: scrutiny.png
@@ -161,7 +161,7 @@
           type: jellyfin
           fields: ['movies', 'series', 'episodes']
           url: https://jellyfin.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_JELLYFIN_API_KEY } }
+          key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
           enableBlocks: true
           enableNowPlaying: true
 
@@ -172,7 +172,7 @@
         widget:
           type: jellyseerr
           url: https://jellyseerr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_JELLYSEERR_API_KEY } }
+          key: {{HOMEPAGE_VAR_JELLYSEERR_API_KEY}}
 
     - Komga:
         icon: komga.png
@@ -181,7 +181,7 @@
         widget:
           type: komga
           url: https://komga.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_KOMGA_API_KEY } }
+          key: {{HOMEPAGE_VAR_KOMGA_API_KEY}}
 
 - Starr:
     - Sonarr:
@@ -191,7 +191,7 @@
         widget:
           type: sonarr
           url: https://sonarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_SONARR_API_KEY } }
+          key: {{HOMEPAGE_VAR_SONARR_API_KEY}}
 
     - Radarr:
         icon: radarr.png
@@ -200,7 +200,7 @@
         widget:
           type: radarr
           url: https://radarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_RADARR_API_KEY } }
+          key: {{HOMEPAGE_VAR_RADARR_API_KEY}}
 
     - Bazarr:
         icon: bazarr.png
@@ -209,7 +209,7 @@
         widget:
           type: bazarr
           url: https://bazarr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_BAZARR_API_KEY } }
+          key: {{HOMEPAGE_VAR_BAZARR_API_KEY}}
 
     - Sonarr Anime:
         icon: sonarr.png
@@ -218,7 +218,7 @@
         widget:
           type: sonarr
           url: https://sonarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_SONARR_ANIME_API_KEY } }
+          key: {{HOMEPAGE_VAR_SONARR_ANIME_API_KEY}}
 
     - Radarr Anime:
         icon: radarr.png
@@ -227,7 +227,7 @@
         widget:
           type: radarr
           url: https://radarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_RADARR_ANIME_API_KEY } }
+          key: {{HOMEPAGE_VAR_RADARR_ANIME_API_KEY}}
 
     - Bazarr Anime:
         icon: bazarr.png
@@ -236,7 +236,7 @@
         widget:
           type: bazarr
           url: https://bazarr-anime.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: { { HOMEPAGE_VAR_BAZARR_ANIME_API_KEY } }
+          key: {{HOMEPAGE_VAR_BAZARR_ANIME_API_KEY}}
 
 - Misc:
     - Neko:

@@ -3,7 +3,7 @@ title: Homepage
 color: violet
 
 background:
-  image: { { HOMEPAGE_VAR_BACKGROUND_IMAGE } }
+  image: {{HOMEPAGE_VAR_BACKGROUND_IMAGE}}
 
 cardBlur: xs
 
@@ -42,5 +42,5 @@ layout:
     columns: 5
 
 providers:
-  finnhub: { { HOMEPAGE_VAR_FINNHUB_API_KEY } }
-  openweathermap: { { HOMEPAGE_VAR_OPENWEATHERMAP_API_KEY } }
+  finnhub: {{HOMEPAGE_VAR_FINNHUB_API_KEY}}
+  openweathermap: {{HOMEPAGE_VAR_OPENWEATHERMAP_API_KEY}}
