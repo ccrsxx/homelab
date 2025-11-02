@@ -198,3 +198,13 @@ node_modules/
 # ...except for the config.yaml inside it
 !/docker/frigate/config/config.yaml
 
+# Homepage specific ignores
+
+# Ignore all contents of the homepage directory...
+/docker/homepage/config/*
+
+# ...except for the config.yaml inside it
+!/docker/homepage/config/services.yaml
+!/docker/homepage/config/settings.yaml
+!/docker/homepage/config/widgets.yaml
+
