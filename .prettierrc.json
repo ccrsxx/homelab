@@ -2,5 +2,6 @@
   "endOfLine": "lf",
   "singleQuote": true,
   "trailingComma": "none",
+  "bracketSpacing": false,
   "plugins": ["prettier-plugin-toml"]
 }
