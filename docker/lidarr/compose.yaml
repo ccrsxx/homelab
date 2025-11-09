@@ -1,0 +1,24 @@
+services:
+  lidarr:
+    container_name: lidarr
+    image: linuxserver/lidarr:latest
+    restart: unless-stopped
+    ports:
+      - 8686:8686
+    environment:
+      - PUID=10000
+      - PGID=10000
+      - UMASK=002
+      - TZ=Asia/jakarta
+    volumes:
+      - /docker/appdata/lidarr:/config
+      - /mnt/data:/data
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.routers.lidarr.middlewares=lidarr-theme@file'
+
+networks:
+  default:
+    name: traefik
+    external: true
