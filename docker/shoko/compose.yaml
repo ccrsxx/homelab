@@ -1,0 +1,23 @@
+services:
+  shoko:
+    shm_size: 256m
+    container_name: shoko
+    image: ghcr.io/shokoanime/server:latest
+    restart: unless-stopped
+    environment:
+      - 'PUID=10000'
+      - 'PGID=10000'
+      - 'TZ=Asia/Jakarta'
+    ports:
+      - '8111:8111'
+    volumes:
+      - '/docker/appdata/shoko:/home/shoko/.shoko'
+      - '/mnt/data:/data'
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.shoko.rule=Host(`shoko.${DOMAIN_MAIN_SECONDARY}`)'
+
+networks:
+  default:
+    name: traefik
+    external: true
