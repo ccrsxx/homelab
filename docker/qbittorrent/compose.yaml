@@ -1,7 +1,7 @@
 services:
-  gluetun:
+  gluetun-qbittorrent:
     image: qmcgaw/gluetun:v3.40
-    container_name: gluetun
+    container_name: gluetun-qbittorrent
     cap_add:
       - NET_ADMIN
     devices:
@@ -12,13 +12,10 @@ services:
       - UPDATE_PERIOD=24h
       - UPDATER_VPN_SERVICE_PROVIDERS=protonvpn
       - VPN_TYPE=wireguard
-      # - VPN_TYPE=openvpn
       - VPN_SERVICE_PROVIDER=protonvpn
       - PORT_FORWARD_ONLY=on
       - VPN_PORT_FORWARDING=on
       - SERVER_COUNTRIES=Singapore
-      # - OPENVPN_USER=${OPENVPN_USER}
-      # - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
       - HEALTH_TARGET_ADDRESS=google.com:443
       - HEALTH_VPN_DURATION_INITIAL=10s
@@ -26,7 +23,7 @@ services:
       - HEALTH_SUCCESS_WAIT_DURATION=20s
       - VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c '/usr/bin/wget -O- --retry-connrefused --post-data "json={\"listen_port\":{{PORTS}}}" http://127.0.0.1:2323/api/v2/app/setPreferences 2>&1'
     volumes:
-      - /docker/appdata/gluetun:/gluetun
+      - /docker/appdata/gluetun-qbittorrent:/gluetun
     ports:
       - 2323:2323
     restart: always
@@ -36,9 +33,9 @@ services:
     container_name: qbittorrent
     restart: unless-stopped
     depends_on:
-      gluetun:
+      gluetun-qbittorrent:
         condition: service_healthy
-    network_mode: service:gluetun
+    network_mode: service:gluetun-qbittorrent
     environment:
       - PUID=10000
       - PGID=10000
@@ -46,6 +43,7 @@ services:
       - TZ=Asia/Jakarta
       - WEBUI_PORT=2323
     volumes:
+      - ./scripts:/scripts
       - /docker/appdata/qbittorrent:/config
       - /mnt/data/torrents:/data/torrents
     labels:
