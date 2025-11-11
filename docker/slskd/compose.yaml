@@ -1,0 +1,75 @@
+services:
+  gluetun-slskd:
+    image: qmcgaw/gluetun:v3.40
+    container_name: gluetun-slskd
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - TZ=Asia/Jakarta
+      - DOT=off
+      - UPDATE_PERIOD=24h
+      - UPDATER_VPN_SERVICE_PROVIDERS=protonvpn
+      - VPN_TYPE=wireguard
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - PORT_FORWARD_ONLY=on
+      - VPN_PORT_FORWARDING=on
+      - SERVER_COUNTRIES=Singapore
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - HEALTH_TARGET_ADDRESS=google.com:443
+      - HEALTH_VPN_DURATION_INITIAL=10s
+      - HEALTH_VPN_DURATION_ADDITION=20s
+      - HEALTH_SUCCESS_WAIT_DURATION=20s
+      - >-
+        VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c "sed -i 's/listen_port:.*/listen_port: {{PORTS}}/' /app/slskd.yml"
+    volumes:
+      - ./config/slskd:/app
+      - /docker/appdata/gluetun-slskd:/gluetun
+    ports:
+      - 5030:5030
+    restart: always
+
+  slskd:
+    image: slskd/slskd:latest
+    container_name: slskd
+    user: 10000:10000
+    environment:
+      - TZ=Asia/Jakarta
+      - SLSKD_UMASK=002
+      - SLSKD_SLSK_USERNAME=${SLSKD_SLSK_USERNAME}
+      - SLSKD_SLSK_PASSWORD=${SLSKD_SLSK_PASSWORD}
+      - SLSKD_REMOTE_CONFIGURATION=true
+    depends_on:
+      gluetun-slskd:
+        condition: service_healthy
+    network_mode: service:gluetun-slskd
+    volumes:
+      - ./config/slskd:/app
+      - /mnt/data/media/music:/music:ro
+      - /mnt/data/soulseek/music:/app/downloads
+      - /mnt/data/soulseek/incomplete:/app/incomplete
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.slskd.rule=Host(`slskd.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.services.slskd.loadbalancer.server.port=5030'
+
+  soularr:
+    image: mrusse08/soularr:latest
+    container_name: soularr
+    user: 10000:10000
+    environment:
+      - TZ=Asia/Jakarta
+      - SCRIPT_INTERVAL=300
+    volumes:
+      - ./config/soularr:/data
+      - /mnt/data/soulseek/music:/downloads
+    restart: unless-stopped
+    depends_on:
+      - slskd
+
+networks:
+  default:
+    name: traefik
+    external: true
