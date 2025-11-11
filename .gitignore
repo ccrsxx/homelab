@@ -208,3 +208,6 @@ node_modules/
 !/docker/homepage/config/settings.yaml
 !/docker/homepage/config/widgets.yaml
 
+# Ignore all config for the slskd
+/docker/slskd/config/*
+
