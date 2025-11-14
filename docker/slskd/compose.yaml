@@ -35,11 +35,28 @@ services:
     container_name: slskd
     user: 10000:10000
     environment:
+      # General
       - TZ=Asia/Jakarta
       - SLSKD_UMASK=002
+      - SLSKD_REMOTE_CONFIGURATION=true
+
+      # Web auth
+      - SLSKD_USERNAME=${SLSKD_USERNAME}
+      - SLSKD_PASSWORD=${SLSKD_PASSWORD}
+
+      # Soulseek account
       - SLSKD_SLSK_USERNAME=${SLSKD_SLSK_USERNAME}
       - SLSKD_SLSK_PASSWORD=${SLSKD_SLSK_PASSWORD}
-      - SLSKD_REMOTE_CONFIGURATION=true
+
+      # Soulseek profile
+      - SLSKD_SLSK_PICTURE=${SLSKD_SLSK_PICTURE}
+      - SLSKD_SLSK_DESCRIPTION=${SLSKD_SLSK_DESCRIPTION}
+
+      # Shared directories
+      - SLSKD_SHARED_DIR=[Music]/music
+
+      # Shared directories cache retention (minutes)
+      - SLSKD_SHARE_CACHE_RETENTION=1440 # Refresh cache daily
     depends_on:
       gluetun-slskd:
         condition: service_healthy
