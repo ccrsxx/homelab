@@ -1,5 +1,9 @@
 http:
   routers:
+    uptime-kuma-vps:
+      rule: Host(`uptime.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: uptime-kuma-vps
+
     pgadmin-vps:
       rule: Host(`pgadmin-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: pgadmin-vps
@@ -13,6 +17,11 @@ http:
       service: jdownloader-vps
 
   services:
+    uptime-kuma-vps:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "IP_VPS_MAIN" }}:3001
+
     pgadmin-vps:
       loadBalancer:
         servers:
