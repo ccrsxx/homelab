@@ -4,8 +4,11 @@ from utils.env import app_env
 
 
 def main() -> None:
-    # Turn off Homelab
+    # Turn off Homelab Proxmox
     subprocess.run(['ssh', 'proxmox'])
+
+    # Turn off Homelab Ubuntu
+    subprocess.run(['ssh', 'ubuntu'])
 
     # Turn off PC if regardless if it's on or off
     subprocess.run(
