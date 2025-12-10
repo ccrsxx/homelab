@@ -10,6 +10,7 @@ services:
       - ./secrets/cookies.txt:/config/cookies.txt
       - ~/drive/share/caddy/metube:/downloads
     environment:
+      - OUTPUT_TEMPLATE=%(title)s [%(id)s].%(ext)s
       - YTDL_OPTIONS_FILE=/config/config.json
       - DELETE_FILE_ON_TRASHCAN=true
       - DEFAULT_OPTION_PLAYLIST_ITEM_LIMIT=4
