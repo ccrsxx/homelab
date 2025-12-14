@@ -1,5 +1,3 @@
-version: 0.16-0
-
 ui:
   time_format: 24hour
 
@@ -19,15 +17,24 @@ model:
   path: /openvino-model/ssdlite_mobilenet_v2.xml
   labelmap_path: /openvino-model/coco_91cl_bkgr.txt
 
+audio:
+  enabled: true
+  listen:
+    - yell
+    - music
+    - scream
+    - speech
+
 ffmpeg:
   hwaccel_args: preset-intel-qsv-h264
 
 detect:
   enabled: true
+  fps: 10
 
 notifications:
   enabled: true
-  email: 'frigate@ccrsxx.com'
+  email: frigate@ccrsxx.com
 
 record:
   enabled: true
@@ -55,25 +62,58 @@ genai:
   model: gemini-2.5-flash
 
 go2rtc:
-  streams:
-    bedroom_cam:
-      - '{FRIGATE_RTSP_CAM_BEDROOM}'
-      - '{FRIGATE_ISAPI_CAM_BEDROOM}'
-      - ffmpeg:bedroom_cam#audio=opus
   webrtc:
     candidates:
       - 192.168.1.100:8555
       - stun:8555
+  streams:
+    bedroom_cam:
+      - '{FRIGATE_RTSP_CAM_BEDROOM}'
+      - '{FRIGATE_ISAPI_CAM_BEDROOM}'
+      - 'ffmpeg:bedroom_cam#audio=opus'
+    bedroom_cam_sub:
+      - '{FRIGATE_RTSP_CAM_BEDROOM_SUB}'
+      - 'ffmpeg:bedroom_cam_sub#audio=opus'
+    kitchen_cam:
+      - '{FRIGATE_RTSP_CAM_KITCHEN}'
+      - '{FRIGATE_ISAPI_CAM_KITCHEN}'
+      - 'ffmpeg:kitchen_cam#audio=opus'
+    kitchen_cam_sub:
+      - '{FRIGATE_RTSP_CAM_KITCHEN_SUB}'
+      - 'ffmpeg:kitchen_cam_sub#audio=opus'
 
 cameras:
   bedroom_cam:
     ffmpeg:
       inputs:
-        - path: '{FRIGATE_RTSP_CAM_BEDROOM}'
+        - path: rtsp://127.0.0.1:8554/bedroom_cam
+          input_args: preset-rtsp-restream
           roles:
-            - detect
             - record
+        - path: rtsp://127.0.0.1:8554/bedroom_cam_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - audio
+            - detect
     genai:
       enabled: false
     notifications:
       enabled: true
+  kitchen_cam:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/kitchen_cam
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/kitchen_cam_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - audio
+            - detect
+    genai:
+      enabled: false
+    notifications:
+      enabled: true
+
+version: 0.16-0
