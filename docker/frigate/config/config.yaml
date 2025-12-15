@@ -112,7 +112,7 @@ cameras:
             - audio
             - detect
     genai:
-      enabled: false
+      enabled: true
     notifications:
       enabled: true
 
