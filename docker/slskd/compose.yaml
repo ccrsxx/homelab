@@ -1,6 +1,6 @@
 services:
   gluetun-slskd:
-    image: qmcgaw/gluetun:v3.40
+    image: qmcgaw/gluetun:v3.40.3
     container_name: gluetun-slskd
     cap_add:
       - NET_ADMIN

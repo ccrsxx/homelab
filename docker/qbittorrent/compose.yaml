@@ -1,6 +1,6 @@
 services:
   gluetun-qbittorrent:
-    image: qmcgaw/gluetun:v3.40
+    image: qmcgaw/gluetun:v3.40.3
     container_name: gluetun-qbittorrent
     cap_add:
       - NET_ADMIN
