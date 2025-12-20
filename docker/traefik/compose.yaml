@@ -59,6 +59,8 @@ services:
       # Experimental Plugins
       - '--experimental.plugins.themepark.modulename=github.com/packruler/traefik-themepark'
       - '--experimental.plugins.themepark.version=v1.4.2'
+      - '--experimental.plugins.geoblock.modulename=github.com/PascalMinder/geoblock'
+      - '--experimental.plugins.geoblock.version=v0.3.4'
 
     ports:
       # The HTTP port
@@ -73,7 +75,7 @@ services:
 
     volumes:
       # So that Traefik can listen to the Docker events
-      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
       - './letsencrypt:/letsencrypt'
       - '.${CUSTOM_CONFIG_DIR:-/config}:/config'
 

@@ -1,5 +1,18 @@
 http:
   middlewares:
+    allow-trusted-geo-ips:
+      plugin:
+        geoblock:
+          blackListMode: false
+          countries:
+            - "ID"
+            - "SG"
+            - "US"
+          allowLocalRequests: true
+          allowUnknownCountries: false
+          cacheSize: 15
+          api: "https://get.geojs.io/v1/ip/country/{ip}"
+
     rate-limit:
       rateLimit:
         average: 600

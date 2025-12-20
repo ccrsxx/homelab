@@ -1,0 +1,14 @@
+http:
+  routers:
+    jellyfin:
+      rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
+      service: jellyfin
+      middlewares:
+        - allow-trusted-geo-ips
+        - rate-limit
+
+  services:
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: http://wg-easy:8096
