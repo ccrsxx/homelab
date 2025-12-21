@@ -4,7 +4,7 @@ services:
     image: traefik:v3.1
 
     # Set traefik resource
-    cpus: 2
+    cpus: 1
 
     # Name
     container_name: traefik
