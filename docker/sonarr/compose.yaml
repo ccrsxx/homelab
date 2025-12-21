@@ -17,8 +17,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.sonarr.middlewares=sonarr-theme@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

@@ -29,6 +29,9 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.ntopng.rule=Host(`ntopng.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - default
+      - traefik
 
   nprobe:
     container_name: nprobe
@@ -57,6 +60,5 @@ services:
     entrypoint: /restarter.sh
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

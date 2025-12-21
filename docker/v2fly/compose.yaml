@@ -24,7 +24,9 @@ services:
       - 'traefik.http.routers.v2fly-trojan.middlewares=cloudflare-ip-allowlist@file,public-rate-limit@file'
       - 'traefik.http.services.v2fly-trojan.loadbalancer.server.port=10087'
 
+    networks:
+      - traefik
+
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

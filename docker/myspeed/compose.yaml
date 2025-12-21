@@ -10,8 +10,9 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.myspeed.rule=Host(`myspeed.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

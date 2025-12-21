@@ -87,6 +87,5 @@ services:
       - slskd
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

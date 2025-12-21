@@ -17,8 +17,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.lidarr.middlewares=lidarr-theme@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

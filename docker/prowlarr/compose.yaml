@@ -16,8 +16,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.prowlarr.rule=Host(`prowlarr.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.prowlarr.middlewares=prowlarr-theme@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

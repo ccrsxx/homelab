@@ -72,8 +72,9 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.homepage.rule=Host(`homepage.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

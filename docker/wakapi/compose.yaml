@@ -22,6 +22,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.wakapi.rule=Host(`wakapi.${DOMAIN_MAIN_PRIMARY}`) || Host(`wakapi.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.wakapi.middlewares=cloudflare-ip-allowlist@file'
+    networks:
+      - traefik
+      - default
 
   db:
     image: postgres:17
@@ -37,6 +40,5 @@ volumes:
   wakapi-db-data:
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

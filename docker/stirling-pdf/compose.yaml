@@ -17,8 +17,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.stirling-pdf.rule=Host(`pdf.${DOMAIN_MAIN_PRIMARY}`) || Host(`pdf.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.stirling-pdf.middlewares=cloudflare-ip-allowlist@file,public-rate-limit@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

@@ -12,8 +12,9 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.pingvin-share.rule=Host(`share.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

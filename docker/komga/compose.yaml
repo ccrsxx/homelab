@@ -14,8 +14,9 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.komga.rule=Host(`komga.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

@@ -37,8 +37,9 @@ services:
       - 'traefik.http.routers.frigate.rule=Host(`frigate.${DOMAIN_MAIN_PRIMARY}`) || Host(`frigate.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.services.frigate.loadbalancer.server.port=8971'
       - 'traefik.http.services.frigate.loadbalancer.server.scheme=https'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

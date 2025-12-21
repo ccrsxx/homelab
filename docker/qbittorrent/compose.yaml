@@ -27,6 +27,8 @@ services:
     ports:
       - 2323:2323
     restart: always
+    networks:
+      - traefik
 
   qbittorrent:
     image: linuxserver/qbittorrent:latest
@@ -53,6 +55,5 @@ services:
       - 'traefik.http.services.qbittorrent.loadbalancer.server.port=2323'
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true
