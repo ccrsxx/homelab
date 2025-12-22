@@ -5,7 +5,7 @@ services:
     image: ghcr.io/wg-easy/wg-easy:15
     container_name: wg-easy
     networks:
-      default:
+      wg-easy:
         ipv4_address: 10.42.42.42
         ipv6_address: fdcc:ad94:bacf:61a3::2a
       traefik:
@@ -33,8 +33,7 @@ volumes:
   etc_wireguard:
 
 networks:
-  default:
-    name: wg-easy
+  wg-easy:
     driver: bridge
     enable_ipv6: true
     ipam:
