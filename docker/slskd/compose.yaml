@@ -55,15 +55,15 @@ services:
       # Shared directories cache retention (minutes)
       - SLSKD_SHARE_CACHE_RETENTION=1440 # Refresh cache daily
 
-      # Soulseek upload/download speed (KiB) and slots
-
-      # Upload | 20 Mbps Upload / 10 Slots
-      - SLSKD_UPLOAD_SPEED_LIMIT=2560
-      - SLSKD_UPLOAD_SLOTS=10
+      # Soulseek download / upload speed (KiB) and their slots
 
       # Download | 40 Mbps Download / 500 slots
       - SLSKD_DOWNLOAD_SPEED_LIMIT=5120
       - SLSKD_DOWNLOAD_SLOTS=500
+
+      # Upload | 20 Mbps Upload / 10 Slots
+      - SLSKD_UPLOAD_SPEED_LIMIT=2560
+      - SLSKD_UPLOAD_SLOTS=10
     depends_on:
       gluetun-slskd:
         condition: service_healthy
