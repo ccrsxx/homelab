@@ -30,6 +30,9 @@ services:
       - 'traefik.http.routers.unifi.rule=Host(`unifi.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.services.unifi.loadbalancer.server.port=8443'
       - 'traefik.http.services.unifi.loadbalancer.server.scheme=https'
+    networks:
+      - traefik
+      - default
 
   unifi-db:
     image: mongo:8
@@ -47,6 +50,5 @@ services:
     restart: unless-stopped
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

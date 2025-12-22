@@ -13,8 +13,9 @@ services:
       - 'traefik.http.routers.uptime-kuma.middlewares=cloudflare-ip-allowlist@file,public-rate-limit@file'
       - 'traefik.http.routers.uptime-kuma-admin.rule=(Host(`uptime.${DOMAIN_MAIN_PRIMARY}`) || Host(`uptime.${DOMAIN_MAIN_SECONDARY}`)) && (Path(`/dashboard`) || Path(`/manage-status-page`))'
       - 'traefik.http.routers.uptime-kuma-admin.middlewares=cloudflare-ip-allowlist@file,public-ip-allowlist@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

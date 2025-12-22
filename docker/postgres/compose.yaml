@@ -31,10 +31,12 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.pgadmin.rule=Host(`pgadmin.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+      - default
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true
 
 secrets:

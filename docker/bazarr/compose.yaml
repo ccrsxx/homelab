@@ -17,8 +17,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.bazarr.rule=Host(`bazarr.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.bazarr.middlewares=bazarr-theme@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

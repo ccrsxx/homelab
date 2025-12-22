@@ -17,8 +17,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.radarr-anime.rule=Host(`radarr-anime.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.radarr-anime.middlewares=radarr-theme@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

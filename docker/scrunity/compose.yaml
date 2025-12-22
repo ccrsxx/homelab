@@ -34,8 +34,10 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+      - default
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

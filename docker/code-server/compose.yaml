@@ -16,8 +16,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.code-server.rule=Host(`code.${DOMAIN_MAIN_PRIMARY}`) || Host(`code.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.routers.code-server.middlewares=cloudflare-ip-allowlist@file,public-ip-allowlist@file'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

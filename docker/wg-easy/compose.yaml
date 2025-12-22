@@ -1,7 +1,23 @@
 services:
   wg-easy:
-    image: ghcr.io/wg-easy/wg-easy:14
+    environment:
+      - INSECURE=true
+    image: ghcr.io/wg-easy/wg-easy:15
     container_name: wg-easy
+    networks:
+      default:
+        ipv4_address: 10.42.42.42
+        ipv6_address: fdcc:ad94:bacf:61a3::2a
+      traefik:
+    volumes:
+      - etc_wireguard:/etc/wireguard
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - '51820:51820/udp'
+      - '51821:51821/tcp'
+
+      # Port Forwardded Ports
+      - '42780:42780/udp'
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
@@ -9,30 +25,22 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
-    environment:
-      LANG: en
-      WG_HOST: ${WG_HOST}
-      PASSWORD_HASH: ${PASSWORD_HASH}
-      WG_DEFAULT_DNS: ${WG_DEFAULT_DNS}
-      WG_DEFAULT_ADDRESS: ${WG_DEFAULT_ADDRESS}
-      WG_POST_UP: >
-        iptables -A FORWARD -i wg0 -j ACCEPT;
-        iptables -t nat -A POSTROUTING -o wg+ -j MASQUERADE;
-        iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;
-        iptables -t nat -A PREROUTING -i eth0 -p udp --dport 42780 -j DNAT --to-destination 10.8.0.10:42780;
-      WG_POST_DOWN: >
-        iptables -D FORWARD -i wg0 -j ACCEPT;
-        iptables -t nat -D POSTROUTING -o wg+ -j MASQUERADE;
-        iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE;
-        iptables -t nat -D PREROUTING -i eth0 -p udp --dport 42780 -j DNAT --to-destination 10.8.0.10:42780;
-    volumes:
-      - etc_wireguard:/etc/wireguard
-    ports:
-      - '51820:51820/udp'
-      - '51821:51821/tcp'
-
-      # Port Forwardded Ports
-      - '42780:42780/udp'
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv6.conf.default.forwarding=1
 
 volumes:
   etc_wireguard:
+
+networks:
+  default:
+    name: wg-easy
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.42.42.0/24
+        - subnet: fdcc:ad94:bacf:61a3::/64
+  traefik:
+    external: true

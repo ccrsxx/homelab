@@ -1,7 +1,7 @@
 services:
   feishin:
     container_name: feishin
-    image: 'ghcr.io/jeffvli/feishin:1.0.0-beta.8'
+    image: 'ghcr.io/jeffvli/feishin:1.0.1-beta.1'
     environment:
       - SERVER_NAME=docker
       - SERVER_LOCK=true

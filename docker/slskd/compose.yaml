@@ -8,7 +8,6 @@ services:
       - /dev/net/tun:/dev/net/tun
     environment:
       - TZ=Asia/Jakarta
-      - DOT=off
       - UPDATE_PERIOD=24h
       - UPDATER_VPN_SERVICE_PROVIDERS=protonvpn
       - VPN_TYPE=wireguard
@@ -17,10 +16,6 @@ services:
       - VPN_PORT_FORWARDING=on
       - SERVER_COUNTRIES=Singapore
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - HEALTH_TARGET_ADDRESS=google.com:443
-      - HEALTH_VPN_DURATION_INITIAL=10s
-      - HEALTH_VPN_DURATION_ADDITION=20s
-      - HEALTH_SUCCESS_WAIT_DURATION=20s
       - >-
         VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c "sed -i 's/listen_port:.*/listen_port: {{PORTS}}/' /app/slskd.yml"
     volumes:
@@ -29,6 +24,8 @@ services:
     ports:
       - 5030:5030
     restart: always
+    networks:
+      - traefik
 
   slskd:
     image: slskd/slskd:latest
@@ -85,8 +82,9 @@ services:
     restart: unless-stopped
     depends_on:
       - slskd
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

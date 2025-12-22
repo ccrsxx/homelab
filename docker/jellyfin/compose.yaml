@@ -19,8 +19,3 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.jellyfin.rule=Host(`jellyfin.${DOMAIN_MAIN_PRIMARY}`) || Host(`jellyfin.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.services.jellyfin.loadbalancer.server.port=8096'
-
-networks:
-  default:
-    name: traefik
-    external: true

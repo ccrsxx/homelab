@@ -14,8 +14,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.jdownloader.rule=Host(`jdownloader.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.services.jdownloader.loadbalancer.server.port=5800'
+    networks:
+      - traefik
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

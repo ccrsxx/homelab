@@ -12,8 +12,3 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.upsnap.rule=Host(`upsnap.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.services.upsnap.loadbalancer.server.port=8090'
-
-networks:
-  default:
-    name: traefik
-    external: true

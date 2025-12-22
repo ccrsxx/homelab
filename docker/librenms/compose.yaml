@@ -67,6 +67,9 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.librenms.rule=Host(`librenms.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.services.librenms.loadbalancer.server.port=8000'
+    networks:
+      - traefik
+      - default
 
   dispatcher:
     image: librenms/librenms:latest
@@ -162,6 +165,5 @@ services:
     restart: always
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true

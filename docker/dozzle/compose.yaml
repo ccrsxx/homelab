@@ -20,12 +20,13 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.dozzle.rule=Host(`dozzle.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
 
 secrets:
   users:
     file: './secrets/users.yaml'
 
 networks:
-  default:
-    name: traefik
+  traefik:
     external: true
