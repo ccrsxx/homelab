@@ -1,9 +1,9 @@
 import sys
 from typing import Final, Literal, cast
 
+from utils.homelab import disable_slskd, enable_slskd, play_sound
 from utils.notification import send_discord, send_pushover
-from utils.qbittorrent import disable_torrents, enable_torrents
-from utils.ubuntu import play_sound
+from utils.qbittorrent import disable_qbittorrents, enable_qbittorrents
 from utils.uptime_kuma import add_failover_notice, remove_failover_notice
 
 VALID_EVENT = Literal['up', 'down']
@@ -27,7 +27,9 @@ def trigger_up_event() -> None:
     play_sound('internet-up.wav')
 
     remove_failover_notice()
-    enable_torrents()
+
+    enable_qbittorrents()
+    enable_slskd()
 
     up_event_message = 'Iconnet is up. Primary WAN connection is up. Failover is over.'
 
@@ -39,7 +41,9 @@ def trigger_down_event() -> None:
     play_sound('internet-down.wav')
 
     add_failover_notice()
-    disable_torrents()
+
+    disable_qbittorrents()
+    disable_slskd()
 
     down_event_message = (
         'Iconnet is down. Primary WAN connection is down. Using XL as a Failover now.'

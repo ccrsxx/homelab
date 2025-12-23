@@ -14,9 +14,9 @@ qbt_client: Final = qbittorrentapi.Client(
 qbt_client.auth_log_in()
 
 
-def enable_torrents() -> None:
+def enable_qbittorrents() -> None:
     qbt_client.app.setPreferences({'max_active_torrents': 100})
 
 
-def disable_torrents() -> None:
+def disable_qbittorrents() -> None:
     qbt_client.app.setPreferences({'max_active_torrents': 0})
