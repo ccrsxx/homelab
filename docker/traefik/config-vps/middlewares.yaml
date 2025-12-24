@@ -1,17 +1,37 @@
+x-geoblock-defaults: &geoblock-defaults
+  blackListMode: false
+  allowLocalRequests: true
+  allowUnknownCountries: false
+  cacheSize: 15
+  api: "https://get.geojs.io/v1/ip/country/{ip}"
+  allowedIPAddresses:
+    - {{ env "IP_VPS_MAIN" }}
+
 http:
   middlewares:
+    allow-id-ips:
+      plugin:
+        geoblock:
+          <<: *geoblock-defaults
+          countries:
+            - "ID"
+
+    allow-sg-us-ips:
+      plugin:
+        geoblock:
+          <<: *geoblock-defaults
+          countries:
+            - "SG"
+            - "US"
+
     allow-trusted-geo-ips:
       plugin:
         geoblock:
-          blackListMode: false
+          <<: *geoblock-defaults
           countries:
             - "ID"
             - "SG"
             - "US"
-          allowLocalRequests: true
-          allowUnknownCountries: false
-          cacheSize: 15
-          api: "https://get.geojs.io/v1/ip/country/{ip}"
 
     rate-limit:
       rateLimit:
