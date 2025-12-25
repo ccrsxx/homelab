@@ -1,7 +1,7 @@
 services:
   traefik:
     # The official v3 Traefik docker image
-    image: traefik:v3.1
+    image: traefik:v3.6
 
     # Set traefik resource
     cpus: 1
@@ -15,7 +15,7 @@ services:
     # Enables the web UI and tells Traefik to listen to docker
     command:
       # Debug log level
-      - '--log.level=DEBUG'
+      - '--log.level=INFO'
 
       # Enable the Secured Web UI
       - '--api.insecure=true'
@@ -54,7 +54,7 @@ services:
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge=true'
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare'
       - '--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53'
-      - '--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=60'
+      - '--certificatesresolvers.letsencrypt.acme.dnschallenge.propagation.delaybeforechecks=60'
 
       # Experimental Plugins
       - '--experimental.plugins.themepark.modulename=github.com/packruler/traefik-themepark'
