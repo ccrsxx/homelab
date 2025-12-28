@@ -10,12 +10,13 @@ detectors:
     device: GPU
 
 model:
-  width: 300
-  height: 300
-  input_tensor: nhwc
-  input_pixel_format: bgr
-  path: /openvino-model/ssdlite_mobilenet_v2.xml
-  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+  model_type: yolo-generic
+  width: 320
+  height: 320
+  input_tensor: nchw
+  input_dtype: float
+  path: /config/model_cache/yolov9-s-320.onnx
+  labelmap_path: /labelmap/coco-80.txt
 
 audio:
   enabled: true
@@ -38,17 +39,18 @@ notifications:
 
 record:
   enabled: true
-  retain:
+  continuous:
     days: 30
-    mode: all
+  motion:
+    days: 30
   alerts:
     retain:
       days: 30
-      mode: motion
+      mode: all
   detections:
     retain:
       days: 30
-      mode: motion
+      mode: all
 
 semantic_search:
   enabled: true
@@ -56,7 +58,6 @@ semantic_search:
   model_size: large
 
 genai:
-  enabled: true
   provider: gemini
   api_key: '{FRIGATE_GEMINI_API_KEY}'
   model: gemini-2.5-flash
@@ -70,17 +71,17 @@ go2rtc:
     bedroom_cam:
       - '{FRIGATE_RTSP_CAM_BEDROOM}'
       - '{FRIGATE_ISAPI_CAM_BEDROOM}'
-      - 'ffmpeg:bedroom_cam#audio=opus'
+      - ffmpeg:bedroom_cam#audio=opus
     bedroom_cam_sub:
       - '{FRIGATE_RTSP_CAM_BEDROOM_SUB}'
-      - 'ffmpeg:bedroom_cam_sub#audio=opus'
+      - ffmpeg:bedroom_cam_sub#audio=opus
     kitchen_cam:
       - '{FRIGATE_RTSP_CAM_KITCHEN}'
       - '{FRIGATE_ISAPI_CAM_KITCHEN}'
-      - 'ffmpeg:kitchen_cam#audio=opus'
+      - ffmpeg:kitchen_cam#audio=opus
     kitchen_cam_sub:
       - '{FRIGATE_RTSP_CAM_KITCHEN_SUB}'
-      - 'ffmpeg:kitchen_cam_sub#audio=opus'
+      - ffmpeg:kitchen_cam_sub#audio=opus
 
 cameras:
   bedroom_cam:
@@ -95,10 +96,11 @@ cameras:
           roles:
             - audio
             - detect
-    genai:
-      enabled: false
     notifications:
       enabled: true
+    objects:
+      genai:
+        enabled: false
   kitchen_cam:
     ffmpeg:
       inputs:
@@ -111,9 +113,14 @@ cameras:
           roles:
             - audio
             - detect
-    genai:
-      enabled: false
     notifications:
       enabled: true
+    objects:
+      genai:
+        enabled: false
 
-version: 0.16-0
+objects:
+  genai:
+    enabled: true
+
+version: 0.17-0
