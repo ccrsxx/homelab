@@ -37,6 +37,7 @@ services:
       - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
       - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
       - '--entrypoints.websecure.address=:443'
+      - '--entrypoints.websecure.http3=true'
       - '--entrypoints.websecure.asdefault=true'
       - '--entrypoints.websecure.forwardedheaders.trustedips=${IP_ALLOWLIST_CLOUDFLARE}'
 
@@ -69,7 +70,8 @@ services:
       # The HTTP port
       - '80:80'
       # The HTTPS port
-      - '443:443'
+      - '443:443/tcp'
+      - '443:443/udp'
       # The Web UI (enabled by --api.insecure=true)
       - '8010:8080'
 
