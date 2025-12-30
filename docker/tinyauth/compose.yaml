@@ -6,6 +6,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
+      - LOG_LEVEL=info
       - APP_URL=${APP_URL}
       - APP_TITLE=Auth
       - BACKGROUND_IMAGE=${BACKGROUND_IMAGE}
@@ -17,6 +18,7 @@ services:
       - PROVIDERS_GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
     labels:
       - 'tinyauth.apps.jellyfin.ip.bypass=${IP_BYPASS_LIST}'
+      - 'tinyauth.apps.jellyfin.path.allow=${JELLYFIN_PATH_ALLOWLIST}'
 
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.tinyauth.rule=Host(`auth.${DOMAIN_MAIN_PRIMARY}`)'

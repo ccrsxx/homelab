@@ -3,6 +3,7 @@ x-geoblock-defaults: &geoblock-defaults
   allowLocalRequests: true
   allowUnknownCountries: false
   cacheSize: 15
+  apiTimeoutMs: 5000
   api: "https://get.geojs.io/v1/ip/country/{ip}"
   allowedIPAddresses:
     - {{ env "IP_VPS_MAIN" }}
