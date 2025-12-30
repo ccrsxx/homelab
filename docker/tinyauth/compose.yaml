@@ -8,6 +8,7 @@ services:
     environment:
       - APP_URL=${APP_URL}
       - APP_TITLE=Auth
+      - BACKGROUND_IMAGE=${BACKGROUND_IMAGE}
       - USERS=${USERS}
       - DISABLE_ANALYTICS=true
       - PROVIDERS_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
