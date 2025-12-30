@@ -6,6 +6,14 @@ http:
       middlewares:
         - allow-id-ips
         - rate-limit
+        - tinyauth@docker
+
+    jellyfin-preflight:
+      rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_PRIMARY" }}`) && Method(`OPTIONS`)
+      service: jellyfin
+      middlewares:
+        - allow-id-ips
+        - rate-limit
 
   services:
     jellyfin:

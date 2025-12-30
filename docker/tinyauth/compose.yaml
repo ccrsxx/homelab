@@ -1,0 +1,27 @@
+services:
+  tinyauth:
+    image: ghcr.io/steveiliop56/tinyauth:v4
+    container_name: tinyauth
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - APP_URL=${APP_URL}
+      - APP_TITLE=Auth
+      - USERS=${USERS}
+      - LOG_LEVEL=debug
+      - DISABLE_ANALYTICS=true
+      - PROVIDERS_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - PROVIDERS_GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+    labels:
+      - 'tinyauth.apps.jellyfin.ip.bypass=${IP_BYPASS_LIST}'
+
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.tinyauth.rule=Host(`auth.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
