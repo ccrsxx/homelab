@@ -22,8 +22,8 @@ services:
       - ./policies.json:/etc/chromium/policies/managed/policies.json
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.neko.rule=Host(`neko.${DOMAIN_MAIN_PRIMARY}`) || Host(`neko.${DOMAIN_MAIN_SECONDARY}`)'
-      - 'traefik.http.routers.neko.middlewares=cloudflare-ip-allowlist@file,public-rate-limit@file'
+      - 'traefik.http.routers.neko.rule=Host(`neko.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.neko.middlewares=tinyauth'
     networks:
       - traefik
 

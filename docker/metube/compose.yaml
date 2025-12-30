@@ -15,3 +15,15 @@ services:
       - DELETE_FILE_ON_TRASHCAN=true
       - DEFAULT_OPTION_PLAYLIST_ITEM_LIMIT=4
       - DEFAULT_OPTION_PLAYLIST_STRICT_MODE=true
+    labels:
+      - 'tinyauth.apps.metube.path.allow=^\/(download|audio_download)'
+
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.metube.rule=Host(`metube.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.metube.middlewares=tinyauth'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
