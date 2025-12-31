@@ -25,7 +25,14 @@ services:
       - PROVIDERS_POCKETID_SCOPES=${PROVIDERS_POCKETID_SCOPES}
       - PROVIDERS_POCKETID_NAME=${PROVIDERS_POCKETID_NAME}
     labels:
-      - 'tinyauth.apps.jellyfin.ip.bypass=${IP_BYPASS_LIST}'
+      - 'tinyauth.apps.metube.config.domain=metube.${DOMAIN_MAIN_PRIMARY}'
+      - 'tinyauth.apps.metube.path.allow=^\/(download|audio_download)'
+
+      - 'tinyauth.apps.frigate.config.domain=frigate.${DOMAIN_MAIN_PRIMARY}'
+      - 'tinyauth.apps.frigate.oauth.whitelist=${OAUTH_WHITELIST}'
+
+      - 'tinyauth.apps.jellyfin.config.domain=jellyfin.${DOMAIN_MAIN_PRIMARY}'
+      - 'tinyauth.apps.jellyfin.ip.bypass=${IP_WHITELIST}'
       - 'tinyauth.apps.jellyfin.path.allow=${JELLYFIN_PATH_ALLOWLIST}'
 
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
