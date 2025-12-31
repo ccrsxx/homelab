@@ -33,7 +33,7 @@ services:
 
       - 'tinyauth.apps.jellyfin.config.domain=jellyfin.${DOMAIN_MAIN_PRIMARY}'
       - 'tinyauth.apps.jellyfin.ip.bypass=${IP_WHITELIST}'
-      - 'tinyauth.apps.jellyfin.path.allow=${JELLYFIN_PATH_ALLOWLIST}'
+      - 'tinyauth.apps.jellyfin.path.allow=${JELLYFIN_PATH_WHITELIST}'
 
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.tinyauth.rule=Host(`auth.${DOMAIN_MAIN_PRIMARY}`)'
