@@ -1,5 +1,9 @@
 http:
   middlewares:
+    tinyauth:
+      forwardAuth:
+        address: https://auth.{{ env "DOMAIN_MAIN_PRIMARY" }}/api/auth/traefik
+
     rate-limit:
       rateLimit:
         average: 600
