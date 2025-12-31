@@ -34,9 +34,17 @@ services:
       - FRIGATE_ISAPI_CAM_KITCHEN=${FRIGATE_ISAPI_CAM_KITCHEN}
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.frigate.rule=Host(`frigate.${DOMAIN_MAIN_PRIMARY}`) || Host(`frigate.${DOMAIN_MAIN_SECONDARY}`)'
+
+      - 'traefik.http.routers.frigate.service=frigate'
+      - 'traefik.http.routers.frigate.rule=Host(`frigate.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.frigate.middlewares=tinyauth@file'
       - 'traefik.http.services.frigate.loadbalancer.server.port=8971'
       - 'traefik.http.services.frigate.loadbalancer.server.scheme=https'
+
+      - 'traefik.http.routers.frigate-local.service=frigate-local'
+      - 'traefik.http.routers.frigate-local.rule=Host(`frigate.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.services.frigate-local.loadbalancer.server.port=8971'
+      - 'traefik.http.services.frigate-local.loadbalancer.server.scheme=https'
     networks:
       - traefik
 

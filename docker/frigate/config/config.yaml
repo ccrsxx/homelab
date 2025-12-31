@@ -124,3 +124,7 @@ objects:
     enabled: true
 
 version: 0.17-0
+auth:
+  roles:
+    family:
+      - kitchen_cam
