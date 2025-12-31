@@ -1,16 +1,22 @@
 http:
   routers:
     dev-webot:
-      rule: Host(`dev-webot.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      rule: Host(`dev-webot.{{ env "DOMAIN_MAIN_PRIMARY" }}`) || Host(`dev-webot.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: dev-webot
+      middlewares:
+        - tinyauth
 
     dev-frontend:
-      rule: Host(`dev-frontend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      rule: Host(`dev-frontend.{{ env "DOMAIN_MAIN_PRIMARY" }}`) || Host(`dev-frontend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: dev-frontend
+      middlewares:
+        - tinyauth
 
     dev-backend:
-      rule: Host(`dev-backend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      rule: Host(`dev-backend.{{ env "DOMAIN_MAIN_PRIMARY" }}`) || Host(`dev-backend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: dev-backend
+      middlewares:
+        - tinyauth
 
   services:
     dev-webot:
