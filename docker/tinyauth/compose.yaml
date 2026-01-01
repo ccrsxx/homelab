@@ -40,7 +40,7 @@ services:
 
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.tinyauth.rule=Host(`auth.${DOMAIN_MAIN_PRIMARY}`)'
-      - 'traefik.http.routers.tinyauth.middlewares=allow-trusted-geo-ips@file,rate-limit@file'
+      - 'traefik.http.routers.tinyauth.middlewares=allow-id-ips@file,rate-limit@file'
       - 'traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik'
     networks:
       - traefik
