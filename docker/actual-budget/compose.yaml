@@ -1,0 +1,19 @@
+services:
+  actual-budget:
+    image: actualbudget/actual-server:latest
+    container_name: actual-budget
+    ports:
+      - '5006:5006'
+    volumes:
+      - /docker/appdata/actual-budget:/data
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.actual.rule=Host(`actual.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.actual.middlewares=tinyauth'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

@@ -28,6 +28,9 @@ services:
       - 'tinyauth.apps.metube.config.domain=metube.${DOMAIN_MAIN_PRIMARY}'
       - 'tinyauth.apps.metube.path.allow=^\/(download|audio_download)'
 
+      - 'tinyauth.apps.actual.config.domain=actual.${DOMAIN_MAIN_PRIMARY}'
+      - 'tinyauth.apps.actual.oauth.whitelist=${OAUTH_WHITELIST}'
+
       - 'tinyauth.apps.frigate.config.domain=frigate.${DOMAIN_MAIN_PRIMARY}'
       - 'tinyauth.apps.frigate.oauth.whitelist=${OAUTH_WHITELIST}'
 
