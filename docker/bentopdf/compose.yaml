@@ -1,0 +1,6 @@
+services:
+  bentopdf:
+    image: bentopdf/bentopdf-simple:latest
+    ports:
+      - '8085:8080'
+    restart: unless-stopped
