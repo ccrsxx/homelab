@@ -40,6 +40,12 @@ http:
         burst: 100
         period: 1m
 
+    jellyfin-rate-limit:
+      rateLimit:
+        average: 1200
+        burst: 200
+        period: 1m
+
     public-rate-limit:
       rateLimit:
         average: 600
