@@ -15,6 +15,7 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.feishin.rule=Host(`feishin.${DOMAIN_MAIN_PRIMARY}`)'
       - 'traefik.http.routers.feishin.middlewares=tinyauth'
+      - 'traefik.http.services.feishin.loadbalancer.server.port=9180'
     networks:
       - traefik
 
