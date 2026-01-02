@@ -34,15 +34,15 @@ services:
         condition: service_healthy
     network_mode: service:gluetun-qbittorrent
     environment:
-      - PUID=10000
-      - PGID=10000
+      - PUID=${PUID:-10000}
+      - PGID=${PGID:-10000}
       - UMASK=002
       - TZ=Asia/Jakarta
       - WEBUI_PORT=2323
     volumes:
       - ./scripts:/scripts
       - /docker/appdata/qbittorrent:/config
-      - /mnt/data/torrents:/data/torrents
+      - ${TORRENT_DIRECTORY:-/mnt/data/torrents}:/data/torrents
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${DOMAIN_MAIN_SECONDARY}`)'
