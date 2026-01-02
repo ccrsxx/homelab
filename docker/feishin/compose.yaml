@@ -11,3 +11,13 @@ services:
     ports:
       - 9180:9180
     restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.feishin.rule=Host(`feishin.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.feishin.middlewares=tinyauth'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
