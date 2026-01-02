@@ -49,6 +49,23 @@ services:
       - 'traefik.http.routers.qbittorrent.middlewares=qbittorrent-theme@file'
       - 'traefik.http.services.qbittorrent.loadbalancer.server.port=2323'
 
+  qui:
+    image: ghcr.io/autobrr/qui:latest
+    container_name: qui
+    ports:
+      - '7476:7476'
+    volumes:
+      - /docker/appdata/qui:/config
+    restart: unless-stopped
+    depends_on:
+      gluetun-qbittorrent:
+        condition: service_healthy
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.qui.rule=Host(`qui.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+
 networks:
   traefik:
     external: true
