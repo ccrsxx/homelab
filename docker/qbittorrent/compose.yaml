@@ -46,7 +46,6 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${DOMAIN_MAIN_SECONDARY}`)'
-      - 'traefik.http.routers.qbittorrent.middlewares=qbittorrent-theme@file'
       - 'traefik.http.services.qbittorrent.loadbalancer.server.port=2323'
 
 networks:

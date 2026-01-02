@@ -35,9 +35,3 @@ http:
         themepark:
           app: adguard
           theme: hotline
-
-    qbittorrent-theme:
-      plugin:
-        themepark:
-          app: vuetorrent
-          theme: hotline
