@@ -33,7 +33,9 @@ class AppEnv(BaseModel):
     UPTIME_KUMA_PASSWORD: str = Field(description='Uptime Kuma password')
     UPTIME_KUMA_MAINTENANCE_ID: str = Field(description='Uptime Kuma maintenance ID')
 
-    QBITTORRENT_HOST: str = Field(description='qBittorrent host')
+    QBITTORRENT_PROXMOX_HOST: str = Field(description='qBittorrent Proxmox host')
+    QBITTORRENT_UBUNTU_HOST: str = Field(description='qBittorrent Ubuntu host')
+
     QBITTORRENT_PORT: str = Field(description='qBittorrent port')
     QBITTORRENT_USERNAME: str = Field(description='qBittorrent username')
     QBITTORRENT_PASSWORD: str = Field(description='qBittorrent password')
