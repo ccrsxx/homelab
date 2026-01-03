@@ -1,16 +1,24 @@
 services:
   feishin:
     container_name: feishin
-    image: 'ghcr.io/jeffvli/feishin:1.0.1-beta.1'
+    image: 'ghcr.io/jeffvli/feishin:latest'
     environment:
       - SERVER_NAME=docker
       - SERVER_LOCK=true
       - SERVER_TYPE=jellyfin
       - SERVER_URL=${SERVER_URL}
-      - PUID=1000
-      - PGID=1000
-      - UMASK=002
-      - TZ=Asia/Jakarta
+      - ANALYTICS_DISABLED=true
     ports:
       - 9180:9180
     restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.feishin.rule=Host(`feishin.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.feishin.middlewares=tinyauth'
+      - 'traefik.http.services.feishin.loadbalancer.server.port=9180'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

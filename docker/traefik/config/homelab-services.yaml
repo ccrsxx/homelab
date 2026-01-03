@@ -16,6 +16,10 @@ http:
       rule: Host(`home.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: home-assistant
 
+    qbittorrent-ubuntu:
+      rule: Host(`qbittorrent-ubuntu.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: qbittorrent-ubuntu
+
   services:
     proxmox:
       loadBalancer:
@@ -36,3 +40,8 @@ http:
       loadBalancer:
         servers:
           - url: http://192.168.1.201:8123
+
+    qbittorrent-ubuntu:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.3:2323

@@ -57,9 +57,9 @@ services:
 
       # Soulseek download / upload speed (KiB) and their slots
 
-      # Download | 40 Mbps Download / 20 slots
-      - SLSKD_DOWNLOAD_SPEED_LIMIT=5120
-      - SLSKD_DOWNLOAD_SLOTS=20
+      # Download | 80 Mbps Download / 40 slots
+      - SLSKD_DOWNLOAD_SPEED_LIMIT=10240
+      - SLSKD_DOWNLOAD_SLOTS=40
 
       # Upload | 20 Mbps Upload / 10 Slots
       - SLSKD_UPLOAD_SPEED_LIMIT=2560

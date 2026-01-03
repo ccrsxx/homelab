@@ -1,0 +1,18 @@
+services:
+  qui:
+    image: ghcr.io/autobrr/qui:latest
+    container_name: qui
+    ports:
+      - '7476:7476'
+    volumes:
+      - /docker/appdata/qui:/config
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.qui.rule=Host(`qui.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

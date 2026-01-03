@@ -129,3 +129,8 @@ auth:
       - kitchen_cam
 
 version: 0.17-0
+camera_groups:
+  Kitchen:
+    order: 1
+    icon: LuLogOut
+    cameras: kitchen_cam

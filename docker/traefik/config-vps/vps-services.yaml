@@ -5,7 +5,7 @@ http:
       service: jellyfin
       middlewares:
         - allow-id-ips
-        - rate-limit
+        - jellyfin-rate-limit
         - tinyauth@docker
 
   services:
