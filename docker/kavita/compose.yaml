@@ -1,0 +1,23 @@
+services:
+  kavita:
+    image: lscr.io/linuxserver/kavita:latest
+    container_name: kavita
+    volumes:
+      - /mnt/data:/data:ro
+      - /docker/appdata/kavita:/config
+    environment:
+      - PUID=10000
+      - PGID=10000
+      - TZ=Asia/Jakarta
+    ports:
+      - '5000:5000'
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.kavita.rule=Host(`kavita.${DOMAIN_MAIN_SECONDARY}`)'
+
+networks:
+  traefik:
+    external: true

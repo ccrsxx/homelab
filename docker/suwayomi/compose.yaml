@@ -1,0 +1,26 @@
+services:
+  suwayomi:
+    image: ghcr.io/suwayomi/suwayomi-server:preview
+    user: 10000:10000
+    environment:
+      - TZ=Asia/Jakarta
+      - FLARESOLVERR_ENABLED=true
+      - FLARESOLVERR_URL=http://192.168.1.100:8191
+      - AUTH_MODE=basic_auth
+      - AUTH_USERNAME=${AUTH_USERNAME}
+      - AUTH_PASSWORD=${AUTH_PASSWORD}
+    volumes:
+      - /docker/appdata/suwayomi:/home/suwayomi/.local/share/Tachidesk
+      - /mnt/data/suwayomi:/data/suwayomi
+    ports:
+      - '4567:4567'
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.suwayomi.rule=Host(`suwayomi.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
