@@ -9,12 +9,3 @@ services:
     restart: unless-stopped
     environment:
       - ACTUAL_OPENID_ENFORCE=true
-    labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.actual.rule=Host(`actual.${DOMAIN_MAIN_PRIMARY}`)'
-    networks:
-      - traefik
-
-networks:
-  traefik:
-    external: true
