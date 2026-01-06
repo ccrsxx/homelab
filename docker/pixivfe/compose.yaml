@@ -1,0 +1,26 @@
+services:
+  pixivfe:
+    image: registry.gitlab.com/pixivfe/pixivfe:next
+    container_name: pixivfe
+    restart: unless-stopped
+    ports:
+      - '8282:8282'
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - PIXIVFE_TOKEN=${PIXIVFE_TOKEN}
+      - PIXIVFE_SECRET=${PIXIVFE_SECRET}
+      - PIXIVFE_LIMITER_TURNSTILE_SITEKEY=${PIXIVFE_LIMITER_TURNSTILE_SITEKEY}
+      - PIXIVFE_LIMITER_TURNSTILE_SECRET_KEY=${PIXIVFE_LIMITER_TURNSTILE_SECRET_KEY}
+      - GOMEMLIMIT=1800MiB
+    mem_limit: 2000m
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.pixivfe.rule=Host(`pixiv.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.pixivfe.middlewares=tinyauth'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

@@ -6,8 +6,6 @@ services:
       - /mnt/data:/data:ro
       - /docker/appdata/kavita:/config
     environment:
-      - PUID=10000
-      - PGID=10000
       - TZ=Asia/Jakarta
     ports:
       - '5000:5000'
