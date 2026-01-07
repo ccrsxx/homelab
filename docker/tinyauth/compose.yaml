@@ -28,10 +28,11 @@ services:
       - 'tinyauth.apps.metube.config.domain=metube.${DOMAIN_MAIN_PRIMARY}'
       - 'tinyauth.apps.metube.path.allow=^\/(download|audio_download)'
 
-      - 'tinyauth.apps.pixiv.config.domain=pixiv.${DOMAIN_MAIN_PRIMARY}'
-      - 'tinyauth.apps.pixiv.oauth.whitelist=${OAUTH_WHITELIST}'
+      - 'tinyauth.apps.pixivfe.config.domain=pixiv.${DOMAIN_MAIN_PRIMARY}'
+      - 'tinyauth.apps.pixivfe.oauth.whitelist=${OAUTH_WHITELIST}'
 
       - 'tinyauth.apps.frigate.config.domain=frigate.${DOMAIN_MAIN_PRIMARY}'
+      - 'tinyauth.apps.frigate.users.allow=${USER_WHITELIST}'
       - 'tinyauth.apps.frigate.oauth.whitelist=${OAUTH_WHITELIST}'
 
       - 'tinyauth.apps.jellyfin.config.domain=jellyfin.${DOMAIN_MAIN_PRIMARY}'
