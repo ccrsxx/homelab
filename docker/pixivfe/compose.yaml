@@ -5,11 +5,15 @@ services:
     restart: unless-stopped
     ports:
       - '8282:8282'
-    volumes:
-      - ./config.yaml:/app/config.yaml:ro
     environment:
+      - PIXIVFE_HOST=0.0.0.0
+      - PIXIVFE_PORT=8282
+      - PIXIVFE_CACHE=true
       - PIXIVFE_TOKEN=${PIXIVFE_TOKEN}
       - PIXIVFE_SECRET=${PIXIVFE_SECRET}
+      - PIXIVFE_POPULAR_SEARCH=true
+      - PIXIVFE_LIMITER=true
+      - PIXIVFE_LIMITER_DETECTION_METHOD=turnstile
       - PIXIVFE_LIMITER_TURNSTILE_SITEKEY=${PIXIVFE_LIMITER_TURNSTILE_SITEKEY}
       - PIXIVFE_LIMITER_TURNSTILE_SECRET_KEY=${PIXIVFE_LIMITER_TURNSTILE_SECRET_KEY}
       - GOMEMLIMIT=1800MiB
