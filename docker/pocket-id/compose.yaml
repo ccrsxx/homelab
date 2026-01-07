@@ -2,6 +2,7 @@ services:
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v2
     restart: unless-stopped
+    container_name: pocket-id
     ports:
       - 1411:1411
     volumes:
