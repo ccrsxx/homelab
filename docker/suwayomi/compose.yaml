@@ -2,6 +2,7 @@ services:
   suwayomi:
     image: ghcr.io/suwayomi/suwayomi-server:preview
     user: 10000:10000
+    container_name: suwayomi
     environment:
       - TZ=Asia/Jakarta
       - FLARESOLVERR_ENABLED=true
@@ -15,6 +16,7 @@ services:
     ports:
       - '4567:4567'
     restart: unless-stopped
+    mem_limit: 1gb
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.suwayomi.rule=Host(`suwayomi.${DOMAIN_MAIN_SECONDARY}`)'
