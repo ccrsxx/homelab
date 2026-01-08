@@ -10,6 +10,7 @@ services:
     environment:
       - APP_URL=${APP_URL}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - ALLOW_OWN_ACCOUNT_EDIT=false
       - PUID=${PUID}
       - PGID=${PGID}
       - TRUST_PROXY=${TRUST_PROXY}
