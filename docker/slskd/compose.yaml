@@ -85,7 +85,7 @@ services:
     user: 10000:10000
     environment:
       - TZ=Asia/Jakarta
-      - SCRIPT_INTERVAL=300
+      - SCRIPT_INTERVAL=60
     volumes:
       - ./config/soularr:/data
       - /mnt/data/soulseek/music:/downloads
