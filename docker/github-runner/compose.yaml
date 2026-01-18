@@ -1,9 +1,22 @@
 services:
-  worker:
+  worker-api:
     image: myoung34/github-runner:latest
     restart: unless-stopped
     environment:
-      REPO_URL: ${REPO_URL}
+      REPO_URL: https://github.com/ccrsxx/api
+      EPHEMERAL: true
+      ACCESS_TOKEN: ${ACCESS_TOKEN}
+      DISABLE_AUTO_UPDATE: true
+    deploy:
+      replicas: 4
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+  worker-api-go:
+    image: myoung34/github-runner:latest
+    restart: unless-stopped
+    environment:
+      REPO_URL: https://github.com/ccrsxx/api-go
       EPHEMERAL: true
       ACCESS_TOKEN: ${ACCESS_TOKEN}
       DISABLE_AUTO_UPDATE: true
