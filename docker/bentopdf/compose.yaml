@@ -1,6 +1,6 @@
 services:
   bentopdf:
-    image: bentopdf/bentopdf-simple:latest
+    image: ghcr.io/alam00000/bentopdf-simple:latest
     ports:
       - '8085:8080'
     restart: unless-stopped
