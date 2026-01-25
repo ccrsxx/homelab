@@ -24,8 +24,8 @@ qbt_client_ubuntu.auth_log_in()
 
 
 def enable_qbittorrents() -> None:
-    qbt_client_proxmox.app.setPreferences({'max_active_torrents': 100})
-    qbt_client_ubuntu.app.setPreferences({'max_active_torrents': 100})
+    qbt_client_proxmox.app.setPreferences({'max_active_torrents': 512})
+    qbt_client_ubuntu.app.setPreferences({'max_active_torrents': 512})
 
 
 def disable_qbittorrents() -> None:
