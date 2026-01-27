@@ -8,6 +8,6 @@ services:
       ACCESS_TOKEN: ${ACCESS_TOKEN}
       DISABLE_AUTO_UPDATE: true
     deploy:
-      replicas: 4
+      replicas: 8
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
