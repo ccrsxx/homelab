@@ -34,7 +34,7 @@ detect:
   fps: 10
 
 notifications:
-  enabled: true
+  enabled: false
   email: frigate@ccrsxx.com
 
 record:
@@ -97,7 +97,7 @@ cameras:
             - audio
             - detect
     notifications:
-      enabled: true
+      enabled: false
     objects:
       genai:
         enabled: false
