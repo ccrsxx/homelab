@@ -1,11 +1,13 @@
 - glances:
     url: https://glances.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
     version: 4
-    cpu: true
-    mem: true
+    cpu: false
+    mem: false
     cputemp: true
     uptime: true
-    disk: /
+    disk:
+      - /
+      - /tank
 
 - stocks:
     provider: finnhub
@@ -17,6 +19,7 @@
       - AMD
       - NVDA
       - GOOG
+      - AAPL
 
 - greeting:
     text_size: 2xl
