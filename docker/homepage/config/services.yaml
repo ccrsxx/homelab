@@ -58,8 +58,6 @@
                 label: Rack
               - state: sensor.setup_power
                 label: Setup
-              - state: sensor.homelab_power
-                label: Homelab
 
 - Network:
     - MikroTik:
@@ -174,14 +172,14 @@
           url: https://jellyseerr.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
           key: {{HOMEPAGE_VAR_JELLYSEERR_API_KEY}}
 
-    - Komga:
-        icon: komga.png
-        href: https://komga.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+    - Kavita:
+        icon: kavita.png
+        href: https://kavita.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
         description: Comics Server
         widget:
-          type: komga
-          url: https://komga.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
-          key: {{HOMEPAGE_VAR_KOMGA_API_KEY}}
+          type: kavita
+          url: https://kavita.{{HOMEPAGE_VAR_DOMAIN_MAIN_SECONDARY}}
+          key: {{HOMEPAGE_VAR_KAVITA_API_KEY}}
 
 - Starr:
     - Sonarr:
