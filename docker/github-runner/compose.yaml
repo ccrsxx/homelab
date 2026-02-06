@@ -8,6 +8,19 @@ services:
       ACCESS_TOKEN: ${ACCESS_TOKEN}
       DISABLE_AUTO_UPDATE: true
     deploy:
-      replicas: 8
+      replicas: 4
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+  worker-og:
+    image: myoung34/github-runner:latest
+    restart: unless-stopped
+    environment:
+      REPO_URL: https://github.com/ccrsxx/og
+      EPHEMERAL: true
+      ACCESS_TOKEN: ${ACCESS_TOKEN}
+      DISABLE_AUTO_UPDATE: true
+    deploy:
+      replicas: 4
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
