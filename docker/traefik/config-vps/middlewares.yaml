@@ -33,6 +33,7 @@ http:
             - "ID"
             - "SG"
             - "US"
+            - "CO"
 
     rate-limit:
       rateLimit:
