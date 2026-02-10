@@ -36,6 +36,10 @@ services:
       - 'tinyauth.apps.jellyfin.ip.bypass=${IP_WHITELIST}'
       - 'tinyauth.apps.jellyfin.path.allow=${JELLYFIN_PATH_WHITELIST}'
 
+      - 'tinyauth.apps.change-detection.config.domain=diff.${DOMAIN_MAIN_PRIMARY}'
+      - 'tinyauth.apps.change-detection.users.allow=${USER_WHITELIST}'
+      - 'tinyauth.apps.change-detection.oauth.whitelist=${OAUTH_WHITELIST}'
+
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.tinyauth.rule=Host(`auth.${DOMAIN_MAIN_PRIMARY}`)'
       - 'traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik'

@@ -1,0 +1,43 @@
+services:
+  change-detection:
+    image: ghcr.io/dgtlmoon/changedetection.io
+    container_name: change-detection
+    hostname: change-detection
+    volumes:
+      - changedetection-data:/datastore
+    environment:
+      - PLAYWRIGHT_DRIVER_URL=ws://browser-sockpuppet-chrome:3000
+      - HIDE_REFERER=true
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+    depends_on:
+      browser-sockpuppet-chrome:
+        condition: service_started
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.change-detection.rule=Host(`diff.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.routers.change-detection.middlewares=tinyauth'
+    networks:
+      - traefik
+
+  browser-sockpuppet-chrome:
+    hostname: browser-sockpuppet-chrome
+    image: dgtlmoon/sockpuppetbrowser:latest
+    cap_add:
+      - SYS_ADMIN
+    restart: unless-stopped
+    environment:
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1024
+      - SCREEN_DEPTH=16
+      - MAX_CONCURRENT_CHROME_PROCESSES=10
+    networks:
+      - traefik
+
+volumes:
+  changedetection-data:
+
+networks:
+  traefik:
+    external: true
