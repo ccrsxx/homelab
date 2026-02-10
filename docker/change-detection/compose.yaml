@@ -17,6 +17,7 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.change-detection.rule=Host(`diff.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.services.change-detection.loadbalancer.server.port=5000'
       - 'traefik.http.routers.change-detection.middlewares=tinyauth'
     networks:
       - traefik
