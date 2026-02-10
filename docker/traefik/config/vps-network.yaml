@@ -26,6 +26,10 @@ http:
       rule: Host(`adguard-vps-dns.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: adguard-home-vps-dns
 
+    adguard-home-vps-proxy:
+      rule: Host(`adguard-vps-proxy.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: adguard-home-vps-proxy
+
     openspeedtest-vps:
       rule: Host(`openspeedtest-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: openspeedtest-vps
@@ -60,6 +64,11 @@ http:
       loadBalancer:
         servers:
           - url: http://{{ env "IP_VPS_DNS" }}:8888
+
+    adguard-home-vps-proxy:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "IP_VPS_PROXY" }}:8888
 
     openspeedtest-vps:
       loadBalancer:
