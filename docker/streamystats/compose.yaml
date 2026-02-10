@@ -1,0 +1,108 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: '10m'
+    max-file: '3'
+
+services:
+  migrate:
+    image: docker.io/fredrikburmester/streamystats-v2-migrate:${VERSION:-latest}
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@vectorchord:5432/${POSTGRES_DB:-streamystats}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-streamystats}
+      - PGPASSWORD=${POSTGRES_PASSWORD:-postgres}
+    depends_on:
+      vectorchord:
+        condition: service_healthy
+    restart: 'no'
+    logging: *default-logging
+
+  nextjs-app:
+    image: docker.io/fredrikburmester/streamystats-v2-nextjs:${VERSION:-latest}
+    ports:
+      - '8097:3000'
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@vectorchord:5432/${POSTGRES_DB:-streamystats}
+      - JOB_SERVER_URL=http://job-server:3005
+      - HOSTNAME=0.0.0.0
+      - SESSION_SECRET=${SESSION_SECRET}
+    mem_limit: 1gb
+    depends_on:
+      vectorchord:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      job-server:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *default-logging
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.docker.network=traefik'
+      - 'traefik.http.routers.streamystats.rule=Host(`streamystats.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+      - default
+
+  job-server:
+    image: docker.io/fredrikburmester/streamystats-v2-job-server:${VERSION:-latest}
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@vectorchord:5432/${POSTGRES_DB:-streamystats}
+      - PORT=3005
+      - HOST=0.0.0.0
+      # Session polling interval in milliseconds (default: 5000)
+      - SESSION_POLL_INTERVAL_MS=${SESSION_POLL_INTERVAL_MS:-5000}
+      # Cron schedules (standard cron syntax)
+      - CRON_ACTIVITY_SYNC=${CRON_ACTIVITY_SYNC:-*/1 * * * *}
+      - CRON_RECENT_ITEMS_SYNC=${CRON_RECENT_ITEMS_SYNC:-*/1 * * * *}
+      - CRON_USER_SYNC=${CRON_USER_SYNC:-*/1 * * * *}
+      - CRON_PEOPLE_SYNC=${CRON_PEOPLE_SYNC:-*/15 * * * *}
+      - CRON_EMBEDDINGS_SYNC=${CRON_EMBEDDINGS_SYNC:-*/15 * * * *}
+      - CRON_GEOLOCATION_SYNC=${CRON_GEOLOCATION_SYNC:-*/5 * * * *}
+      - CRON_FINGERPRINT_SYNC=${CRON_FINGERPRINT_SYNC:-0 4 * * *}
+      - CRON_JOB_CLEANUP=${CRON_JOB_CLEANUP:-*/1 * * * *}
+      - CRON_OLD_JOB_CLEANUP=${CRON_OLD_JOB_CLEANUP:-0 3 * * *}
+      - CRON_FULL_SYNC=${CRON_FULL_SYNC:-0 2 * * *}
+      - CRON_DELETED_ITEMS_CLEANUP=${CRON_DELETED_ITEMS_CLEANUP:-0 * * * *}
+      # Skip full sync on server startup (set to "true" or "1" to skip)
+      - SKIP_STARTUP_FULL_SYNC=${SKIP_STARTUP_FULL_SYNC:-false}
+    depends_on:
+      vectorchord:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    logging: *default-logging
+
+  vectorchord:
+    image: tensorchord/vchord-postgres:pg17-v0.4.1
+    command: ['postgres', '-c', 'log_checkpoints=off']
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-streamystats}
+    volumes:
+      - vectorchord_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-streamystats}'
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  vectorchord_data:
+
+networks:
+  traefik:
+    external: true
