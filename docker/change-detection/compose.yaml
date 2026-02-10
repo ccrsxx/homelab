@@ -20,6 +20,7 @@ services:
       - 'traefik.http.routers.change-detection.middlewares=tinyauth'
     networks:
       - traefik
+      - default
 
   browser-sockpuppet-chrome:
     hostname: browser-sockpuppet-chrome
@@ -32,8 +33,6 @@ services:
       - SCREEN_HEIGHT=1024
       - SCREEN_DEPTH=16
       - MAX_CONCURRENT_CHROME_PROCESSES=10
-    networks:
-      - traefik
 
 volumes:
   changedetection-data:
