@@ -33,10 +33,11 @@ services:
     restart: unless-stopped
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.docker.network=traefik'
       - 'traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN_MAIN_SECONDARY}`)'
     networks:
-      - traefik
       - default
+      - traefik
 
 networks:
   traefik:
