@@ -5,3 +5,5 @@ services:
     ports:
       - 1080:1080
     restart: unless-stopped
+    environment:
+      - REQUIRE_AUTH=false
