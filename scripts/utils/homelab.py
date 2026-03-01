@@ -40,7 +40,7 @@ def play_sound(sound_file: SoundFile) -> None:
             '/home/ccrsxx/.ssh/homelab-automation.key',
             'ccrsxx@ubuntu',
             'pw-play',
-            '--volume 2',
+            '--volume 0.5',
             f'/home/ccrsxx/sounds/{sound_file}',
         ]
     )
