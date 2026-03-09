@@ -165,6 +165,7 @@ cython_debug/
 **/training
 **/letsencrypt
 **/config-secrets
+**/*-bak
 
 # Scripts
 cleanup.py
