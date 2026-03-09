@@ -27,6 +27,7 @@ services:
     restart: unless-stopped
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.docker.network=traefik'
       - 'traefik.http.routers.unifi.rule=Host(`unifi.${DOMAIN_MAIN_SECONDARY}`)'
       - 'traefik.http.services.unifi.loadbalancer.server.port=8443'
       - 'traefik.http.services.unifi.loadbalancer.server.scheme=https'
