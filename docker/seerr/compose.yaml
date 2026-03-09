@@ -1,0 +1,28 @@
+services:
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    container_name: seerr
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Asia/Jakarta
+    ports:
+      - 5055:5055
+    volumes:
+      - /docker/appdata/seerr:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.seerr.rule=Host(`seerr.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
