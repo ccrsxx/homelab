@@ -82,6 +82,13 @@ go2rtc:
     kitchen_cam_sub:
       - '{FRIGATE_RTSP_CAM_KITCHEN_SUB}'
       - ffmpeg:kitchen_cam_sub#audio=opus
+    terrace_cam:
+      - '{FRIGATE_RTSP_CAM_TERRACE}'
+      - '{FRIGATE_ISAPI_CAM_TERRACE}'
+      - ffmpeg:terrace_cam#audio=opus
+    terrace_cam_sub:
+      - '{FRIGATE_RTSP_CAM_TERRACE_SUB}'
+      - ffmpeg:terrace_cam_sub#audio=opus
 
 cameras:
   bedroom_cam:
@@ -118,6 +125,23 @@ cameras:
     objects:
       genai:
         enabled: false
+  terrace_cam:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/terrace_cam
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/terrace_cam_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - audio
+            - detect
+    notifications:
+      enabled: true
+    objects:
+      genai:
+        enabled: false
 
 objects:
   genai:
@@ -126,8 +150,7 @@ objects:
 auth:
   roles:
     family:
-      - kitchen_cam
-
+      - terrace_cam
 camera_groups:
   Kitchen:
     order: 1
