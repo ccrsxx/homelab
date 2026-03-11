@@ -151,10 +151,13 @@ auth:
   roles:
     family:
       - terrace_cam
+
 camera_groups:
-  Kitchen:
+  Outdoor:
     order: 1
     icon: LuLogOut
-    cameras: kitchen_cam
+    cameras:
+      - kitchen_cam
+      - terrace_cam
 
 version: 0.17-0
