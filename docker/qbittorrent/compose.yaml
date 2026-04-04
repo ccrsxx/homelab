@@ -40,7 +40,6 @@ services:
       - TZ=Asia/Jakarta
       - WEBUI_PORT=2323
     volumes:
-      - ./scripts:/scripts
       - /docker/appdata/qbittorrent:/config
       - ${TORRENT_DIRECTORY:-/mnt/data/torrents}:/data/torrents
     labels:

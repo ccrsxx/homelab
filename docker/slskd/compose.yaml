@@ -61,9 +61,9 @@ services:
       - SLSKD_DOWNLOAD_SPEED_LIMIT=10240
       - SLSKD_DOWNLOAD_SLOTS=40
 
-      # Upload | 20 Mbps Upload / 10 Slots
+      # Upload | 20 Mbps Upload / 4 Slots
       - SLSKD_UPLOAD_SPEED_LIMIT=2560
-      - SLSKD_UPLOAD_SLOTS=10
+      - SLSKD_UPLOAD_SLOTS=4
     depends_on:
       gluetun-slskd:
         condition: service_healthy
