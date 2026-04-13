@@ -68,6 +68,10 @@ go2rtc:
       - 192.168.1.100:8555
       - stun:8555
   streams:
+    street_cam:
+      - '{FRIGATE_RTSP_CAM_STREET}'
+    garage_cam:
+      - '{FRIGATE_RTSP_CAM_GARAGE}'
     bedroom_cam:
       - '{FRIGATE_RTSP_CAM_BEDROOM}'
       - '{FRIGATE_ISAPI_CAM_BEDROOM}'
@@ -91,7 +95,33 @@ go2rtc:
       - ffmpeg:terrace_cam_sub#audio=opus
 
 cameras:
+  street_cam:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/street_cam
+          roles:
+            - record
+            - detect
+    audio:
+      enabled: false
+    notifications:
+      enabled: false
+  garage_cam:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/garage_cam
+    audio:
+      enabled: false
+    detect:
+      enabled: false
+    record:
+      enabled: false
+    notifications:
+      enabled: false
   bedroom_cam:
+    enabled: true
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/bedroom_cam
@@ -109,6 +139,7 @@ cameras:
       genai:
         enabled: false
   kitchen_cam:
+    enabled: true
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/kitchen_cam
@@ -126,6 +157,7 @@ cameras:
       genai:
         enabled: false
   terrace_cam:
+    enabled: true
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/terrace_cam
@@ -151,6 +183,8 @@ auth:
   roles:
     family:
       - terrace_cam
+      - garage_cam
+      - street_cam
 
 camera_groups:
   Outdoor:
@@ -159,5 +193,7 @@ camera_groups:
     cameras:
       - kitchen_cam
       - terrace_cam
+      - garage_cam
+      - street_cam
 
 version: 0.17-0
