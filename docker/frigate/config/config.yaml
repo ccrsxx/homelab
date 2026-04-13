@@ -106,7 +106,18 @@ cameras:
     audio:
       enabled: false
     notifications:
-      enabled: false
+      enabled: true
+    zones:
+      before_street:
+        coordinates: 0.344,0.614,0.357,1,0.85,1,0.782,0.565
+        loitering_time: 0
+        friendly_name: Before street
+        inertia: 3
+    review:
+      alerts:
+        required_zones: before_street
+      detections:
+        required_zones: before_street
   garage_cam:
     enabled: true
     ffmpeg:
@@ -134,10 +145,29 @@ cameras:
             - audio
             - detect
     notifications:
-      enabled: false
+      enabled: true
     objects:
       genai:
         enabled: false
+    zones:
+      bed:
+        coordinates: 0.295,0.645,0.279,1,0.842,1,0.78,0.7
+        loitering_time: 0
+        friendly_name: Bed
+      doorway:
+        coordinates: 0.299,0.638,0.419,0.652,0.458,0,0.342,0
+        loitering_time: 0
+        friendly_name: Doorway
+        inertia: 3
+    review:
+      alerts:
+        required_zones:
+          - doorway
+          - bed
+      detections:
+        required_zones:
+          - bed
+          - doorway
   kitchen_cam:
     enabled: true
     ffmpeg:
@@ -176,6 +206,14 @@ cameras:
         enabled: false
 
 objects:
+  track:
+    - car
+    - cat
+    - bird
+    - mouse
+    - person
+    - bicycle
+    - motorcycle
   genai:
     enabled: true
 
