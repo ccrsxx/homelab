@@ -105,6 +105,9 @@ cameras:
             - detect
     audio:
       enabled: false
+    objects:
+      genai:
+        enabled: false
     notifications:
       enabled: true
     zones:
@@ -125,6 +128,9 @@ cameras:
         - path: rtsp://127.0.0.1:8554/garage_cam
     audio:
       enabled: false
+    objects:
+      genai:
+        enabled: false
     detect:
       enabled: false
     record:
@@ -154,6 +160,7 @@ cameras:
         coordinates: 0.295,0.645,0.279,1,0.842,1,0.78,0.7
         loitering_time: 0
         friendly_name: Bed
+        inertia: 3
       doorway:
         coordinates: 0.299,0.638,0.419,0.652,0.458,0,0.342,0
         loitering_time: 0
