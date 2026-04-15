@@ -38,7 +38,7 @@ services:
       - SCHEDULE=@daily
       - BACKUP_KEEP_DAYS=7
     volumes:
-      - ~/backups/database/postgres:/backups
+      - /backup/database/postgres:/backups
     depends_on:
       postgres:
         condition: service_healthy
