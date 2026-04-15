@@ -21,9 +21,9 @@ services:
       timeout: 5s
       retries: 5
 
-  pg_backup:
+  pg-backup:
     image: prodrigestivill/postgres-backup-local:18
-    container_name: pg_backup
+    container_name: pg-backup
     restart: unless-stopped
     secrets:
       - postgres_user
@@ -38,7 +38,7 @@ services:
       - SCHEDULE=@daily
       - BACKUP_KEEP_DAYS=7
     volumes:
-      - ~/backups/database/api:/backups
+      - ~/backups/database/postgres:/backups
     depends_on:
       postgres:
         condition: service_healthy
