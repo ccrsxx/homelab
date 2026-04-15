@@ -1,52 +1,53 @@
 services:
   postgres:
     container_name: postgres
-    image: postgres:16
+    image: postgres:18
     secrets:
       - postgres_user
       - postgres_password
     environment:
-      POSTGRES_USER_FILE: /run/secrets/postgres_user
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
-      PGDATA: /data/postgres
+      - TZ=Asia/Jakarta
+      - PGDATA=/data/postgres
+      - POSTGRES_USER_FILE=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
     volumes:
       - postgres:/data/postgres
     ports:
       - '5432:5432'
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:latest
-    secrets:
-      - pgadmin_default_password
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_default_password
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - '${PGADMIN_PORT:-5050}:80'
+  pg_backup:
+    image: prodrigestivill/postgres-backup-local:18
+    container_name: pg_backup
     restart: unless-stopped
-    labels:
-      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.pgadmin.rule=Host(`pgadmin.${DOMAIN_MAIN_SECONDARY}`)'
-    networks:
-      - traefik
-      - default
-
-networks:
-  traefik:
-    external: true
+    secrets:
+      - postgres_user
+      - postgres_password
+    environment:
+      - TZ=Asia/Jakarta
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER_FILE=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - POSTGRES_DB=postgres
+      - POSTGRES_CLUSTER=true
+      - SCHEDULE=@daily
+      - BACKUP_KEEP_DAYS=7
+    volumes:
+      - ~/backups/database/api:/backups
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 secrets:
   postgres_user:
     file: './secrets/postgres_user'
   postgres_password:
     file: './secrets/postgres_password'
-  pgadmin_default_password:
-    file: './secrets/pgadmin_default_password'
 
 volumes:
   postgres:
-  pgadmin:
