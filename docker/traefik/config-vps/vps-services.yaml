@@ -4,9 +4,9 @@ http:
       rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
       service: jellyfin
       middlewares:
-        - allow-trusted-geo-ips
+        - allow-id-ips
         - jellyfin-rate-limit
-        - tinyauth@docker
+        # - tinyauth@docker
 
   services:
     jellyfin:
