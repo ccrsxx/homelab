@@ -68,6 +68,10 @@ go2rtc:
       - 192.168.1.100:8555
       - stun:8555
   streams:
+    street_cam:
+      - '{FRIGATE_RTSP_CAM_STREET}'
+    garage_cam:
+      - '{FRIGATE_RTSP_CAM_GARAGE}'
     bedroom_cam:
       - '{FRIGATE_RTSP_CAM_BEDROOM}'
       - '{FRIGATE_ISAPI_CAM_BEDROOM}'
@@ -91,7 +95,50 @@ go2rtc:
       - ffmpeg:terrace_cam_sub#audio=opus
 
 cameras:
+  street_cam:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/street_cam
+          roles:
+            - record
+            - detect
+    audio:
+      enabled: false
+    objects:
+      genai:
+        enabled: false
+    notifications:
+      enabled: true
+    zones:
+      before_street:
+        coordinates: 0.344,0.614,0.357,1,0.85,1,0.782,0.565
+        loitering_time: 0
+        friendly_name: Before street
+        inertia: 3
+    review:
+      alerts:
+        required_zones: before_street
+      detections:
+        required_zones: before_street
+  garage_cam:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/garage_cam
+    audio:
+      enabled: false
+    objects:
+      genai:
+        enabled: false
+    detect:
+      enabled: false
+    record:
+      enabled: false
+    notifications:
+      enabled: false
   bedroom_cam:
+    enabled: true
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/bedroom_cam
@@ -104,11 +151,32 @@ cameras:
             - audio
             - detect
     notifications:
-      enabled: false
+      enabled: true
     objects:
       genai:
         enabled: false
+    zones:
+      bed:
+        coordinates: 0.295,0.645,0.279,1,0.842,1,0.78,0.7
+        loitering_time: 0
+        friendly_name: Bed
+        inertia: 3
+      doorway:
+        coordinates: 0.299,0.638,0.419,0.652,0.458,0,0.342,0
+        loitering_time: 0
+        friendly_name: Doorway
+        inertia: 3
+    review:
+      alerts:
+        required_zones:
+          - doorway
+          - bed
+      detections:
+        required_zones:
+          - bed
+          - doorway
   kitchen_cam:
+    enabled: true
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/kitchen_cam
@@ -126,6 +194,7 @@ cameras:
       genai:
         enabled: false
   terrace_cam:
+    enabled: true
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/terrace_cam
@@ -144,6 +213,14 @@ cameras:
         enabled: false
 
 objects:
+  track:
+    - car
+    - cat
+    - bird
+    - mouse
+    - person
+    - bicycle
+    - motorcycle
   genai:
     enabled: true
 
@@ -151,6 +228,8 @@ auth:
   roles:
     family:
       - terrace_cam
+      - garage_cam
+      - street_cam
 
 camera_groups:
   Outdoor:
@@ -159,5 +238,7 @@ camera_groups:
     cameras:
       - kitchen_cam
       - terrace_cam
+      - garage_cam
+      - street_cam
 
 version: 0.17-0
