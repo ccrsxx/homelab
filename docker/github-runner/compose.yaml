@@ -11,6 +11,8 @@ services:
       replicas: 8
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   worker-og:
     image: myoung34/github-runner:latest
