@@ -3,26 +3,53 @@ services:
     image: myoung34/github-runner:latest
     restart: unless-stopped
     environment:
-      REPO_URL: https://github.com/ccrsxx/api
-      EPHEMERAL: true
-      ACCESS_TOKEN: ${ACCESS_TOKEN}
-      DISABLE_AUTO_UPDATE: true
+      - REPO_URL=https://github.com/ccrsxx/api
+      - EPHEMERAL=true
+      - ACCESS_TOKEN=${ACCESS_TOKEN}
+      - DISABLE_AUTO_UPDATE=true
     deploy:
       replicas: 8
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - host.docker.internal:host-gateway
 
   worker-og:
     image: myoung34/github-runner:latest
     restart: unless-stopped
     environment:
-      REPO_URL: https://github.com/ccrsxx/og
-      EPHEMERAL: true
-      ACCESS_TOKEN: ${ACCESS_TOKEN}
-      DISABLE_AUTO_UPDATE: true
+      - REPO_URL=https://github.com/ccrsxx/og
+      - EPHEMERAL=true
+      - ACCESS_TOKEN=${ACCESS_TOKEN}
+      - DISABLE_AUTO_UPDATE=true
     deploy:
       replicas: 8
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  cleaner:
+    image: docker:cli
+    restart: unless-stopped
+    environment:
+      - COMPOSE_PROJECT_NAME=github-runner
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./compose.yaml:/compose.yaml:ro
+      - ./.env:/.env:ro
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        echo "Starting daily cleanup loop..."
+
+        while true; do
+          # 19:00 UTC is exactly 02:00 AM UTC+7
+          if [ "$$(date +'%H:%M')" = '19:00' ]; then
+            echo "Time is 19:00 UTC. Triggering daily force-recreate..."
+
+            docker compose up --force-recreate -d worker-api worker-og
+            
+            # Sleep extra to ensure it doesn't double-trigger within the same minute
+            sleep 60 
+          fi
+          sleep 60
+        done
