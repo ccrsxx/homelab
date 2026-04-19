@@ -9,6 +9,14 @@ detectors:
     type: openvino
     device: GPU
 
+auth:
+  session_length: 604800 # 1 week
+  roles:
+    family:
+      - terrace_cam
+      - garage_cam
+      - street_cam
+
 model:
   model_type: yolo-generic
   width: 320
@@ -112,7 +120,7 @@ cameras:
       enabled: true
     zones:
       before_street:
-        coordinates: 0.344,0.614,0.357,1,0.85,1,0.782,0.565
+        coordinates: 0.35,0.573,0.344,1,0.84,1,0.748,0.571
         loitering_time: 0
         friendly_name: Before street
         inertia: 3
@@ -223,13 +231,6 @@ objects:
     - motorcycle
   genai:
     enabled: true
-
-auth:
-  roles:
-    family:
-      - terrace_cam
-      - garage_cam
-      - street_cam
 
 camera_groups:
   Outdoor:
