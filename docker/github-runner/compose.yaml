@@ -27,6 +27,19 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
+  worker-portofolio:
+    image: myoung34/github-runner:latest
+    restart: unless-stopped
+    environment:
+      - REPO_URL=https://github.com/ccrsxx/portofolio
+      - EPHEMERAL=true
+      - ACCESS_TOKEN=${ACCESS_TOKEN}
+      - DISABLE_AUTO_UPDATE=true
+    deploy:
+      replicas: 8
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
   cleaner:
     image: docker:cli
     restart: unless-stopped
@@ -46,7 +59,7 @@ services:
           if [ "$$(date +'%H:%M')" = '19:00' ]; then
             echo "Time is 19:00 UTC. Triggering daily force-recreate..."
 
-            docker compose up --force-recreate -d worker-api worker-og
+            docker compose up --force-recreate -d worker-api worker-og worker-portofolio
             
             # Sleep extra to ensure it doesn't double-trigger within the same minute
             sleep 60 
