@@ -1,11 +1,14 @@
 services:
   beszel-agent:
-    image: henrygd/beszel-agent:latest
+    image: henrygd/beszel-agent
     container_name: beszel-agent
     restart: unless-stopped
     network_mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /docker/appdata/beszel-agent:/var/lib/beszel-agent
     environment:
-      - PORT=45876
-      - KEY=${AGENT_KEY}
+      - LISTEN=45876
+      - KEY=${KEY}
+      - TOKEN=${TOKEN}
+      - HUB_URL=${HUB_URL}
