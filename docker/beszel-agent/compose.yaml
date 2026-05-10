@@ -8,7 +8,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /docker/appdata/beszel-agent:/var/lib/beszel-agent
     environment:
-      - LISTEN=45876
       - KEY=${KEY}
       - TOKEN=${TOKEN}
       - HUB_URL=${HUB_URL}
+      - DISABLE_SSH=true
