@@ -15,6 +15,7 @@ services:
       - MONGO_AUTHSOURCE=admin
     volumes:
       - /docker/appdata/unifi/config:/config
+      - ./unifi-patch-upgrade-nag.sh:/custom-cont-init.d/unifi-patch-upgrade-nag.sh:ro
     ports:
       - 6789:6789
       - 8080:8080
