@@ -99,6 +99,7 @@ services:
       - 'DOMAIN_MAIN_PRIMARY=${DOMAIN_MAIN_PRIMARY}'
       - 'DOMAIN_MAIN_SECONDARY=${DOMAIN_MAIN_SECONDARY}'
       - 'ROUTER_PROXY_WS=${ROUTER_PROXY_WS:-false}'
+      - 'BYPASS_TOKEN_JELLYFIN=${BYPASS_TOKEN_JELLYFIN:-false}'
       - 'CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_token'
 
     labels:

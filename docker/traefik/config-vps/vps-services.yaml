@@ -1,12 +1,19 @@
 http:
   routers:
-    jellyfin:
+    jellyfin-bypass:
+      rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_PRIMARY" }}`) && Header(`X-Bypass-Token`, `{{ env "BYPASS_TOKEN_JELLYFIN" }}`)
+      service: jellyfin
+      middlewares:
+        - allow-trusted-geo-ips
+        - jellyfin-rate-limit
+
+    jellyfin-secure:
       rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
       service: jellyfin
       middlewares:
         - allow-trusted-geo-ips
         - jellyfin-rate-limit
-        # - tinyauth@docker
+        - tinyauth@docker
 
   services:
     jellyfin:
