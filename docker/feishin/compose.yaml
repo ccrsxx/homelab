@@ -7,6 +7,7 @@ services:
       - SERVER_LOCK=true
       - SERVER_TYPE=jellyfin
       - SERVER_URL=${SERVER_URL}
+      - REMOTE_URL=${SERVER_URL}
       - ANALYTICS_DISABLED=true
     ports:
       - 9180:9180
