@@ -30,6 +30,14 @@ http:
       rule: Host(`dev-backend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: dev-backend
 
+    dev-frontend-homelab-local:
+      rule: Host(`dev-frontend-homelab.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: dev-frontend-homelab
+
+    dev-backend-homelab-local:
+      rule: Host(`dev-backend-homelab.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: dev-backend-homelab
+
   services:
     dev-webot:
       loadBalancer:
@@ -45,3 +53,13 @@ http:
       loadBalancer:
         servers:
           - url: http://192.168.1.2:4000
+
+    dev-frontend-homelab:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.100:3000
+
+    dev-backend-homelab:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.100:4000
