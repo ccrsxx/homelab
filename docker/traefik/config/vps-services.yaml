@@ -1,38 +1,11 @@
 http:
   routers:
-    uptime-kuma-vps:
-      rule: Host(`uptime.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: uptime-kuma-vps
-
-    pgadmin-vps:
-      rule: Host(`pgadmin-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: pgadmin-vps
-
-    portainer-vps:
-      rule: Host(`portainer-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: portainer-vps
-
-    jdownloader-vps:
-      rule: Host(`download-vps.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
-      service: jdownloader-vps
+    beszel-vps:
+      rule: Host(`beszel.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      service: beszel-vps
 
   services:
-    uptime-kuma-vps:
+    beszel-vps:
       loadBalancer:
         servers:
-          - url: http://{{ env "IP_VPS_MAIN" }}:3001
-
-    pgadmin-vps:
-      loadBalancer:
-        servers:
-          - url: http://{{ env "IP_VPS_MAIN" }}:5050
-
-    portainer-vps:
-      loadBalancer:
-        servers:
-          - url: https://{{ env "IP_VPS_MAIN" }}:9443
-
-    jdownloader-vps:
-      loadBalancer:
-        servers:
-          - url: http://{{ env "IP_VPS_MAIN" }}:5800
+          - url: http://{{ env "IP_VPS_MAIN" }}:8088

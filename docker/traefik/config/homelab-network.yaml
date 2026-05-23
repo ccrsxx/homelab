@@ -23,7 +23,7 @@ http:
         - adguard-home-theme@file
 
     uptime-kuma:
-      rule: Host(`status.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
+      rule: Host(`infra.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: uptime-kuma
 
   services:
