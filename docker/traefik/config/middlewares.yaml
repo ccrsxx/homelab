@@ -3,6 +3,7 @@ http:
     tinyauth:
       forwardAuth:
         address: https://auth.{{ env "DOMAIN_MAIN_PRIMARY" }}/api/auth/traefik
+        maxResponseBodySize: 8192
 
     rate-limit:
       rateLimit:
