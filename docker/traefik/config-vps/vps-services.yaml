@@ -15,8 +15,21 @@ http:
         - jellyfin-rate-limit
         - tinyauth@docker
 
+    navidrome-secure:
+      rule: Host(`navidrome.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
+      service: navidrome
+      middlewares:
+        - allow-trusted-geo-ips
+        - jellyfin-rate-limit
+        - tinyauth@docker
+
   services:
     jellyfin:
       loadBalancer:
         servers:
           - url: http://wg-easy:8096
+
+    navidrome:
+      loadBalancer:
+        servers:
+          - url: http://wg-easy:4533
