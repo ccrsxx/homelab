@@ -1,0 +1,28 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    restart: unless-stopped
+    container_name: navidrome
+    user: 10000:10000
+    networks:
+      - traefik
+    environment:
+      - ND_LOGLEVEL=info
+      - ND_DEFAULTTHEME=Catppuccin Macchiato
+      - ND_ENABLESHARING=true
+      - ND_LYRICSPRIORITY=nd-lyrics,.lrc,.txt,embedded
+      - ND_ENABLEUSEREDITING=false
+      - ND_ENABLEINSIGHTSCOLLECTOR=false
+    ports:
+      - '4533:4533'
+    volumes:
+      - '/docker/appdata/navidrome:/data'
+      - '/mnt/data/media/music:/music:ro'
+      - '/mnt/data/media/music/_lyrics:/music/_lyrics:rw'
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.navidrome.rule=Host(`navidrome.${DOMAIN_MAIN_SECONDARY}`)'
+
+networks:
+  traefik:
+    external: true
