@@ -9,12 +9,11 @@ services:
       - '/docker/appdata/fireshare/data:/data'
       - '/docker/appdata/fireshare/processed:/processed'
       - '/mnt/docker/appdata/fireshare/videos:/videos'
+      - '/mnt/docker/appdata/fireshare/images:/images'
     environment:
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - SECRET_KEY=${SECRET_KEY}
-      - MINUTES_BETWEEN_VIDEO_SCANS=5
-      - THUMBNAIL_VIDEO_LOCATION=0
       - DOMAIN=fireshare.${DOMAIN_MAIN_PRIMARY}
       - PUID=10000
       - PGID=10000
