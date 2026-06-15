@@ -30,6 +30,14 @@ http:
       rule: Host(`dev-backend.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: dev-backend
 
+    dev-frontend-homelab:
+      rule: Host(`dev-frontend-homelab.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
+      service: dev-frontend-homelab
+
+    dev-backend-homelab:
+      rule: Host(`dev-backend-homelab.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
+      service: dev-backend-homelab
+
     dev-frontend-homelab-local:
       rule: Host(`dev-frontend-homelab.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: dev-frontend-homelab
