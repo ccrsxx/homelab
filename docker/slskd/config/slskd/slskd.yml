@@ -1,0 +1,59 @@
+soulseek:
+  listen_port: 43251
+  description: 'Software engineer by day, weeb by night~ Into anime, manga, novels & J-Pop hehe. Grab my music shares, pretty please! Tiny secret: share 1000+ files in 100+ folders and you skip the leecher line for full speed~ sharing is caring, nyaa!'
+  picture: /app/emilia.gif
+
+shares:
+  directories:
+    - '[Music]/music'
+  cache:
+    retention: 1440 # re-scan shares daily, in minutes
+
+retention:
+  search: 1440 # 1 day, in minutes
+  transfers:
+    upload:
+      succeeded: 1440 # 1 day, in minutes
+      errored: 30
+      cancelled: 5
+    download:
+      succeeded: 1440 # 1 day, in minutes
+      errored: 20160 # 2 weeks, in minutes
+      cancelled: 5
+  files:
+    complete: 20160 # 2 weeks, in minutes
+    incomplete: 43200 # 30 days, in minutes
+  logs: 180 # days
+
+transfers:
+  upload:
+    slots: 10 # total hard cap (additive across all groups)
+    speed_limit: 5120 # ~40 Mbps total, in KiB/s
+  download:
+    slots: 40
+    speed_limit: 10240 # ~80 Mbps total, in KiB/s
+  groups:
+    default:
+      upload:
+        priority: 10 # lower priority
+        strategy: roundrobin
+        slots: 4
+        speed_limit: 2304 # ~18 Mbps shared across all default users
+    leechers:
+      thresholds:
+        files: 1000 # must share at least this many files to escape leecher status
+        directories: 100 # ...and at least this many directories
+      upload:
+        priority: 99 # well below default/trusted
+        strategy: roundrobin
+        slots: 1 # one shared slot for all leechers
+        speed_limit: 256 # ~2 Mbps, throttled
+    user_defined:
+      trusted_buddies:
+        upload:
+          priority: 1 # highest priority, served before default/leechers
+          strategy: firstinfirstout
+          slots: 5 # dedicated 5 slots
+          speed_limit: 2560 # ~20 Mbps shared across all trusted users
+        members:
+          - zeromusicaltastelol

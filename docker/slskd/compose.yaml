@@ -69,7 +69,8 @@ services:
     environment:
       - TZ=Asia/Jakarta
       - SCRIPT_INTERVAL=60
-      - SLSKD_API_KEY=${SLSKD_API_KEY}
+      - SOULARR_SLSKD_API_KEY=${SOULARR_SLSKD_API_KEY}
+      - SOULARR_LIDARR_API_KEY=${SOULARR_LIDARR_API_KEY}
     volumes:
       - ./config/soularr:/data
       - /mnt/data/soulseek/music:/downloads

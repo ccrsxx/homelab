@@ -215,6 +215,6 @@ node_modules/
 # ...except for the dir and config inside it
 !/docker/slskd/config/slskd/
 !/docker/slskd/config/soularr/
-!/docker/slskd/config/slskd/slskd.yaml
+!/docker/slskd/config/slskd/slskd.yml
 !/docker/slskd/config/soularr/config.ini
 
