@@ -212,3 +212,7 @@ node_modules/
 # Ignore all config for the slskd
 /docker/slskd/config/*
 
+# ...except for the config inside it
+!/docker/slskd/config/slskd/slskd.yaml
+!/docker/slskd/config/soularr/config.ini
+
