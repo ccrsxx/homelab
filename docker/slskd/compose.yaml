@@ -45,25 +45,8 @@ services:
       - SLSKD_SLSK_USERNAME=${SLSKD_SLSK_USERNAME}
       - SLSKD_SLSK_PASSWORD=${SLSKD_SLSK_PASSWORD}
 
-      # Soulseek profile
-      - SLSKD_SLSK_PICTURE=${SLSKD_SLSK_PICTURE}
-      - SLSKD_SLSK_DESCRIPTION=${SLSKD_SLSK_DESCRIPTION}
-
-      # Shared directories
-      - SLSKD_SHARED_DIR=[Music]/music
-
-      # Shared directories cache retention (minutes)
-      - SLSKD_SHARE_CACHE_RETENTION=1440 # Refresh cache daily
-
-      # Soulseek download / upload speed (KiB) and their slots
-
-      # Download | 80 Mbps Download / 40 slots
-      - SLSKD_DOWNLOAD_SPEED_LIMIT=10240
-      - SLSKD_DOWNLOAD_SLOTS=40
-
-      # Upload | 20 Mbps Upload / 4 Slots
-      - SLSKD_UPLOAD_SPEED_LIMIT=2560
-      - SLSKD_UPLOAD_SLOTS=4
+      # API Key
+      - SLSKD_API_KEY=${SLSKD_API_KEY}
     depends_on:
       gluetun-slskd:
         condition: service_healthy
