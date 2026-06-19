@@ -13,6 +13,9 @@ services:
       - ND_LYRICSPRIORITY=nd-lyrics,.lrc,.txt,embedded
       - ND_ENABLEUSEREDITING=false
       - ND_ENABLEINSIGHTSCOLLECTOR=false
+      - ND_DEFAULTSHAREEXPIRATION=720h # 30 days
+
+      - ND_SHAREURL=https://navidrome.${DOMAIN_MAIN_PRIMARY}
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
     ports:
