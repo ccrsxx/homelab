@@ -5,7 +5,7 @@ services:
     environment:
       - SERVER_NAME=docker
       - SERVER_LOCK=true
-      - SERVER_TYPE=jellyfin
+      - SERVER_TYPE=subsonic
       - SERVER_URL=${SERVER_URL}
       - REMOTE_URL=${SERVER_URL}
       - ANALYTICS_DISABLED=true

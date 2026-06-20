@@ -38,7 +38,9 @@ services:
 
       - TINYAUTH_APPS_JELLYFIN_CONFIG_DOMAIN=jellyfin.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_JELLYFIN_IP_BYPASS=${JELLYFIN_IP_WHITELIST}
-      - TINYAUTH_APPS_JELLYFIN_PATH_ALLOW=${JELLYFIN_PATH_WHITELIST}
+
+      - TINYAUTH_APPS_NAVIDROME_CONFIG_DOMAIN=navidrome.${DOMAIN_MAIN_PRIMARY}
+      - TINYAUTH_APPS_NAVIDROME_PATH_ALLOW=^\/(rest|share)
 
       - TINYAUTH_APPS_CHANGEDETECTION_CONFIG_DOMAIN=change.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_CHANGEDETECTION_USERS_ALLOW=${PRIVATE_USER_WHITELIST}
@@ -47,6 +49,7 @@ services:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.tinyauth.rule=Host(`auth.${DOMAIN_MAIN_PRIMARY}`)'
       - 'traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik'
+      - 'traefik.http.middlewares.tinyauth.forwardauth.maxresponsebodysize=8192'
     networks:
       - traefik
 

@@ -42,7 +42,7 @@ detect:
   fps: 10
 
 notifications:
-  enabled: false
+  enabled: true
   email: frigate@ccrsxx.com
 
 record:
@@ -120,7 +120,7 @@ cameras:
       enabled: true
     zones:
       before_street:
-        coordinates: 0.35,0.573,0.344,1,0.84,1,0.748,0.571
+        coordinates: 0.262,0.496,0.274,0.998,0.767,1,0.627,0.416
         loitering_time: 0
         friendly_name: Before street
         inertia: 3
@@ -144,7 +144,7 @@ cameras:
     record:
       enabled: false
     notifications:
-      enabled: false
+      enabled: true
   bedroom_cam:
     enabled: true
     ffmpeg:
