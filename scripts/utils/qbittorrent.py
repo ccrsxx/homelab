@@ -11,7 +11,10 @@ qbt_client_proxmox: Final = qbittorrentapi.Client(
     password=app_env.QBITTORRENT_PASSWORD,
 )
 
-qbt_client_proxmox.auth_log_in()
+try:
+    qbt_client_proxmox.auth_log_in()
+except qbittorrentapi.LoginFailed as e:
+    print(e)
 
 qbt_client_ubuntu: Final = qbittorrentapi.Client(
     host=app_env.QBITTORRENT_UBUNTU_HOST,
@@ -20,7 +23,10 @@ qbt_client_ubuntu: Final = qbittorrentapi.Client(
     password=app_env.QBITTORRENT_PASSWORD,
 )
 
-qbt_client_ubuntu.auth_log_in()
+try:
+    qbt_client_ubuntu.auth_log_in()
+except qbittorrentapi.LoginFailed as e:
+    print(e)
 
 
 def enable_qbittorrents() -> None:
