@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+# yaml-language-server: $schema=https://schemas.recyclarr.dev/v8/config-schema.json
 
 radarr:
   radarr:
@@ -11,22 +11,39 @@ radarr:
         rename: true
         standard: standard
 
-    include:
-      # Quality Definition
-      - template: radarr-quality-definition-movie
+    # Quality definition is now set directly on the instance (v8 no longer uses
+    # the radarr-quality-definition-movie include template).
+    quality_definition:
+      type: movie
 
+    # v8: official include templates were removed. Each guide-backed quality
+    # profile below references a single trash_id that pulls its quality profile
+    # settings, custom format scores, and CF groups directly from the TRaSH Guides.
+    #
+    # NOTE: `name` is set to the existing profile name so Recyclarr adopts the
+    # profile created by v7 instead of creating a duplicate. Once the first sync
+    # succeeds you may remove `name` to adopt the guide's default name.
+    quality_profiles:
       # HD Bluray + WEB
-      - template: radarr-quality-profile-hd-bluray-web
-      - template: radarr-custom-formats-hd-bluray-web
+      - trash_id: d1d67249d3890e49bc12e275d989a7e9 # HD Bluray + WEB
+        name: HD Bluray + WEB
+        reset_unmatched_scores:
+          enabled: true
 
       # UHD Bluray + WEB
-      - template: radarr-quality-profile-uhd-bluray-web
-      - template: radarr-custom-formats-uhd-bluray-web
+      - trash_id: 64fb5f9858489bdac2af690e27c8f42f # UHD Bluray + WEB
+        name: UHD Bluray + WEB
+        reset_unmatched_scores:
+          enabled: true
 
       # Remux + WEB 1080p
-      - template: radarr-quality-profile-remux-web-1080p
-      - template: radarr-custom-formats-remux-web-1080p
+      - trash_id: 9ca12ea80aa55ef916e3751f4b874151 # Remux + WEB 1080p
+        name: Remux + WEB 1080p
+        reset_unmatched_scores:
+          enabled: true
 
       # Remux + WEB 2160p
-      - template: radarr-quality-profile-remux-web-2160p
-      - template: radarr-custom-formats-remux-web-2160p
+      - trash_id: fd161a61e3ab826d3a22d53f935696dd # Remux + WEB 2160p
+        name: Remux + WEB 2160p
+        reset_unmatched_scores:
+          enabled: true

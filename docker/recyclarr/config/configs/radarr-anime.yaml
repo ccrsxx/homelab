@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+# yaml-language-server: $schema=https://schemas.recyclarr.dev/v8/config-schema.json
 
 radarr:
   radarr-anime:
@@ -11,10 +11,15 @@ radarr:
         rename: true
         standard: standard
 
-    include:
-      # Quality Definition
-      - template: radarr-quality-definition-anime
+    quality_definition:
+      type: anime
 
-      # Remux-1080p - Anime
-      - template: radarr-quality-profile-anime
-      - template: radarr-custom-formats-anime
+    # v8 guide-backed profile. The guide renames this profile to
+    # "[Anime] Remux-1080p"; we keep the existing v7 name here so Recyclarr
+    # adopts the current profile instead of creating a duplicate. Remove `name`
+    # after the first successful sync if you want the guide's default name.
+    quality_profiles:
+      - trash_id: 722b624f9af1e492284c4bc842153a38 # [Anime] Remux-1080p
+        name: Remux-1080p - Anime
+        reset_unmatched_scores:
+          enabled: true

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+# yaml-language-server: $schema=https://schemas.recyclarr.dev/v8/config-schema.json
 
 sonarr:
   sonarr-anime:
@@ -14,18 +14,24 @@ sonarr:
         daily: default
         anime: default
 
-    include:
-      # Quality Definition
-      - template: sonarr-quality-definition-anime
+    quality_definition:
+      type: anime
 
-      # Remux-1080p - Anime
-      - template: sonarr-v4-quality-profile-anime
-      - template: sonarr-v4-custom-formats-anime
+    # v8 guide-backed profile. The guide renames this profile to
+    # "[Anime] Remux-1080p"; we keep the existing v7 name here so Recyclarr
+    # adopts the current profile instead of creating a duplicate. Remove `name`
+    # after the first successful sync if you want the guide's default name.
+    quality_profiles:
+      - trash_id: 20e0fc959f1f1704bed501f23bdae76f # [Anime] Remux-1080p
+        name: Remux-1080p - Anime
+        reset_unmatched_scores:
+          enabled: true
 
+    # Your custom score override, preserved from the v7 config. The
+    # assign_scores_to name must match the profile name above.
     custom_formats:
       - trash_ids:
           - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
         assign_scores_to:
           - name: Remux-1080p - Anime
             score: 101 # Adjust scoring as desired
-
