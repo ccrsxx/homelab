@@ -104,7 +104,7 @@ go2rtc:
 
 cameras:
   street_cam:
-    enabled: true
+    enabled: false
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/street_cam
