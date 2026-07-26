@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+# yaml-language-server: $schema=https://schemas.recyclarr.dev/v8/config-schema.json
 
 radarr:
   radarr:
@@ -11,22 +11,30 @@ radarr:
         rename: true
         standard: standard
 
-    include:
-      # Quality Definition
-      - template: radarr-quality-definition-movie
+    quality_definition:
+      type: movie
 
+    quality_profiles:
       # HD Bluray + WEB
-      - template: radarr-quality-profile-hd-bluray-web
-      - template: radarr-custom-formats-hd-bluray-web
+      - trash_id: d1d67249d3890e49bc12e275d989a7e9
+        name: HD Bluray + WEB
+        reset_unmatched_scores:
+          enabled: true
 
       # UHD Bluray + WEB
-      - template: radarr-quality-profile-uhd-bluray-web
-      - template: radarr-custom-formats-uhd-bluray-web
+      - trash_id: 64fb5f9858489bdac2af690e27c8f42f
+        name: UHD Bluray + WEB
+        reset_unmatched_scores:
+          enabled: true
 
       # Remux + WEB 1080p
-      - template: radarr-quality-profile-remux-web-1080p
-      - template: radarr-custom-formats-remux-web-1080p
+      - trash_id: 9ca12ea80aa55ef916e3751f4b874151
+        name: Remux + WEB 1080p
+        reset_unmatched_scores:
+          enabled: true
 
       # Remux + WEB 2160p
-      - template: radarr-quality-profile-remux-web-2160p
-      - template: radarr-custom-formats-remux-web-2160p
+      - trash_id: fd161a61e3ab826d3a22d53f935696dd
+        name: Remux + WEB 2160p
+        reset_unmatched_scores:
+          enabled: true
