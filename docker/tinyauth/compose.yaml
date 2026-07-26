@@ -1,6 +1,6 @@
 services:
   tinyauth:
-    image: ghcr.io/steveiliop56/tinyauth:v5
+    image: ghcr.io/tinyauthapp/tinyauth:v5
     container_name: tinyauth
     restart: unless-stopped
     environment:
@@ -10,6 +10,15 @@ services:
       - TINYAUTH_UI_BACKGROUNDIMAGE=${BACKGROUND_IMAGE}
       - TINYAUTH_ANALYTICS_ENABLED=false
       - TINYAUTH_AUTH_SESSIONEXPIRY=604800 # 1 week
+
+      # ACLs are configured via env vars below, docker socket is not mounted
+      - TINYAUTH_LABELPROVIDER=none
+
+      # Required since v5.1.0, without it every IP based ACL is ignored
+      - TINYAUTH_AUTH_TRUSTEDPROXIES=${TINYAUTH_TRUSTED_PROXIES}
+
+      # Global (all apps) authentication bypass by IP
+      - TINYAUTH_AUTH_IP_BYPASS=${GLOBAL_IP_WHITELIST}
 
       - TINYAUTH_OAUTH_PROVIDERS_GOOGLE_CLIENTID=${GOOGLE_CLIENT_ID}
       - TINYAUTH_OAUTH_PROVIDERS_GOOGLE_CLIENTSECRET=${GOOGLE_CLIENT_SECRET}
