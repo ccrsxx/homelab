@@ -2,6 +2,7 @@ services:
   wg-easy:
     environment:
       - INSECURE=true
+      - DISABLE_VERSION_CHECK=true
     image: ghcr.io/wg-easy/wg-easy:15
     container_name: wg-easy
     networks:
