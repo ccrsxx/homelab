@@ -16,6 +16,5 @@ radarr:
 
     quality_profiles:
       - trash_id: 722b624f9af1e492284c4bc842153a38 # [Anime] Remux-1080p
-        name: Remux-1080p - Anime
         reset_unmatched_scores:
           enabled: true
