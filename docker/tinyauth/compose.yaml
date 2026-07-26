@@ -1,20 +1,66 @@
 services:
   tinyauth:
-    image: ghcr.io/steveiliop56/tinyauth:v5
+    image: ghcr.io/tinyauthapp/tinyauth:v5
     container_name: tinyauth
     restart: unless-stopped
     environment:
-      - TINYAUTH_LOG_LEVEL=info
+      # ══════════════ Core ══════════════
       - TINYAUTH_APPURL=${APP_URL}
+      - TINYAUTH_ANALYTICS_ENABLED=false
+
+      # ══════════════ Logging ══════════════
+      - TINYAUTH_LOG_LEVEL=info
+      # audit stream records login success/failure with email + client IP.
+      # off by default; needed because OAuth login is open to anyone.
+      - TINYAUTH_LOG_STREAMS_AUDIT_ENABLED=true
+
+      # ══════════════ UI ══════════════
       - TINYAUTH_UI_TITLE=Auth
       - TINYAUTH_UI_BACKGROUNDIMAGE=${BACKGROUND_IMAGE}
-      - TINYAUTH_ANALYTICS_ENABLED=false
+
+      # ══════════════ Sessions ══════════════
+      # cookie is set on the PARENT domain (.example.com), so one login
+      # authenticates across every subdomain. per-app ACLs are what
+      # actually restrict access, not the login itself.
+      - TINYAUTH_AUTH_SECURECOOKIE=true
       - TINYAUTH_AUTH_SESSIONEXPIRY=604800 # 1 week
 
+      # ══════════════ Proxy trust ══════════════
+      # REQUIRED for any IP-based ACL. If unset, tinyauth ignores
+      # X-Forwarded-For, falls back to the socket peer (the Traefik
+      # container), and ip.bypass is hard-denied regardless of its value.
+      # Must cover the docker bridge: cloudflared reaches Traefik through
+      # the host, so it arrives as the bridge gateway (172.23.0.1), not
+      # its own container IP.
+      # Traefik side must match: entrypoint forwardedHeaders.trustedIPs
+      # needs 172.23.0.1/32 or it discards the tunnel's X-Forwarded-For.
+      - TINYAUTH_AUTH_TRUSTEDPROXIES=${TRUSTED_PROXIES}
+
+      # ══════════════ Global gates ══════════════
+      # deny = any app without a matching allow rule rejects every
+      # logged-in user (403). new subdomains fail closed until configured.
+      - TINYAUTH_AUTH_ACLS_POLICY=deny
+
+      # local accounts: username:bcrypt-hash[:totp-secret]
+      - TINYAUTH_AUTH_USERS=${USERS}
+
+      # who may COMPLETE an OAuth login (checked at the callback, before
+      # any app ACL). /.../ delimiters switch to regex; /.*/ = anyone.
+      # NOT the same as leaving it empty: empty means "abstain" and would
+      # resolve to deny under the policy above, killing all OAuth login.
+      - TINYAUTH_OAUTH_WHITELIST=/.*/
+
+      # skips authentication entirely. evaluated FIRST, before path and
+      # user rules, so these IPs reach every app regardless of its ACL.
+      - TINYAUTH_AUTH_IP_BYPASS=${GLOBAL_IP_WHITELIST}
+
+      # ══════════════ OAuth providers ══════════════
       - TINYAUTH_OAUTH_PROVIDERS_GOOGLE_CLIENTID=${GOOGLE_CLIENT_ID}
       - TINYAUTH_OAUTH_PROVIDERS_GOOGLE_CLIENTSECRET=${GOOGLE_CLIENT_SECRET}
+
       - TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTID=${GITHUB_CLIENT_ID}
       - TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTSECRET=${GITHUB_CLIENT_SECRET}
+
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTID=${PROVIDERS_POCKETID_CLIENT_ID}
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRET=${PROVIDERS_POCKETID_CLIENT_SECRET}
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_AUTHURL=${PROVIDERS_POCKETID_AUTH_URL}
@@ -24,23 +70,47 @@ services:
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_SCOPES=${PROVIDERS_POCKETID_SCOPES}
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME=${PROVIDERS_POCKETID_NAME}
 
-      - TINYAUTH_AUTH_USERS=${USERS}
+      # ══════════════ App ACLs ══════════════
+      # every app needs BOTH lists: users.allow covers local/LDAP logins,
+      # oauth.whitelist covers OAuth (that branch never reads users.allow).
+      # path.allow skips auth completely for matching paths - it is not
+      # gated by the deny policy, so those endpoints stay public.
+      # wildcard MUST be /.*/ with slashes; plain .* is compared literally
+      # and matches nobody.
 
+      # ---- open to any authenticated identity ----
+
+      - TINYAUTH_APPS_JELLYFIN_CONFIG_DOMAIN=jellyfin.${DOMAIN_MAIN_PRIMARY}
+      - TINYAUTH_APPS_JELLYFIN_USERS_ALLOW=/.*/
+      - TINYAUTH_APPS_JELLYFIN_OAUTH_WHITELIST=/.*/
+
+      - TINYAUTH_APPS_FEISHIN_CONFIG_DOMAIN=feishin.${DOMAIN_MAIN_PRIMARY}
+      - TINYAUTH_APPS_FEISHIN_USERS_ALLOW=/.*/
+      - TINYAUTH_APPS_FEISHIN_OAUTH_WHITELIST=/.*/
+
+      # path.allow = image proxy, used by the frontend without a session
       - TINYAUTH_APPS_PIXIV_CONFIG_DOMAIN=pixiv.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_PIXIV_PATH_ALLOW=^\/(proxy)
+      - TINYAUTH_APPS_PIXIV_USERS_ALLOW=/.*/
+      - TINYAUTH_APPS_PIXIV_OAUTH_WHITELIST=/.*/
 
+      # path.allow = download endpoints hit by external callers
       - TINYAUTH_APPS_METUBE_CONFIG_DOMAIN=metube.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_METUBE_PATH_ALLOW=^\/(download|audio_download)
+      - TINYAUTH_APPS_METUBE_USERS_ALLOW=/.*/
+      - TINYAUTH_APPS_METUBE_OAUTH_WHITELIST=/.*/
+
+      # path.allow = Subsonic API, native clients can't do the OAuth flow
+      - TINYAUTH_APPS_NAVIDROME_CONFIG_DOMAIN=navidrome.${DOMAIN_MAIN_PRIMARY}
+      - TINYAUTH_APPS_NAVIDROME_PATH_ALLOW=^\/(rest|share)
+      - TINYAUTH_APPS_NAVIDROME_USERS_ALLOW=/.*/
+      - TINYAUTH_APPS_NAVIDROME_OAUTH_WHITELIST=/.*/
+
+      # ---- restricted to named identities ----
 
       - TINYAUTH_APPS_FRIGATE_CONFIG_DOMAIN=frigate.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_FRIGATE_USERS_ALLOW=${FRIGATE_USER_WHITELIST}
       - TINYAUTH_APPS_FRIGATE_OAUTH_WHITELIST=${FRIGATE_OAUTH_WHITELIST}
-
-      - TINYAUTH_APPS_JELLYFIN_CONFIG_DOMAIN=jellyfin.${DOMAIN_MAIN_PRIMARY}
-      - TINYAUTH_APPS_JELLYFIN_IP_BYPASS=${JELLYFIN_IP_WHITELIST}
-
-      - TINYAUTH_APPS_NAVIDROME_CONFIG_DOMAIN=navidrome.${DOMAIN_MAIN_PRIMARY}
-      - TINYAUTH_APPS_NAVIDROME_PATH_ALLOW=^\/(rest|share)
 
       - TINYAUTH_APPS_CHANGEDETECTION_CONFIG_DOMAIN=change.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_CHANGEDETECTION_USERS_ALLOW=${PRIVATE_USER_WHITELIST}
