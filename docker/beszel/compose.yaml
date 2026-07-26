@@ -12,6 +12,9 @@ services:
       - 'traefik.http.routers.beszel.rule=Host(`beszel.${DOMAIN_MAIN_SECONDARY}`)'
     networks:
       - traefik
+    environment:
+      - APP_URL=https://beszel.${DOMAIN_MAIN_PRIMARY}
+      - DISABLE_PASSWORD_AUTH=true
 
 networks:
   traefik:
