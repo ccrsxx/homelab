@@ -14,6 +14,7 @@ services:
       - traefik
     environment:
       - APP_URL=https://beszel.${DOMAIN_MAIN_PRIMARY}
+      - DISABLE_PASSWORD_AUTH=true
 
 networks:
   traefik:
