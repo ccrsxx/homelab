@@ -7,6 +7,11 @@ services:
       - 8088:8090
     volumes:
       - /docker/appdata/beszel:/beszel_data
+    environment:
+      # The Pocket ID provider itself is added in the PocketBase UI at /_/
+      # (users collection -> Options -> OAuth2). Only these two are env-driven.
+      - USER_CREATION=${USER_CREATION:-false}
+      - DISABLE_PASSWORD_AUTH=${DISABLE_PASSWORD_AUTH:-false}
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.beszel.rule=Host(`beszel.${DOMAIN_MAIN_SECONDARY}`)'
