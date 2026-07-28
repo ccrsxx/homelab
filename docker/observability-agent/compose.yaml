@@ -1,0 +1,52 @@
+name: observability-agent
+
+# Grafana Alloy - the collector/agent. Runs on EVERY host (VPS, homelab, ...).
+# Same image and config everywhere; only the env vars differ per host, which is
+# what makes adding the homelab/network later a copy + two env changes.
+#
+# On the storage host (VPS) the default endpoints resolve loki/prometheus/tempo
+# by container name over the shared 'observability' network. On a remote host,
+# override *_ENDPOINT in docker/.env to the VPS Tailscale address.
+#
+# One-time setup on the host:
+#   docker network create observability   # if not already created
+
+services:
+  alloy:
+    image: grafana/alloy:v1.18.0
+    container_name: alloy
+    restart: unless-stopped
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    environment:
+      - TZ=Asia/Jakarta
+      # Location labels - the multi-site compatibility hook. Override per host.
+      - SITE=${OBS_SITE:-vps}
+      - HOST_NAME=${OBS_HOST_NAME:-vps}
+      - SERVICE_NAMESPACE=${OBS_SERVICE_NAMESPACE:-personal-api}
+      # Where to ship. Defaults assume the storage tier is on this same host.
+      - LOKI_ENDPOINT=${OBS_LOKI_ENDPOINT:-http://loki:3100/loki/api/v1/push}
+      - PROM_ENDPOINT=${OBS_PROM_ENDPOINT:-http://prometheus:9090/api/v1/write}
+      - TEMPO_ENDPOINT=${OBS_TEMPO_ENDPOINT:-http://tempo:4317}
+    volumes:
+      - ./alloy:/etc/alloy:ro
+      - /docker/appdata/alloy:/var/lib/alloy
+      # Docker log + container discovery (read-only socket).
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Host metrics (node exporter equivalent).
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      # cAdvisor per-container metrics.
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+    networks:
+      - default
+
+networks:
+  default:
+    external: true
+    name: observability

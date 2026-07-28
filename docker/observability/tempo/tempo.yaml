@@ -1,0 +1,58 @@
+---
+# Single-binary Tempo. Filesystem backend is fine to start; both Tempo and Loki
+# can move to S3/R2 later without changing the query layer.
+stream_over_http_enabled: true
+
+server:
+  http_listen_port: 3200
+  grpc_listen_port: 9095
+  log_level: info
+
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: '0.0.0.0:4317'
+        http:
+          endpoint: '0.0.0.0:4318'
+
+ingester:
+  max_block_duration: 5m
+
+compactor:
+  compaction:
+    # Traces are the fattest signal; 7 days is plenty for a personal API.
+    block_retention: 168h
+
+storage:
+  trace:
+    backend: local
+    wal:
+      path: /var/tempo/wal
+    local:
+      path: /var/tempo/blocks
+
+# Generate span metrics and service graphs from traces, and push them to
+# Prometheus. This powers Tempo -> metrics correlation and RED-from-traces.
+metrics_generator:
+  registry:
+    external_labels:
+      source: tempo
+  storage:
+    path: /var/tempo/generator/wal
+    remote_write:
+      - url: http://prometheus:9090/api/v1/write
+        send_exemplars: true
+  traces_storage:
+    path: /var/tempo/generator/traces
+
+overrides:
+  defaults:
+    metrics_generator:
+      processors:
+        - service-graphs
+        - span-metrics
+
+usage_report:
+  reporting_enabled: false

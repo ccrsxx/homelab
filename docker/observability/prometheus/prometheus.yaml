@@ -1,0 +1,23 @@
+---
+# Most metrics arrive via remote_write from Alloy agents (push model, required
+# because homelab/network sit behind NAT). Prometheus also scrapes a couple of
+# always-local targets directly.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service_name: prometheus
+          service_namespace: infra
+
+  # Alloy's own metrics ("watch the watcher" - a dead collector is silent).
+  - job_name: alloy
+    static_configs:
+      - targets: ['alloy:12345']
+        labels:
+          service_name: alloy
+          service_namespace: infra

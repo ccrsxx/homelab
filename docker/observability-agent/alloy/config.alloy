@@ -1,0 +1,205 @@
+// Grafana Alloy - unified collector for logs, metrics and traces.
+// This file is IDENTICAL on every host. Per-host identity comes from the
+// SITE / HOST_NAME / SERVICE_NAMESPACE env vars (see compose.yaml), which is
+// what lets the homelab and network hosts drop in later unchanged.
+
+// ============================================================================
+// LOGS  (Docker container stdout/stderr -> Loki)
+// ============================================================================
+
+discovery.docker "containers" {
+	host = "unix:///var/run/docker.sock"
+}
+
+// Derive service_name from the container name (strip the leading slash).
+discovery.relabel "containers" {
+	targets = discovery.docker.containers.targets
+
+	rule {
+		source_labels = ["__meta_docker_container_name"]
+		regex         = "/(.*)"
+		target_label  = "service_name"
+	}
+}
+
+loki.source.docker "containers" {
+	host       = "unix:///var/run/docker.sock"
+	targets    = discovery.relabel.containers.output
+	labels     = {}
+	forward_to = [loki.process.parse.receiver]
+}
+
+loki.process "parse" {
+	// Location labels (low cardinality, indexed). The multi-site hook.
+	stage.static_labels {
+		values = {
+			site              = sys.env("SITE"),
+			host_name         = sys.env("HOST_NAME"),
+			service_namespace = sys.env("SERVICE_NAMESPACE"),
+		}
+	}
+
+	// Parse JSON structured logs. Non-JSON containers simply won't populate
+	// these fields, which is harmless.
+	stage.json {
+		expressions = {
+			level       = "level",
+			route       = "",
+			trace_id    = "",
+			span_id     = "",
+			request_id  = "",
+			error_kind  = "",
+			error_id    = "",
+			status_code = "",
+			ip_address  = "",
+		}
+	}
+
+	// Only 'level' becomes an indexed label (low cardinality).
+	stage.labels {
+		values = {
+			level = "",
+		}
+	}
+
+	// Everything high-cardinality goes to structured metadata: queryable and
+	// filterable without exploding the stream index.
+	stage.structured_metadata {
+		values = {
+			route       = "",
+			trace_id    = "",
+			span_id     = "",
+			request_id  = "",
+			error_kind  = "",
+			error_id    = "",
+			status_code = "",
+			ip_address  = "",
+		}
+	}
+
+	forward_to = [loki.write.default.receiver]
+}
+
+loki.write "default" {
+	endpoint {
+		url = sys.env("LOKI_ENDPOINT")
+	}
+}
+
+// ============================================================================
+// METRICS  (host + containers -> Prometheus remote_write)
+// ============================================================================
+
+prometheus.exporter.unix "host" {
+	rootfs_path = "/rootfs"
+	procfs_path = "/host/proc"
+	sysfs_path  = "/host/sys"
+}
+
+prometheus.exporter.cadvisor "containers" {
+	docker_host      = "unix:///var/run/docker.sock"
+	storage_duration = "5m"
+}
+
+prometheus.scrape "infra" {
+	targets = array.concat(
+		prometheus.exporter.unix.host.targets,
+		prometheus.exporter.cadvisor.containers.targets,
+	)
+	forward_to      = [prometheus.remote_write.default.receiver]
+	scrape_interval = "15s"
+}
+
+// Scrape the API's internal metrics endpoint. Enable once the API app joins
+// the 'observability' network and exposes /metrics (roadmap Step 6 / Phase 2).
+// prometheus.scrape "api" {
+// 	targets         = [{"__address__" = "api:9090", "service_name" = "api"}]
+// 	metrics_path    = "/metrics"
+// 	forward_to      = [prometheus.remote_write.default.receiver]
+// 	scrape_interval = "15s"
+// }
+
+prometheus.remote_write "default" {
+	endpoint {
+		url = sys.env("PROM_ENDPOINT")
+	}
+
+	// Attach location labels to every metric so they align with logs/traces.
+	external_labels = {
+		site              = sys.env("SITE"),
+		host_name         = sys.env("HOST_NAME"),
+		service_namespace = sys.env("SERVICE_NAMESPACE"),
+	}
+}
+
+// ============================================================================
+// TRACES  (OTLP receive -> tail sampling -> Tempo)
+// ============================================================================
+
+otelcol.receiver.otlp "default" {
+	grpc {
+		endpoint = "0.0.0.0:4317"
+	}
+
+	http {
+		endpoint = "0.0.0.0:4318"
+	}
+
+	output {
+		traces = [otelcol.processor.tail_sampling.default.input]
+	}
+}
+
+// Keep every error and every slow trace; sample the rest. This is why tail
+// sampling lives in the collector (it needs the whole trace) rather than the
+// app SDK.
+otelcol.processor.tail_sampling "default" {
+	decision_wait = "10s"
+
+	policy {
+		name = "keep-errors"
+		type = "status_code"
+
+		status_code {
+			status_codes = ["ERROR"]
+		}
+	}
+
+	policy {
+		name = "keep-slow"
+		type = "latency"
+
+		latency {
+			threshold_ms = 1000
+		}
+	}
+
+	policy {
+		name = "sample-rest"
+		type = "probabilistic"
+
+		probabilistic {
+			sampling_percentage = 10
+		}
+	}
+
+	output {
+		traces = [otelcol.processor.batch.default.input]
+	}
+}
+
+otelcol.processor.batch "default" {
+	output {
+		traces = [otelcol.exporter.otlp.tempo.input]
+	}
+}
+
+otelcol.exporter.otlp "tempo" {
+	client {
+		endpoint = sys.env("TEMPO_ENDPOINT")
+
+		tls {
+			insecure = true
+		}
+	}
+}

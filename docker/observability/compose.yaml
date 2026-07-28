@@ -1,0 +1,108 @@
+name: observability
+
+# Central storage + query tier (the "hub"). Runs on ONE host (the VPS).
+# The Alloy agent (docker/observability-agent) runs on every host and pushes
+# here over the shared 'observability' network (local) or Tailscale (remote).
+#
+# Security model:
+#   - Grafana is the ONLY service on the public 'traefik' network.
+#   - Loki, Prometheus and Tempo have NO authentication and are reachable only
+#     on the internal 'observability' network. They are never published to the
+#     host or the internet. For a remote agent, expose them over Tailscale.
+#
+# One-time setup on the host:
+#   docker network create observability
+#   printf 'a-strong-password' > ./secrets/grafana_admin_password
+
+services:
+  grafana:
+    image: grafana/grafana:13.1.1
+    container_name: grafana
+    restart: unless-stopped
+    secrets:
+      - grafana_admin_password
+    environment:
+      - TZ=Asia/Jakarta
+      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana_admin_password
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN_MAIN_SECONDARY}
+      # Enable exemplar -> trace jumps and correlations UI.
+      - GF_FEATURE_TOGGLES_ENABLE=traceToMetrics
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - /docker/appdata/grafana:/var/lib/grafana
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.docker.network=traefik'
+      - 'traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.services.grafana.loadbalancer.server.port=3000'
+    depends_on:
+      - loki
+      - prometheus
+      - tempo
+    networks:
+      - traefik
+      - default
+
+  loki:
+    image: grafana/loki:3.7.4
+    container_name: loki
+    restart: unless-stopped
+    command: -config.file=/etc/loki/config.yaml
+    environment:
+      - TZ=Asia/Jakarta
+    volumes:
+      - ./loki/config.yaml:/etc/loki/config.yaml:ro
+      - ./loki/rules:/etc/loki/rules:ro
+      - /docker/appdata/loki:/loki
+    networks:
+      - default
+
+  prometheus:
+    image: prom/prometheus:v3.13.1
+    container_name: prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=90d'
+      # Accept pushes from Alloy (local and remote agents).
+      - '--web.enable-remote-write-receiver'
+      # Allow querying exemplars for metric -> trace correlation.
+      - '--enable-feature=exemplar-storage'
+    environment:
+      - TZ=Asia/Jakarta
+    volumes:
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - /docker/appdata/prometheus:/prometheus
+    networks:
+      - default
+
+  tempo:
+    image: grafana/tempo:2.9.4
+    container_name: tempo
+    restart: unless-stopped
+    command: -config.file=/etc/tempo/tempo.yaml
+    environment:
+      - TZ=Asia/Jakarta
+    volumes:
+      - ./tempo/tempo.yaml:/etc/tempo/tempo.yaml:ro
+      - /docker/appdata/tempo:/var/tempo
+    networks:
+      - default
+
+secrets:
+  grafana_admin_password:
+    file: './secrets/grafana_admin_password'
+
+networks:
+  traefik:
+    external: true
+  # The compose 'default' network is the shared external 'observability'
+  # network so the Alloy agent (a separate compose project) and the API app
+  # can resolve loki/prometheus/tempo by container name.
+  default:
+    external: true
+    name: observability
