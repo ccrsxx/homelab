@@ -44,9 +44,8 @@ services:
       - /var/lib/docker:/var/lib/docker:ro
       - /dev/disk:/dev/disk:ro
     networks:
-      - default
+      - observability
 
 networks:
-  default:
+  observability:
     external: true
-    name: observability

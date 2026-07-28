@@ -44,7 +44,7 @@ services:
       - tempo
     networks:
       - traefik
-      - default
+      - observability
 
   loki:
     image: grafana/loki:3.7.4
@@ -58,7 +58,7 @@ services:
       - ./loki/rules:/etc/loki/rules:ro
       - /docker/appdata/loki:/loki
     networks:
-      - default
+      - observability
 
   prometheus:
     image: prom/prometheus:v3.13.1
@@ -78,7 +78,7 @@ services:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - /docker/appdata/prometheus:/prometheus
     networks:
-      - default
+      - observability
 
   tempo:
     image: grafana/tempo:2.9.4
@@ -91,7 +91,7 @@ services:
       - ./tempo/tempo.yaml:/etc/tempo/tempo.yaml:ro
       - /docker/appdata/tempo:/var/tempo
     networks:
-      - default
+      - observability
 
 secrets:
   grafana_admin_password:
@@ -100,9 +100,7 @@ secrets:
 networks:
   traefik:
     external: true
-  # The compose 'default' network is the shared external 'observability'
-  # network so the Alloy agent (a separate compose project) and the API app
-  # can resolve loki/prometheus/tempo by container name.
-  default:
+  # Shared external network so the Alloy agent (a separate compose project) and
+  # the API app can resolve loki/prometheus/tempo by container name.
+  observability:
     external: true
-    name: observability
