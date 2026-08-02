@@ -1,0 +1,31 @@
+services:
+  termix:
+    image: ghcr.io/lukegus/termix:2.6.0
+    container_name: termix
+    restart: unless-stopped
+    ports:
+      - '2000:8080'
+    volumes:
+      - /docker/appdata/termix:/app/data
+    environment:
+      PORT: '8080'
+    depends_on:
+      - guacd
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.docker.network=traefik'
+      - 'traefik.http.routers.termix.rule=Host(`termix.${DOMAIN_MAIN_SECONDARY}`)'
+    networks:
+      - traefik
+      - default
+
+  guacd:
+    image: guacamole/guacd:1.6.0
+    container_name: guacd
+    restart: unless-stopped
+    ports:
+      - '4822:4822'
+
+networks:
+  traefik:
+    external: true
