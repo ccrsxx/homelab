@@ -1,0 +1,71 @@
+---
+# Monolithic (single-binary) Loki. Correct for a personal/homelab scale.
+# Do NOT switch to microservices mode here.
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9096
+  log_level: info
+
+common:
+  instance_addr: 127.0.0.1
+  path_prefix: /loki
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+
+schema_config:
+  configs:
+    # v13 + tsdb is required for structured metadata support.
+    - from: 2026-01-01
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+limits_config:
+  # Required so high-cardinality fields (trace_id, request_id, ip_address,
+  # error_id, route) can be attached as structured metadata instead of labels.
+  allow_structured_metadata: true
+  retention_period: 720h # 30 days
+  # Guardrail: a log-spam bug cannot fill the disk.
+  per_stream_rate_limit: 5MB
+  per_stream_rate_limit_burst: 20MB
+  ingestion_rate_mb: 16
+  ingestion_burst_size_mb: 32
+  reject_old_samples: true
+  reject_old_samples_max_age: 168h
+  max_query_series: 10000
+  volume_enabled: true # powers Grafana Logs Drilldown
+
+compactor:
+  working_directory: /loki/compactor
+  retention_enabled: true
+  delete_request_store: filesystem
+  compaction_interval: 10m
+  retention_delete_delay: 2h
+
+ruler:
+  enable_api: true
+  storage:
+    type: local
+    local:
+      directory: /etc/loki/rules
+  rule_path: /tmp/loki/rules
+  # Recording rules turn log patterns (error_kind rates, panics) into permanent
+  # Prometheus metrics for long-term error reporting and alerting.
+  remote_write:
+    enabled: true
+    client:
+      url: http://prometheus:9090/api/v1/write
+
+analytics:
+  reporting_enabled: false
