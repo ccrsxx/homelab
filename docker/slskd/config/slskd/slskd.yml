@@ -1,5 +1,4 @@
 soulseek:
-  listen_port: 43251
   description: 'Software engineer by day, weeb by night~ Into anime, manga, novels & J-Pop hehe. Grab my music shares, pretty please! Tiny secret: share 1000+ files in 100+ folders and you skip the leecher line for full speed~ sharing is caring, nyaa!'
   picture: /app/emilia.gif
 
@@ -32,6 +31,10 @@ transfers:
   download:
     slots: 40
     speed_limit: 10240 # ~80 Mbps total, in KiB/s
+    partial: resume # retry
+    attempts: 4
+    delay: 5000 # initial time between retries, in milliseconds
+    max_delay: 60000 # maximum time between retries, in milliseconds
   groups:
     default:
       upload:

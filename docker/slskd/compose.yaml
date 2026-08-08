@@ -16,13 +16,13 @@ services:
       - VPN_PORT_FORWARDING=on
       - SERVER_COUNTRIES=Singapore
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - >-
-        VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c "sed -i 's/listen_port:.*/listen_port: {{PORTS}}/' /app/slskd.yml"
+      - GLUETUN_HTTP_CONTROL_SERVER_ENABLE=on
+      - HTTP_CONTROL_SERVER_AUTH_DEFAULT_ROLE='{"auth":"apikey","apikey":"${GLUETUN_API_KEY}"}'
     volumes:
-      - ./config/slskd:/app
       - /docker/appdata/gluetun-slskd:/gluetun
     ports:
       - 5030:5030
+      - 8030:8000
     restart: always
     networks:
       - traefik
@@ -36,6 +36,12 @@ services:
       - TZ=Asia/Jakarta
       - SLSKD_UMASK=002
       - SLSKD_REMOTE_CONFIGURATION=true
+
+      # VPN
+      - SLSKD_VPN=true
+      - SLSKD_VPN_PORT_FORWARDING=true
+      - SLSKD_VPN_GLUETUN_URL=http://localhost:8000
+      - SLSKD_VPN_GLUETUN_API_KEY=${GLUETUN_API_KEY}
 
       # Web auth
       - SLSKD_USERNAME=${SLSKD_USERNAME}
