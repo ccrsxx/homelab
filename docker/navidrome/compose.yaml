@@ -10,7 +10,7 @@ services:
       - ND_LOGLEVEL=info
       - ND_DEFAULTTHEME=Catppuccin Macchiato
       - ND_ENABLESHARING=true
-      - ND_LYRICSPRIORITY=nd-lyrics,.lrc,.txt,embedded
+      - ND_LYRICSPRIORITY=nd-lyrics,.ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded
       - ND_ENABLEUSEREDITING=false
       - ND_ENABLEINSIGHTSCOLLECTOR=false
       - ND_DEFAULTSHAREEXPIRATION=720h # 30 days
