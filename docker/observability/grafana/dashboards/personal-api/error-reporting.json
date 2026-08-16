@@ -1,0 +1,113 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 0,
+  "title": "API Error Reporting",
+  "uid": "api-error-reporting",
+  "tags": ["observability", "errors"],
+  "schemaVersion": 39,
+  "time": {"from": "now-6h", "to": "now"},
+  "templating": {
+    "list": [
+      {
+        "name": "service_namespace",
+        "type": "query",
+        "datasource": {"type": "loki", "uid": "loki"},
+        "query": {"label": "service_namespace", "stream": "", "type": 1},
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "current": {"text": "All", "value": "$__all"}
+      },
+      {
+        "name": "service_name",
+        "type": "query",
+        "datasource": {"type": "loki", "uid": "loki"},
+        "query": {
+          "label": "service_name",
+          "stream": "{service_namespace=~\"$service_namespace\"}",
+          "type": 1
+        },
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "current": {"text": "All", "value": "$__all"}
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Panics (5m rate)",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 5, "w": 6, "x": 0, "y": 0},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "red", "value": 0.0001}
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(log_panics:rate5m{service_namespace=~\"$service_namespace\", service_name=~\"$service_name\"})"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Error rate by kind",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 9, "w": 18, "x": 6, "y": 0},
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (error_kind) (log_errors:rate1m{service_namespace=~\"$service_namespace\", service_name=~\"$service_name\"})",
+          "legendFormat": "{{error_kind}}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "table",
+      "title": "Top errors (grouped by error_kind)",
+      "datasource": {"type": "loki", "uid": "loki"},
+      "gridPos": {"h": 9, "w": 24, "x": 0, "y": 9},
+      "options": {"showHeader": true},
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "topk(25, sum by (error_kind) (count_over_time({service_namespace=~\"$service_namespace\", service_name=~\"$service_name\", level=\"error\"} | error_kind != \"\" [$__range])))",
+          "instant": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "logs",
+      "title": "Live error logs",
+      "datasource": {"type": "loki", "uid": "loki"},
+      "gridPos": {"h": 11, "w": 24, "x": 0, "y": 18},
+      "options": {
+        "showTime": true,
+        "wrapLogMessage": true,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{service_namespace=~\"$service_namespace\", service_name=~\"$service_name\", level=\"error\"}"
+        }
+      ]
+    }
+  ]
+}

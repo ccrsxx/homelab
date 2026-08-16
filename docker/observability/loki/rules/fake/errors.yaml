@@ -1,0 +1,30 @@
+---
+# Loki recording rules -> remote-written into Prometheus.
+# 'fake' is Loki's default tenant id when auth_enabled is false.
+#
+# These turn log patterns into permanent metrics so error reporting and
+# alerting survive beyond Loki's 30-day retention. error_kind is emitted by the
+# API as a stable fingerprint (see internal/api/error.go).
+groups:
+  - name: error-reporting
+    interval: 1m
+    rules:
+      # Error rate grouped by stable fingerprint. This is the data behind the
+      # "top errors" table (replaces GCP Error Reporting's grouping).
+      - record: log_errors:rate1m
+        expr: |
+          sum by (service_name, service_namespace, error_kind) (
+            rate({level="error"} | error_kind != "" [1m])
+          )
+      # Any panic is high severity; kept as its own series for alerting.
+      - record: log_panics:rate5m
+        expr: |
+          sum by (service_name, service_namespace) (
+            rate({level="error"} |= "http panic error" [5m])
+          )
+      # Overall error volume per service for dashboards.
+      - record: log_errors:total_rate5m
+        expr: |
+          sum by (service_name, service_namespace) (
+            rate({level="error"} [5m])
+          )
