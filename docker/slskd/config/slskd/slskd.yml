@@ -60,3 +60,4 @@ transfers:
           speed_limit: 2560 # ~20 Mbps shared across all trusted users
         members:
           - zeromusicaltastelol
+          - RebelAgainstReality
