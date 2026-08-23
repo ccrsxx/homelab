@@ -23,7 +23,7 @@ model:
   height: 320
   input_tensor: nchw
   input_dtype: float
-  path: /config/model_cache/yolov9-s-320.onnx
+  path: /config/model_cache/yolov9-t-320.onnx
   labelmap_path: /labelmap/coco-80.txt
 
 audio:
@@ -35,11 +35,11 @@ audio:
     - speech
 
 ffmpeg:
-  hwaccel_args: preset-intel-qsv-h264
+  hwaccel_args: preset-intel-qsv-h265
 
 detect:
   enabled: true
-  fps: 10
+  fps: 6
 
 notifications:
   enabled: true
@@ -132,6 +132,7 @@ cameras:
   garage_cam:
     enabled: true
     ffmpeg:
+      hwaccel_args: preset-intel-qsv-h264
       inputs:
         - path: rtsp://127.0.0.1:8554/garage_cam
     audio:
@@ -219,6 +220,11 @@ cameras:
     objects:
       genai:
         enabled: false
+    zones:
+      doorway:
+        coordinates: 0.472,0.998,0.806,1,0.678,0.215,0.557,0.215
+        loitering_time: 0
+        inertia: 3
 
 objects:
   track:
