@@ -15,7 +15,7 @@ services:
       - traefik
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
-      - 'traefik.http.routers.kavita.rule=Host(`kavita.${DOMAIN_MAIN_SECONDARY}`)'
+      - 'traefik.http.routers.kavita.rule=Host(`kavita.${DOMAIN_MAIN_PRIMARY}`) || Host(`kavita.${DOMAIN_MAIN_SECONDARY}`)'
 
 networks:
   traefik:
