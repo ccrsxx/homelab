@@ -1,0 +1,46 @@
+services:
+  grafana:
+    image: grafana/grafana:13.2.1
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3333:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:rw # still exploring, later make it readonly
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana_password
+    secrets:
+      - grafana_password
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:v3.14.0
+    container_name: prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--storage.tsdb.retention.size=1GB'
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - monitoring
+
+secrets:
+  grafana_password:
+    file: './secrets/grafana_password'
+
+networks:
+  monitoring:
+    external: true
+
+volumes:
+  grafana-data:
+  prometheus-data:

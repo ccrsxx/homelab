@@ -1,0 +1,6 @@
+scrape_configs:
+  - job_name: api
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - api:4000
