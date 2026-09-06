@@ -1,0 +1,32 @@
+targets:
+  # --- Public DNS Resolvers ---
+  - 1.1.1.1 # Cloudflare Primary
+  - 1.0.0.1 # Cloudflare Secondary
+  - 8.8.8.8 # Google Primary
+  - 8.8.4.4 # Google Secondary
+  - 9.9.9.9 # Quad9
+  - 208.67.222.222 # OpenDNS
+
+  # --- Public Websites ---
+  - x.com
+  - reddit.com
+  - tiktok.com
+  - google.com
+  - discord.com
+  - youtube.com
+  - facebook.com
+  - instagram.com
+
+dns:
+  refresh: 2m15s
+  nameserver: 1.1.1.1
+
+ping:
+  interval: 2s
+  timeout: 3s
+  history-size: 42
+  payload-size: 120
+  fw-mark: 222
+
+options:
+  disable-ipv6: true

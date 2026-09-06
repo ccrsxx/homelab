@@ -38,7 +38,19 @@ services:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
     networks:
+      - default
       - monitoring
+
+  ping-exporter:
+    image: czerwonk/ping_exporter:1.2.3
+    container_name: ping-exporter
+    restart: unless-stopped
+    environment:
+      - CONFIG_FILE=/etc/ping-exporter/ping-exporter.yaml
+    volumes:
+      - ./ping-exporter/ping-exporter.yaml:/etc/ping-exporter/ping-exporter.yaml:ro
+    ports:
+      - '9427:9427'
 
 secrets:
   grafana_password:
