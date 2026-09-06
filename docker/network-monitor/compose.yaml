@@ -1,0 +1,29 @@
+services:
+  network-ping-exporter:
+    image: czerwonk/ping_exporter:1.2.3
+    container_name: network-ping-exporter
+    restart: unless-stopped
+    environment:
+      - CONFIG_FILE=/etc/ping-exporter/ping-exporter.yaml
+    volumes:
+      - ../monitoring/ping-exporter/ping-exporter.yaml:/etc/ping-exporter/ping-exporter.yaml:ro
+    ports:
+      - '9428:9427'
+
+  network-prometheus:
+    image: prom/prometheus:v3.14.0
+    container_name: network-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--storage.tsdb.retention.size=1GB'
+    volumes:
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - '9091:9090'
+
+volumes:
+  prometheus-data:

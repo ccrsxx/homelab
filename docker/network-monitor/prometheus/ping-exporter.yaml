@@ -1,0 +1,49 @@
+targets:
+  # --- Public DNS Resolvers (Anycast) ---
+  - 1.1.1.1 # Cloudflare Primary
+  - 1.0.0.1 # Cloudflare Secondary
+  - 8.8.8.8 # Google Primary
+  - 8.8.4.4 # Google Secondary
+  - 9.9.9.9 # Quad9
+  - 208.67.222.222 # OpenDNS
+
+  # --- Search & Infrastructure ---
+  - google.com
+  - cloudflare.com
+  - aws.amazon.com
+  - microsoft.com
+
+  # --- Social & Messaging ---
+  - facebook.com
+  - instagram.com
+  - whatsapp.com
+  - web.whatsapp.com
+  - telegram.org
+  - x.com # Twitter
+  - reddit.com
+  - discord.com
+  - tiktok.com
+
+  # --- Media, Streaming & Content ---
+  - youtube.com
+  - netflix.com
+  - spotify.com
+  - wikipedia.org
+
+  # --- Dev & Gaming Networks ---
+  - github.com
+  - store.steampowered.com
+
+dns:
+  refresh: 2m15s
+  nameserver: 1.1.1.1
+
+ping:
+  interval: 2s
+  timeout: 3s
+  history-size: 42
+  payload-size: 120
+  fw-mark: 222
+
+options:
+  disable-ipv6: true
