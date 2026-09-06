@@ -3,8 +3,8 @@
   "kind": "Dashboard",
   "metadata": {
     "name": "ypFZFgvmz",
-    "generation": 1,
-    "creationTimestamp": "2026-09-05T18:00:48Z",
+    "generation": 2,
+    "creationTimestamp": "2026-09-06T07:54:09Z",
     "labels": {},
     "annotations": {}
   },
@@ -15,7 +15,7 @@
         "spec": {
           "query": {
             "kind": "DataQuery",
-            "group": "",
+            "group": "grafana",
             "version": "v0",
             "spec": {}
           },
@@ -23,10 +23,7 @@
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
           "name": "Annotations & Alerts",
-          "builtIn": true,
-          "legacyOptions": {
-            "type": "dashboard"
-          }
+          "builtIn": true
         }
       }
     ],
@@ -39,6 +36,7 @@
         "spec": {
           "id": 1,
           "title": "process memory",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -58,10 +56,6 @@
                         "legendFormat": "{{pod}} - resident",
                         "metric": "process_resident_memory_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -82,10 +76,6 @@
                         "legendFormat": "{{pod}} - virtual",
                         "metric": "process_virtual_memory_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "B",
@@ -100,80 +90,93 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "rightSide": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [
-                      {
-                        "alias": "resident",
-                        "yaxis": 2
-                      }
-                    ],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "bytes",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
-                "overrides": []
+                "defaults": {
+                  "unit": "bytes",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "resident"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "short"
+                      },
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "right"
+                      }
+                    ]
+                  }
+                ]
               }
             }
           }
@@ -184,6 +187,7 @@
         "spec": {
           "id": 2,
           "title": "go memstats",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -203,10 +207,6 @@
                         "legendFormat": "{{pod}} - bytes allocated",
                         "metric": "go_memstats_alloc_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -227,10 +227,6 @@
                         "legendFormat": "{{pod}} - alloc rate",
                         "metric": "go_memstats_alloc_bytes_total",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "B",
@@ -251,10 +247,6 @@
                         "legendFormat": "{{pod}} - stack inuse",
                         "metric": "go_memstats_stack_inuse_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "C",
@@ -275,10 +267,6 @@
                         "legendFormat": "{{pod}} - heap inuse",
                         "metric": "go_memstats_heap_inuse_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "D",
@@ -293,79 +281,93 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [
-                      {
-                        "alias": "alloc rate",
-                        "yaxis": 2
-                      }
-                    ],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "bytes",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "Bps",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
-                "overrides": []
+                "defaults": {
+                  "unit": "bytes",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "alloc rate"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "Bps"
+                      },
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "right"
+                      }
+                    ]
+                  }
+                ]
               }
             }
           }
@@ -376,6 +378,7 @@
         "spec": {
           "id": 3,
           "title": "open fds",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -395,10 +398,6 @@
                         "legendFormat": "{{pod}}",
                         "metric": "process_open_fds",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -413,73 +412,75 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
+                "defaults": {
+                  "unit": "short",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
                 "overrides": []
               }
             }
@@ -491,6 +492,7 @@
         "spec": {
           "id": 4,
           "title": "process memory deriv",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -510,10 +512,6 @@
                         "legendFormat": "{{pod}} - resident",
                         "metric": "process_resident_memory_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -534,10 +532,6 @@
                         "legendFormat": "{{pod}} - virtual",
                         "metric": "process_virtual_memory_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "B",
@@ -552,78 +546,75 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [
-                      {
-                        "alias": "resident",
-                        "yaxis": 1
-                      }
-                    ],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "bytes",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
+                "defaults": {
+                  "unit": "bytes",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
                 "overrides": []
               }
             }
@@ -635,6 +626,7 @@
         "spec": {
           "id": 5,
           "title": "go memstats deriv",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -654,10 +646,6 @@
                         "legendFormat": "{{pod}} - bytes allocated",
                         "metric": "go_memstats_alloc_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -678,10 +666,6 @@
                         "legendFormat": "{{pod}} - alloc rate",
                         "metric": "go_memstats_alloc_bytes_total",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "B",
@@ -702,10 +686,6 @@
                         "legendFormat": "{{pod}} - stack inuse",
                         "metric": "go_memstats_stack_inuse_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "C",
@@ -726,10 +706,6 @@
                         "legendFormat": "{{pod}} - heap inuse",
                         "metric": "go_memstats_heap_inuse_bytes",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "D",
@@ -744,79 +720,93 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [
-                      {
-                        "alias": "alloc rate",
-                        "yaxis": 2
-                      }
-                    ],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "bytes",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "Bps",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
-                "overrides": []
+                "defaults": {
+                  "unit": "bytes",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "alloc rate"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "Bps"
+                      },
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "right"
+                      }
+                    ]
+                  }
+                ]
               }
             }
           }
@@ -827,6 +817,7 @@
         "spec": {
           "id": 6,
           "title": "open fds deriv",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -846,10 +837,6 @@
                         "legendFormat": "{{pod}}",
                         "metric": "process_open_fds",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -864,73 +851,75 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
+                "defaults": {
+                  "unit": "short",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
                 "overrides": []
               }
             }
@@ -942,6 +931,7 @@
         "spec": {
           "id": 7,
           "title": "Goroutines",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -961,10 +951,6 @@
                         "legendFormat": "{{pod}}",
                         "metric": "go_goroutines",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -979,73 +965,75 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
+                "defaults": {
+                  "unit": "short",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
                 "overrides": []
               }
             }
@@ -1057,6 +1045,7 @@
         "spec": {
           "id": 8,
           "title": "GC duration quantiles",
+          "description": "",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -1076,10 +1065,6 @@
                         "legendFormat": "{{pod}}: {{quantile}}",
                         "metric": "go_gc_duration_seconds",
                         "step": 4
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "prometheus"
                       }
                     },
                     "refId": "A",
@@ -1094,73 +1079,75 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "",
+            "version": "13.2.1",
             "spec": {
               "options": {
-                "__angularMigration": {
-                  "autoMigrateFrom": "graph",
-                  "originalOptions": {
-                    "aliasColors": {},
-                    "bars": false,
-                    "dashLength": 10,
-                    "dashes": false,
-                    "editable": true,
-                    "error": false,
-                    "fill": 1,
-                    "grid": {},
-                    "legend": {
-                      "alignAsTable": true,
-                      "avg": true,
-                      "current": true,
-                      "max": true,
-                      "min": false,
-                      "show": true,
-                      "total": false,
-                      "values": true
-                    },
-                    "lines": true,
-                    "linewidth": 2,
-                    "nullPointMode": "connected",
-                    "percentage": false,
-                    "pointradius": 5,
-                    "points": false,
-                    "renderer": "flot",
-                    "seriesOverrides": [],
-                    "spaceLength": 10,
-                    "stack": false,
-                    "steppedLine": false,
-                    "thresholds": [],
-                    "tooltip": {
-                      "msResolution": false,
-                      "shared": true,
-                      "sort": 0,
-                      "value_type": "cumulative"
-                    },
-                    "xaxis": {
-                      "mode": "time",
-                      "show": true,
-                      "values": []
-                    },
-                    "yaxes": [
-                      {
-                        "format": "s",
-                        "logBase": 1,
-                        "show": true
-                      },
-                      {
-                        "format": "short",
-                        "logBase": 1,
-                        "show": true
-                      }
-                    ],
-                    "yaxis": {
-                      "align": false
-                    }
-                  }
+                "legend": {
+                  "calcs": ["mean", "lastNotNull", "max"],
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
               "fieldConfig": {
-                "defaults": {},
+                "defaults": {
+                  "unit": "s",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
                 "overrides": []
               }
             }
@@ -1287,7 +1274,7 @@
       "timezone": "browser",
       "from": "now-30m",
       "to": "now",
-      "autoRefresh": "30s",
+      "autoRefresh": "auto",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -1303,7 +1290,7 @@
       "hideTimepicker": false,
       "fiscalYearStartMonth": 0
     },
-    "title": "Go Processes",
+    "title": "API Go",
     "variables": [
       {
         "kind": "QueryVariable",
@@ -1322,13 +1309,10 @@
             "version": "v0",
             "spec": {
               "__legacyStringValue": "label_values(go_memstats_alloc_bytes, namespace)"
-            },
-            "labels": {
-              "grafana.app/export-label": "prometheus-1",
-              "grafana.app/export-datasource-name": "prometheus"
             }
           },
           "regex": "",
+          "regexApplyTo": "value",
           "sort": "disabled",
           "options": [],
           "multi": true,
@@ -1354,13 +1338,10 @@
             "version": "v0",
             "spec": {
               "__legacyStringValue": "label_values(process_resident_memory_bytes, pod)"
-            },
-            "labels": {
-              "grafana.app/export-label": "prometheus-1",
-              "grafana.app/export-datasource-name": "prometheus"
             }
           },
           "regex": "",
+          "regexApplyTo": "value",
           "sort": "disabled",
           "options": [],
           "multi": true,
