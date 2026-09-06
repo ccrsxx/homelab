@@ -8,7 +8,7 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
-      - ./grafana/dashboards:/var/lib/grafana/dashboards:rw # still exploring, later make it readonly
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
     environment:
       - GRAFANA_ROOT_URL=${GRAFANA_ROOT_URL}
