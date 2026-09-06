@@ -7,12 +7,19 @@ services:
       - 3333:3000
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./grafana/dashboards:/var/lib/grafana/dashboards:rw # still exploring, later make it readonly
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana_password
+      - GRAFANA_ROOT_URL=${GRAFANA_ROOT_URL}
+      - GRAFANA_ADMIN_EMAIL=${GRAFANA_ADMIN_EMAIL}
+      - POCKET_ID_CLIENT_ID=${POCKET_ID_CLIENT_ID}
+      - POCKET_ID_AUTH_URL=${POCKET_ID_AUTH_URL}
+      - POCKET_ID_TOKEN_URL=${POCKET_ID_TOKEN_URL}
+      - POCKET_ID_API_URL=${POCKET_ID_API_URL}
     secrets:
       - grafana_password
+      - pocket_id_secret
     networks:
       - monitoring
 
@@ -36,6 +43,8 @@ services:
 secrets:
   grafana_password:
     file: './secrets/grafana_password'
+  pocket_id_secret:
+    file: ./secrets/pocket_id_secret
 
 networks:
   monitoring:
