@@ -1,21 +1,49 @@
 targets:
   # --- Public DNS Resolvers ---
-  - 1.1.1.1 # Cloudflare Primary
-  - 1.0.0.1 # Cloudflare Secondary
-  - 8.8.8.8 # Google Primary
-  - 8.8.4.4 # Google Secondary
-  - 9.9.9.9 # Quad9
-  - 208.67.222.222 # OpenDNS
+  - host: 1.1.1.1
+    type: dns
+    name: 'Cloudflare Primary'
+  - host: 1.0.0.1
+    type: dns
+    name: 'Cloudflare Secondary'
+  - host: 8.8.8.8
+    type: dns
+    name: 'Google Primary'
+  - host: 8.8.4.4
+    type: dns
+    name: 'Google Secondary'
+  - host: 9.9.9.9
+    type: dns
+    name: 'Quad9'
+  - host: 208.67.222.222
+    type: dns
+    name: 'OpenDNS'
 
   # --- Public Websites ---
-  - x.com
-  - reddit.com
-  - tiktok.com
-  - google.com
-  - discord.com
-  - youtube.com
-  - facebook.com
-  - instagram.com
+  - host: x.com
+    type: web
+    name: 'X (Twitter)'
+  - host: reddit.com
+    type: web
+    name: 'Reddit'
+  - host: tiktok.com
+    type: web
+    name: 'TikTok'
+  - host: google.com
+    type: web
+    name: 'Google'
+  - host: discord.com
+    type: web
+    name: 'Discord'
+  - host: youtube.com
+    type: web
+    name: 'YouTube'
+  - host: facebook.com
+    type: web
+    name: 'Facebook'
+  - host: instagram.com
+    type: web
+    name: 'Instagram'
 
 dns:
   refresh: 2m15s
