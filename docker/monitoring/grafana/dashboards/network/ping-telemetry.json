@@ -900,7 +900,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Ping Exporter",
-  "uid": "pv02xrZWz",
+  "title": "Ping Telemetry",
+  "uid": "ping-telemetry",
   "version": 1
 }
