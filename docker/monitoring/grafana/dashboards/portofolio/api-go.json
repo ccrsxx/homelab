@@ -4,7 +4,7 @@
   "metadata": {
     "name": "ypFZFgvmz",
     "generation": 2,
-    "creationTimestamp": "2026-09-06T07:54:09Z",
+    "creationTimestamp": "2026-09-06T14:34:54Z",
     "labels": {},
     "annotations": {}
   },
@@ -1272,7 +1272,7 @@
     "tags": [],
     "timeSettings": {
       "timezone": "browser",
-      "from": "now-30m",
+      "from": "now-1h",
       "to": "now",
       "autoRefresh": "auto",
       "autoRefreshIntervals": [

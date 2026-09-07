@@ -4,7 +4,7 @@
   "metadata": {
     "name": "pv02xrZWz",
     "generation": 2,
-    "creationTimestamp": "2026-09-06T13:52:12Z",
+    "creationTimestamp": "2026-09-06T14:34:54Z",
     "labels": {},
     "annotations": {}
   },
@@ -22,9 +22,6 @@
               "matchAny": false,
               "tags": [],
               "type": "dashboard"
-            },
-            "labels": {
-              "grafana.app/export-label": "grafana-1"
             }
           },
           "enable": true,
@@ -70,7 +67,7 @@
                       },
                       "labels": {
                         "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "Prometheus VPS"
+                        "grafana.app/export-datasource-name": "$Datasource"
                       }
                     },
                     "refId": "A",
@@ -97,7 +94,7 @@
                       },
                       "labels": {
                         "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "Prometheus VPS"
+                        "grafana.app/export-datasource-name": "$Datasource"
                       }
                     },
                     "refId": "B",
@@ -124,7 +121,7 @@
                       },
                       "labels": {
                         "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "Prometheus VPS"
+                        "grafana.app/export-datasource-name": "$Datasource"
                       }
                     },
                     "refId": "C",
@@ -300,8 +297,7 @@
                               "value": 0
                             },
                             {
-                              "color": "rgba(237, 129, 40, 0.89)",
-                              "value": null
+                              "color": "rgba(237, 129, 40, 0.89)"
                             }
                           ]
                         }
@@ -490,7 +486,7 @@
                       },
                       "labels": {
                         "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "Prometheus VPS"
+                        "grafana.app/export-datasource-name": "$Datasource"
                       }
                     },
                     "refId": "A",
@@ -518,7 +514,7 @@
                       },
                       "labels": {
                         "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "Prometheus VPS"
+                        "grafana.app/export-datasource-name": "$Datasource"
                       }
                     },
                     "refId": "B",
@@ -546,7 +542,7 @@
                       },
                       "labels": {
                         "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "Prometheus VPS"
+                        "grafana.app/export-datasource-name": "$Datasource"
                       }
                     },
                     "refId": "C",
@@ -571,7 +567,7 @@
                       },
                       "labels": {
                         "grafana.app/export-label": "prometheus-1",
-                        "grafana.app/export-datasource-name": "Prometheus VPS"
+                        "grafana.app/export-datasource-name": "$Datasource"
                       }
                     },
                     "refId": "D",
@@ -1169,7 +1165,7 @@
       "timezone": "browser",
       "from": "now-1h",
       "to": "now",
-      "autoRefresh": "10s",
+      "autoRefresh": "auto",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -1231,7 +1227,7 @@
             },
             "labels": {
               "grafana.app/export-label": "prometheus-1",
-              "grafana.app/export-datasource-name": "Prometheus VPS"
+              "grafana.app/export-datasource-name": "$Datasource"
             }
           },
           "regex": "",
@@ -1269,7 +1265,7 @@
             },
             "labels": {
               "grafana.app/export-label": "prometheus-1",
-              "grafana.app/export-datasource-name": "Prometheus VPS"
+              "grafana.app/export-datasource-name": "$Datasource"
             }
           },
           "regex": "",
@@ -1307,7 +1303,7 @@
             },
             "labels": {
               "grafana.app/export-label": "prometheus-1",
-              "grafana.app/export-datasource-name": "Prometheus VPS"
+              "grafana.app/export-datasource-name": "$Datasource"
             }
           },
           "regex": "",
@@ -1345,7 +1341,7 @@
             },
             "labels": {
               "grafana.app/export-label": "prometheus-1",
-              "grafana.app/export-datasource-name": "Prometheus VPS"
+              "grafana.app/export-datasource-name": "$Datasource"
             }
           },
           "regex": "",
