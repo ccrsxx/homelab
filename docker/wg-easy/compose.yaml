@@ -12,6 +12,8 @@ services:
         interface_name: eth0
       traefik:
         interface_name: eth1
+      monitoring:
+        interface_name: eth2
     volumes:
       - etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
@@ -45,4 +47,6 @@ networks:
         - subnet: 10.42.42.0/24
         - subnet: fdcc:ad94:bacf:61a3::/64
   traefik:
+    external: true
+  monitoring:
     external: true
