@@ -46,15 +46,13 @@ targets:
     name: 'Instagram'
 
 dns:
-  refresh: 2m15s
+  refresh: 2m
   nameserver: 1.1.1.1
 
 ping:
   interval: 2s
-  timeout: 3s
-  history-size: 42
-  payload-size: 120
-  fw-mark: 222
+  timeout: 1s
+  history-size: 30
 
 options:
   disable-ipv6: true
