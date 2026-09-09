@@ -15,9 +15,6 @@ targets:
   - host: 9.9.9.9
     type: dns
     name: 'Quad9'
-  - host: 208.67.222.222
-    type: dns
-    name: 'OpenDNS'
 
   # --- Public Websites ---
   - host: x.com
