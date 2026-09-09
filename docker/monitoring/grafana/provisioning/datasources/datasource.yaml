@@ -8,7 +8,7 @@ datasources:
     url: http://prometheus:9090
     isDefault: true
     jsonData:
-      timeInterval: 10s
+      timeInterval: 15s
 
   - uid: prometheus-homelab
     name: Prometheus Homelab
@@ -17,4 +17,4 @@ datasources:
     url: http://wg-easy:9091
     isDefault: false
     jsonData:
-      timeInterval: 10s
+      timeInterval: 15s

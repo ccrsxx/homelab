@@ -41,7 +41,7 @@
         {
           "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "sum(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target) / count(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
+          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
           "format": "table",
           "instant": true,
           "legendFormat": "",
@@ -188,10 +188,11 @@
             "axisColorMode": "text",
             "axisLabel": "RTT",
             "axisPlacement": "auto",
+            "axisSoftMax": 0.05,
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -235,9 +236,9 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 12,
+            "fillOpacity": 0,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -282,9 +283,9 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -324,7 +325,7 @@
         {
           "datasource": {"type": "prometheus", "uid": "prometheus-homelab"},
           "editorMode": "code",
-          "expr": "sum(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target) / count(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
+          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
           "format": "table",
           "instant": true,
           "legendFormat": "",
@@ -471,10 +472,11 @@
             "axisColorMode": "text",
             "axisLabel": "RTT",
             "axisPlacement": "auto",
+            "axisSoftMax": 0.05,
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -518,9 +520,9 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 12,
+            "fillOpacity": 0,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -565,9 +567,9 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -630,10 +632,11 @@
             "axisColorMode": "text",
             "axisLabel": "RTT",
             "axisPlacement": "auto",
+            "axisSoftMax": 0.05,
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -685,9 +688,9 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 12,
+            "fillOpacity": 0,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -740,9 +743,9 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -805,10 +808,11 @@
             "axisColorMode": "text",
             "axisLabel": "RTT",
             "axisPlacement": "auto",
+            "axisSoftMax": 0.02,
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -864,10 +868,11 @@
             "axisColorMode": "text",
             "axisLabel": "RTT",
             "axisPlacement": "auto",
+            "axisSoftMax": 0.08,
             "drawStyle": "line",
-            "fillOpacity": 8,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
@@ -888,7 +893,7 @@
       }
     }
   ],
-  "refresh": "10s",
+  "refresh": "15s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {

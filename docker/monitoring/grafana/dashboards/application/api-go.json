@@ -16,434 +16,250 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "id": 1,
-      "title": "process memory",
-      "type": "timeseries",
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "process_resident_memory_bytes{job=\"api\"}",
-          "legendFormat": "resident",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "process_virtual_memory_bytes{job=\"api\"}",
-          "legendFormat": "virtual",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "bytes"
-        },
-        "overrides": [
-          {
-            "matcher": {"id": "byName", "options": "resident"},
-            "properties": [
-              {"id": "unit", "value": "short"},
-              {"id": "custom.axisPlacement", "value": "right"}
-            ]
-          }
-        ]
-      },
-      "options": {
-        "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {"mode": "multi", "sort": "none"}
-      }
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0},
+      "id": 100,
+      "title": "Runtime Overview",
+      "type": "row"
     },
     {
-      "id": 4,
-      "title": "process memory deriv",
-      "type": "timeseries",
-      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
+      "id": 1,
+      "title": "Uptime",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 1},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "rate(process_resident_memory_bytes{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "resident",
-          "range": true,
+          "expr": "time() - process_start_time_seconds{job=\"api\"}",
+          "instant": true,
+          "legendFormat": "Uptime",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "deriv(process_virtual_memory_bytes{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "virtual",
-          "range": true,
-          "refId": "B"
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "showPoints": "never",
-            "spanNulls": true
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "blue", "value": 0}]
           },
-          "unit": "bytes"
-        },
-        "overrides": []
+          "unit": "s"
+        }
       },
       "options": {
-        "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {"mode": "multi", "sort": "none"}
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {"calcs": ["lastNotNull"], "values": false}
       }
     },
     {
       "id": 2,
-      "title": "go memstats",
-      "type": "timeseries",
-      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 8},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
+      "title": "Process CPU Usage",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 1},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "go_memstats_alloc_bytes{job=\"api\"}",
-          "legendFormat": "bytes allocated",
-          "range": true,
+          "expr": "rate(process_cpu_seconds_total{job=\"api\"}[$__rate_interval])",
+          "instant": true,
+          "legendFormat": "CPU",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "rate(go_memstats_alloc_bytes_total{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "alloc rate",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "go_memstats_stack_inuse_bytes{job=\"api\"}",
-          "legendFormat": "stack inuse",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "go_memstats_heap_inuse_bytes{job=\"api\"}",
-          "legendFormat": "heap inuse",
-          "range": true,
-          "refId": "D"
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "bytes"
-        },
-        "overrides": [
-          {
-            "matcher": {"id": "byName", "options": "alloc rate"},
-            "properties": [
-              {"id": "unit", "value": "Bps"},
-              {"id": "custom.axisPlacement", "value": "right"}
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": 0},
+              {"color": "orange", "value": 0.7},
+              {"color": "red", "value": 0.9}
             ]
-          }
-        ]
-      },
-      "options": {
-        "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {"mode": "multi", "sort": "none"}
-      }
-    },
-    {
-      "id": 5,
-      "title": "go memstats deriv",
-      "type": "timeseries",
-      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 8},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
           },
-          "editorMode": "code",
-          "expr": "deriv(go_memstats_alloc_bytes{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "bytes allocated",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "rate(go_memstats_alloc_bytes_total{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "alloc rate",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "deriv(go_memstats_stack_inuse_bytes{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "stack inuse",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
-          "editorMode": "code",
-          "expr": "deriv(go_memstats_heap_inuse_bytes{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "heap inuse",
-          "range": true,
-          "refId": "D"
+          "unit": "percentunit"
         }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "bytes"
-        },
-        "overrides": [
-          {
-            "matcher": {"id": "byName", "options": "alloc rate"},
-            "properties": [
-              {"id": "unit", "value": "Bps"},
-              {"id": "custom.axisPlacement", "value": "right"}
-            ]
-          }
-        ]
       },
       "options": {
-        "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {"mode": "multi", "sort": "none"}
+        "colorMode": "value",
+        "graphMode": "area",
+        "reduceOptions": {"calcs": ["lastNotNull"], "values": false}
       }
     },
     {
       "id": 3,
-      "title": "open fds",
-      "type": "timeseries",
-      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 15},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
+      "title": "Resident Memory (RSS)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 1},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "process_open_fds{job=\"api\"}",
-          "legendFormat": "open fds",
-          "range": true,
+          "expr": "process_resident_memory_bytes{job=\"api\"}",
+          "instant": true,
+          "legendFormat": "RSS",
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "showPoints": "never",
-            "spanNulls": true
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": 0},
+              {"color": "orange", "value": 268435456},
+              {"color": "red", "value": 536870912}
+            ]
           },
-          "unit": "short"
-        },
-        "overrides": []
+          "unit": "bytes"
+        }
       },
       "options": {
-        "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {"mode": "multi", "sort": "none"}
+        "colorMode": "value",
+        "graphMode": "area",
+        "reduceOptions": {"calcs": ["lastNotNull"], "values": false}
+      }
+    },
+    {
+      "id": 4,
+      "title": "Goroutines",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 1},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_goroutines{job=\"api\"}",
+          "instant": true,
+          "legendFormat": "Goroutines",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": 0},
+              {"color": "orange", "value": 500},
+              {"color": "red", "value": 2000}
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "reduceOptions": {"calcs": ["lastNotNull"], "values": false}
+      }
+    },
+    {
+      "id": 5,
+      "title": "OS Threads",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 1},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_threads{job=\"api\"}",
+          "instant": true,
+          "legendFormat": "OS Threads",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": 0},
+              {"color": "orange", "value": 30},
+              {"color": "red", "value": 100}
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "reduceOptions": {"calcs": ["lastNotNull"], "values": false}
       }
     },
     {
       "id": 6,
-      "title": "open fds deriv",
-      "type": "timeseries",
-      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 15},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
+      "title": "Open File Descriptors",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 1},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "deriv(process_open_fds{job=\"api\"}[$__rate_interval])",
-          "legendFormat": "open fds",
-          "range": true,
+          "expr": "process_open_fds{job=\"api\"}",
+          "instant": true,
+          "legendFormat": "Open FDs",
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "showPoints": "never",
-            "spanNulls": true
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": 0},
+              {"color": "orange", "value": 500},
+              {"color": "red", "value": 2000}
+            ]
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
       "options": {
-        "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {"mode": "multi", "sort": "none"}
+        "colorMode": "value",
+        "graphMode": "none",
+        "reduceOptions": {"calcs": ["lastNotNull"], "values": false}
       }
     },
     {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 5},
+      "id": 200,
+      "title": "CPU & Network I/O",
+      "type": "row"
+    },
+    {
       "id": 7,
-      "title": "Goroutines",
+      "title": "Process CPU Usage Rate",
       "type": "timeseries",
-      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 22},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 6},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "go_goroutines{job=\"api\"}",
-          "legendFormat": "goroutines",
+          "expr": "rate(process_cpu_seconds_total{job=\"api\"}[$__rate_interval])",
+          "legendFormat": "CPU Usage",
           "range": true,
           "refId": "A"
         }
@@ -453,16 +269,16 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
           },
-          "unit": "short"
-        },
-        "overrides": []
+          "unit": "percentunit",
+          "min": 0
+        }
       },
       "options": {
         "legend": {
@@ -471,27 +287,202 @@
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "none"}
+        "tooltip": {"mode": "multi", "sort": "desc"}
       }
     },
     {
       "id": 8,
-      "title": "GC duration quantiles",
+      "title": "Process Network Throughput",
       "type": "timeseries",
-      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 22},
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus-vps"
-      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 6},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus-vps"
-          },
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "go_gc_duration_seconds{job=\"api\"}",
-          "legendFormat": "{{quantile}}",
+          "expr": "rate(process_network_receive_bytes_total{job=\"api\"}[$__rate_interval])",
+          "legendFormat": "Received (RX)",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "rate(process_network_transmit_bytes_total{job=\"api\"}[$__rate_interval])",
+          "legendFormat": "Transmitted (TX)",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "Bps",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 14},
+      "id": 300,
+      "title": "Memory & Allocations",
+      "type": "row"
+    },
+    {
+      "id": 9,
+      "title": "Process Memory Footprint",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 15},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "process_resident_memory_bytes{job=\"api\"}",
+          "legendFormat": "Resident (RSS)",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "process_virtual_memory_bytes{job=\"api\"}",
+          "legendFormat": "Virtual (VIRT)",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "bytes",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "id": 10,
+      "title": "Go Runtime Memory Classes",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 15},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_memstats_heap_alloc_bytes{job=\"api\"}",
+          "legendFormat": "Heap Allocated",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_memstats_heap_inuse_bytes{job=\"api\"}",
+          "legendFormat": "Heap In-Use",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_memstats_heap_idle_bytes{job=\"api\"}",
+          "legendFormat": "Heap Idle",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_memstats_stack_inuse_bytes{job=\"api\"}",
+          "legendFormat": "Stack In-Use",
+          "range": true,
+          "refId": "D"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_memstats_next_gc_bytes{job=\"api\"}",
+          "legendFormat": "Next GC Goal",
+          "range": true,
+          "refId": "E"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "bytes",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "id": 11,
+      "title": "Heap Allocation Throughput",
+      "type": "timeseries",
+      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 23},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "rate(go_memstats_alloc_bytes_total{job=\"api\"}[$__rate_interval])",
+          "legendFormat": "Allocation Rate",
           "range": true,
           "refId": "A"
         }
@@ -501,16 +492,16 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 6,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "showPoints": "never",
             "spanNulls": true
           },
-          "unit": "s"
-        },
-        "overrides": []
+          "unit": "Bps",
+          "min": 0
+        }
       },
       "options": {
         "legend": {
@@ -519,11 +510,251 @@
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "none"}
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "id": 12,
+      "title": "Live Heap Objects",
+      "type": "timeseries",
+      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 23},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_memstats_heap_objects{job=\"api\"}",
+          "legendFormat": "Allocated Objects",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "short",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 30},
+      "id": 400,
+      "title": "Concurrency & Descriptors",
+      "type": "row"
+    },
+    {
+      "id": 13,
+      "title": "Goroutines & OS Threads",
+      "type": "timeseries",
+      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 31},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_goroutines{job=\"api\"}",
+          "legendFormat": "Goroutines",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_threads{job=\"api\"}",
+          "legendFormat": "OS Threads",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "short",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "id": 14,
+      "title": "File Descriptors (Open vs Limit)",
+      "type": "timeseries",
+      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 31},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "process_open_fds{job=\"api\"}",
+          "legendFormat": "Open FDs",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "process_max_fds{job=\"api\"}",
+          "legendFormat": "Max Limit",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "short",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 38},
+      "id": 500,
+      "title": "Garbage Collection (GC)",
+      "type": "row"
+    },
+    {
+      "id": 15,
+      "title": "GC Pause Duration (Quantiles)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 39},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "go_gc_duration_seconds{job=\"api\"}",
+          "legendFormat": "p{{quantile}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "s",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      }
+    },
+    {
+      "id": 16,
+      "title": "GC Frequency & Iteration Rate",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 39},
+      "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
+          "editorMode": "code",
+          "expr": "rate(go_gc_duration_seconds_count{job=\"api\"}[$__rate_interval])",
+          "legendFormat": "GC Runs / sec",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 6,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "ops",
+          "min": 0
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
       }
     }
   ],
-  "refresh": "10s",
+  "refresh": "15s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
