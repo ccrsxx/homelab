@@ -1,7 +1,5 @@
 apiVersion: 1
 
-# Keep updateIntervalSeconds at 10 to make grafana watch real time file changes
-
 providers:
   - name: 'network'
     folder: 'Network'
