@@ -5,7 +5,7 @@ providers:
     folder: 'Network'
     allowUiUpdates: true
     disableDeletion: true
-    updateIntervalSeconds: 5
+    updateIntervalSeconds: 10
     options:
       path: /var/lib/grafana/dashboards/network
 
@@ -13,6 +13,6 @@ providers:
     folder: 'Application'
     allowUiUpdates: true
     disableDeletion: true
-    updateIntervalSeconds: 5
+    updateIntervalSeconds: 10
     options:
       path: /var/lib/grafana/dashboards/application
