@@ -190,7 +190,7 @@
             "axisPlacement": "auto",
             "axisSoftMax": 0.05,
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1.5,
             "pointSize": 5,
@@ -214,7 +214,7 @@
     },
     {
       "id": 3,
-      "title": "VPS - Packet Loss Ratio",
+      "title": "VPS - Packet Loss Ratio (DNS)",
       "type": "timeseries",
       "gridPos": {"h": 7, "w": 12, "x": 0, "y": 9},
       "datasource": {
@@ -225,7 +225,7 @@
         {
           "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
+          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\",type=\"dns\"}) by (name, target)",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "A"
@@ -236,7 +236,7 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1.5,
             "pointSize": 5,
@@ -283,7 +283,7 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1.5,
             "pointSize": 5,
@@ -474,7 +474,7 @@
             "axisPlacement": "auto",
             "axisSoftMax": 0.05,
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1.5,
             "pointSize": 5,
@@ -498,7 +498,7 @@
     },
     {
       "id": 7,
-      "title": "Homelab - Packet Loss Ratio",
+      "title": "Homelab - Packet Loss Ratio (DNS)",
       "type": "timeseries",
       "gridPos": {"h": 7, "w": 12, "x": 0, "y": 25},
       "datasource": {
@@ -509,7 +509,7 @@
         {
           "datasource": {"type": "prometheus", "uid": "prometheus-homelab"},
           "editorMode": "code",
-          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
+          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\",type=\"dns\"}) by (name, target)",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "A"
@@ -520,7 +520,7 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1.5,
             "pointSize": 5,
@@ -567,7 +567,7 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1.5,
             "pointSize": 5,
@@ -634,7 +634,7 @@
             "axisPlacement": "auto",
             "axisSoftMax": 0.05,
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -658,7 +658,7 @@
     },
     {
       "id": 10,
-      "title": "Packet Loss Ratio - All Targets Comparison",
+      "title": "Packet Loss Ratio - DNS Comparison",
       "type": "timeseries",
       "gridPos": {"h": 9, "w": 12, "x": 12, "y": 33},
       "datasource": {
@@ -669,7 +669,7 @@
         {
           "datasource": {"type": "prometheus", "uid": "prometheus-vps"},
           "editorMode": "code",
-          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
+          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\",type=\"dns\"}) by (name, target)",
           "legendFormat": "[VPS] {{name}}",
           "range": true,
           "refId": "A"
@@ -677,7 +677,7 @@
         {
           "datasource": {"type": "prometheus", "uid": "prometheus-homelab"},
           "editorMode": "code",
-          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\"}) by (name, target)",
+          "expr": "avg(ping_loss_ratio{job=\"ping-exporter\",type=\"dns\"}) by (name, target)",
           "legendFormat": "[Homelab] {{name}}",
           "range": true,
           "refId": "B"
@@ -688,7 +688,7 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -743,7 +743,7 @@
           "color": {"mode": "palette-classic"},
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -810,7 +810,7 @@
             "axisPlacement": "auto",
             "axisSoftMax": 0.02,
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -870,7 +870,7 @@
             "axisPlacement": "auto",
             "axisSoftMax": 0.08,
             "drawStyle": "line",
-            "fillOpacity": 6,
+            "fillOpacity": 8,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -895,7 +895,7 @@
   ],
   "refresh": "10s",
   "schemaVersion": 39,
-  "tags": [],
+  "tags": ["network", "icmp", "ping"],
   "templating": {
     "list": []
   },
@@ -903,9 +903,21 @@
     "from": "now-1h",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
   "timezone": "browser",
   "title": "Ping Telemetry",
   "uid": "ping-telemetry",
-  "version": 1
+  "version": 2
 }
