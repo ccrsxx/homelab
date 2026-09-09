@@ -46,7 +46,7 @@ targets:
     name: 'Instagram'
 
 dns:
-  refresh: 5m
+  refresh: 2m
   nameserver: 1.1.1.1
 
 ping:
