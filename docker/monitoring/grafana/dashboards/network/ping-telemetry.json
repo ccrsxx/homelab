@@ -895,7 +895,7 @@
   ],
   "refresh": "10s",
   "schemaVersion": 39,
-  "tags": ["network", "icmp", "ping"],
+  "tags": [],
   "templating": {
     "list": []
   },
