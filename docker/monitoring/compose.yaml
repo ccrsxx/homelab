@@ -4,7 +4,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     ports:
-      - 3333:3000
+      - '3333:3000'
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
@@ -33,7 +33,7 @@ services:
       - '--storage.tsdb.retention.time=30d'
       - '--storage.tsdb.retention.size=1GB'
     ports:
-      - 9090:9090
+      - '9090:9090'
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
@@ -56,7 +56,7 @@ secrets:
   grafana_password:
     file: './secrets/grafana_password'
   pocket_id_secret:
-    file: ./secrets/pocket_id_secret
+    file: './secrets/pocket_id_secret'
 
 networks:
   monitoring:
