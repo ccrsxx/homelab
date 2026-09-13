@@ -11,11 +11,48 @@ services:
     environment:
       # --- General & Routing ---
       - PROXY_TLS=false
+      - PROXY_CSP_CONFIG_FILE_LOCATION=/etc/opencloud/csp.yaml
       - IDM_ADMIN_PASSWORD=${INITIAL_ADMIN_PASSWORD}
       - OC_URL=${OC_URL}
       - OC_INSECURE=false
       - OC_ADD_RUN_SERVICES=notifications
+      - OC_EXCLUDE_RUN_SERVICES=idp
       - OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD=false
+
+      # --- External OIDC Issuer (Pocket ID) ---
+      - OC_OIDC_ISSUER=${POCKET_ID_URL}
+      - PROXY_OIDC_ISSUER=${POCKET_ID_URL}
+
+      # --- Web Frontend Client ---
+      - WEB_OIDC_CLIENT_ID=${POCKET_ID_CLIENT_ID}
+      - WEB_OIDC_AUTHORITY=${POCKET_ID_URL}
+      - WEB_OIDC_METADATA_URL=${POCKET_ID_URL}/.well-known/openid-configuration
+      - WEB_OIDC_RESPONSE_TYPE=code
+      - WEB_OIDC_SCOPE=openid profile email groups
+
+      # --- Proxy OIDC Settings ---
+      - PROXY_OIDC_CLIENT_ID=${POCKET_ID_CLIENT_ID}
+      - PROXY_OIDC_REWRITE_WELLKNOWN=true
+      - PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD=none
+
+      # --- User Provisioning (Disabled) ---
+      - PROXY_AUTOPROVISION_ACCOUNTS=false
+      - PROXY_AUTOPROVISION_CLAIM_USERNAME=preferred_username
+      - PROXY_AUTOPROVISION_CLAIM_EMAIL=email
+      - PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME=name
+      - PROXY_AUTOPROVISION_CLAIM_GROUPS=groups
+
+      # --- User Identity Mapping ---
+      - PROXY_USER_OIDC_CLAIM=preferred_username
+      - PROXY_USER_CS3_CLAIM=username
+
+      # --- Role Assignment ---
+      - PROXY_ROLE_ASSIGNMENT_DRIVER=oidc
+      - PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM=opencloud_role
+
+      # --- Graph ---
+      - GRAPH_ASSIGN_DEFAULT_USER_ROLE=false
+      - GRAPH_USERNAME_MATCH=none
 
       # --- Notifications Service & SMTP ---
       - NOTIFICATIONS_SMTP_HOST=${SMTP_HOST}
@@ -37,6 +74,7 @@ services:
     labels:
       - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
       - 'traefik.http.routers.opencloud.rule=Host(`cloud.${DOMAIN_MAIN_PRIMARY}`)'
+      - 'traefik.http.services.opencloud.loadbalancer.server.port=9200'
 
 networks:
   traefik:

@@ -10,6 +10,8 @@ directives:
     - 'https://${IDP_DOMAIN|keycloak.opencloud.test}${TRAEFIK_PORT_HTTPS}/'
     - 'https://update.opencloud.eu/'
     - 'https://tile.openstreetmap.org/'
+    - 'https://id.ccrsxx.com'
+    - 'wss://id.ccrsxx.com'
   default-src:
     - '''none'''
   font-src:
