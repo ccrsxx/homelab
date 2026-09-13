@@ -2,3 +2,5 @@ model_cache
 .search_stats.json
 
 middlewares.yaml
+
+docker/opencloud/config
