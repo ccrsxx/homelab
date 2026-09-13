@@ -1,0 +1,43 @@
+services:
+  opencloud:
+    image: opencloudeu/opencloud:7.2.4
+    container_name: opencloud
+    restart: unless-stopped
+    user: 10000:10000
+    entrypoint: ['/bin/sh']
+    command: ['-c', 'opencloud init || true; opencloud server']
+    ports:
+      - '9200:9200'
+    environment:
+      # --- General & Routing ---
+      - PROXY_TLS=false
+      - IDM_ADMIN_PASSWORD=${INITIAL_ADMIN_PASSWORD}
+      - OC_URL=${OC_URL}
+      - OC_INSECURE=false
+      - OC_ADD_RUN_SERVICES=notifications
+      - OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD=false
+
+      # --- Notifications Service & SMTP ---
+      - NOTIFICATIONS_SMTP_HOST=${SMTP_HOST}
+      - NOTIFICATIONS_SMTP_PORT=${SMTP_PORT}
+      - NOTIFICATIONS_SMTP_SENDER=${SMTP_SENDER}
+      - NOTIFICATIONS_SMTP_INSECURE=${SMTP_INSECURE}
+      - NOTIFICATIONS_SMTP_USERNAME=${SMTP_USERNAME}
+      - NOTIFICATIONS_SMTP_PASSWORD=${SMTP_PASSWORD}
+      - NOTIFICATIONS_SMTP_ENCRYPTION=${SMTP_ENCRYPTION}
+      - NOTIFICATIONS_SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION}
+    volumes:
+      - /docker/appdata/opencloud:/etc/opencloud
+      - /mnt/docker/appdata/opencloud:/var/lib/opencloud
+      - ./config/opencloud/csp.yaml:/etc/opencloud/csp.yaml
+      - ./config/opencloud/apps.yaml:/etc/opencloud/apps.yaml
+      - ./config/opencloud/apps:/var/lib/opencloud/web/assets/apps
+    networks:
+      - traefik
+    labels:
+      - 'traefik.enable=${TRAEFIK_ENABLED:-false}'
+      - 'traefik.http.routers.opencloud.rule=Host(`cloud.${DOMAIN_MAIN_PRIMARY}`)'
+
+networks:
+  traefik:
+    external: true
