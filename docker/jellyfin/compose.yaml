@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin:latest
+    image: jellyfin/jellyfin:12.1
     restart: unless-stopped
     container_name: jellyfin
     ports:
