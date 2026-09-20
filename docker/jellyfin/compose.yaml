@@ -3,6 +3,7 @@ services:
     image: jellyfin/jellyfin:12.1
     restart: unless-stopped
     container_name: jellyfin
+    user: 10000:10000
     ports:
       - 8096:8096/tcp
       - 7359:7359/udp
@@ -13,8 +14,6 @@ services:
       - /docker/appdata/jellyfin/cache:/cache
       - /mnt/data/media:/data/media:ro
       - /mnt/data/torrents:/data/torrents:ro
-      - ./patch.sh:/patch.sh:ro
-    entrypoint: /patch.sh
     networks:
       - traefik
     devices:
