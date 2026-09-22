@@ -8,10 +8,6 @@ http:
       rule: Host(`glances.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: glances
 
-    nextcloud:
-      rule: Host(`nextcloud.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
-      service: nextcloud
-
     home-assistant:
       rule: Host(`home.{{ env "DOMAIN_MAIN_SECONDARY" }}`)
       service: home-assistant
@@ -30,11 +26,6 @@ http:
       loadBalancer:
         servers:
           - url: http://192.168.1.254:61208
-
-    nextcloud:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.100:11000
 
     home-assistant:
       loadBalancer:
