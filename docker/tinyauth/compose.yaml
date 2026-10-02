@@ -80,11 +80,9 @@ services:
 
       # ---- open to any authenticated identity ----
 
-      # path.allow = currently playing endpoint hit by external callers
-      - TINYAUTH_APPS_JELLYFIN_CONFIG_DOMAIN=jellyfin.${DOMAIN_MAIN_PRIMARY}
-      - TINYAUTH_APPS_JELLYFIN_PATH_ALLOW=^\/(Sessions)
-      - TINYAUTH_APPS_JELLYFIN_USERS_ALLOW=/.*/
-      - TINYAUTH_APPS_JELLYFIN_OAUTH_WHITELIST=/.*/
+      - TINYAUTH_APPS_NEKO_CONFIG_DOMAIN=neko.${DOMAIN_MAIN_PRIMARY}
+      - TINYAUTH_APPS_NEKO_USERS_ALLOW=/.*/
+      - TINYAUTH_APPS_NEKO_OAUTH_WHITELIST=/.*/
 
       - TINYAUTH_APPS_FEISHIN_CONFIG_DOMAIN=feishin.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_FEISHIN_USERS_ALLOW=/.*/
