@@ -9,6 +9,7 @@ services:
       - ./config.json:/config/config.json
       - ./secrets/cookies.txt:/config/cookies.txt
       - ~/drive/docker/metube:/downloads
+      - /docker/appdata/metube:/downloads/.metube
     environment:
       - OUTPUT_TEMPLATE=%(title)s [%(id)s].%(ext)s
       - YTDL_OPTIONS_FILE=/config/config.json
