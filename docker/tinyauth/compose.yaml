@@ -84,10 +84,6 @@ services:
       - TINYAUTH_APPS_NEKO_USERS_ALLOW=/.*/
       - TINYAUTH_APPS_NEKO_OAUTH_WHITELIST=/.*/
 
-      - TINYAUTH_APPS_FEISHIN_CONFIG_DOMAIN=feishin.${DOMAIN_MAIN_PRIMARY}
-      - TINYAUTH_APPS_FEISHIN_USERS_ALLOW=/.*/
-      - TINYAUTH_APPS_FEISHIN_OAUTH_WHITELIST=/.*/
-
       # path.allow = image proxy, used by the frontend without a session
       - TINYAUTH_APPS_PIXIV_CONFIG_DOMAIN=pixiv.${DOMAIN_MAIN_PRIMARY}
       - TINYAUTH_APPS_PIXIV_PATH_ALLOW=^\/(proxy)

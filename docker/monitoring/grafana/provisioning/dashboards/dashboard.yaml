@@ -3,6 +3,7 @@ apiVersion: 1
 providers:
   - name: 'network'
     folder: 'Network'
+    folderUid: 'network'
     allowUiUpdates: true
     disableDeletion: true
     updateIntervalSeconds: 10
@@ -11,6 +12,7 @@ providers:
 
   - name: 'application'
     folder: 'Application'
+    folderUid: 'application'
     allowUiUpdates: true
     disableDeletion: true
     updateIntervalSeconds: 10
