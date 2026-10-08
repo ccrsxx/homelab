@@ -1,27 +1,18 @@
 http:
   routers:
-    jellyfin-bypass:
-      rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_PRIMARY" }}`) && Header(`X-Bypass-Token`, `{{ env "BYPASS_TOKEN_JELLYFIN" }}`)
-      service: jellyfin
-      middlewares:
-        - allow-trusted-geo-ips
-        - jellyfin-rate-limit
-
-    jellyfin-secure:
+    jellyfin:
       rule: Host(`jellyfin.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
       service: jellyfin
       middlewares:
         - allow-trusted-geo-ips
         - jellyfin-rate-limit
-        - tinyauth@docker
 
-    navidrome-secure:
+    navidrome:
       rule: Host(`navidrome.{{ env "DOMAIN_MAIN_PRIMARY" }}`)
       service: navidrome
       middlewares:
         - allow-trusted-geo-ips
         - jellyfin-rate-limit
-        - tinyauth@docker
 
   services:
     jellyfin:
