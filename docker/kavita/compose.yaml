@@ -1,12 +1,15 @@
 services:
   kavita:
-    image: lscr.io/linuxserver/kavita:latest
+    image: lscr.io/linuxserver/kavita:0.9.1
     container_name: kavita
     volumes:
       - /mnt/data:/data:ro
       - /docker/appdata/kavita:/config
+      - ./patch-jemalloc.sh:/custom-cont-init.d/patch-jemalloc.sh:ro
     environment:
       - TZ=Asia/Jakarta
+      - PUID=10000
+      - PGID=10000
     ports:
       - '5000:5000'
     restart: unless-stopped
