@@ -46,6 +46,11 @@ services:
       - MONGO_PASS=${MONGO_PASS}
       - MONGO_DBNAME=unifi
       - MONGO_AUTHSOURCE=admin
+
+      # Fix for MongoDB SERVER-121912 on Linux kernel >= 6.19 (PVE 7.x+):
+      # Forces glibc to manage rseq, cleanly switching TCMalloc from per-CPU
+      # to per-thread caching to prevent segfaults and bypass the startup abort.
+      - GLIBC_TUNABLES=glibc.pthread.rseq=1
     volumes:
       - /docker/appdata/unifi/db:/data/db
       - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
