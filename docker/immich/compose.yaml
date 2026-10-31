@@ -1,7 +1,7 @@
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v3.3.3
+    image: ghcr.io/immich-app/immich-server:v3.3.5
     restart: unless-stopped
     cpus: 2
     volumes:
@@ -29,7 +29,7 @@ services:
   immich-machine-learning:
     container_name: immich_machine_learning
     # Tagged with -openvino for Intel Arc ML inference
-    image: ghcr.io/immich-app/immich-machine-learning:v3.3.3-openvino
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5-openvino
     restart: unless-stopped
     cpus: 2
     devices:
