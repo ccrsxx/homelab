@@ -1,0 +1,67 @@
+services:
+  backend:
+    image: zimengxiong/excalidash-backend:0.6.7
+    container_name: excalidash-backend
+    init: true
+
+    environment:
+      # Database Configuration
+      - DATABASE_PROVIDER=sqlite
+      - DATABASE_URL=file:/app/prisma/dev.db
+
+      # Server & App Settings
+      - PORT=8000
+      - NODE_ENV=production
+      - FILE_UPLOAD_MAX_MB=100
+      - TRUST_PROXY=true
+      - FRONTEND_URL=https://excalidash.${DOMAIN_MAIN_PRIMARY}
+
+      # Authentication Mode
+      - AUTH_MODE=oidc_enforced
+
+      # Direct Google OIDC Configuration
+      - OIDC_ISSUER_URL=https://accounts.google.com
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID}
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET}
+      - OIDC_REDIRECT_URI=https://excalidash.${DOMAIN_MAIN_PRIMARY}/api/auth/oidc/callback
+
+      # Provisioning & Verification Policies
+      - OIDC_JIT_PROVISIONING=false
+    volumes:
+      - /docker/appdata/excalidash:/app/prisma
+
+    restart: unless-stopped
+
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://127.0.0.1:8000/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    image: zimengxiong/excalidash-frontend:0.6.7
+    container_name: excalidash-frontend
+    ports:
+      - '6767:8080'
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--quiet',
+          '--tries=1',
+          '--spider',
+          'http://127.0.0.1:8080'
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
