@@ -1,9 +1,8 @@
 services:
   backend:
+    init: true
     image: zimengxiong/excalidash-backend:0.6.7
     container_name: excalidash-backend
-    init: true
-
     environment:
       # Database Configuration
       - DATABASE_PROVIDER=sqlite
@@ -29,9 +28,7 @@ services:
       - OIDC_JIT_PROVISIONING=false
     volumes:
       - /docker/appdata/excalidash:/app/prisma
-
     restart: unless-stopped
-
     healthcheck:
       test:
         [
