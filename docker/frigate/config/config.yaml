@@ -66,10 +66,14 @@ semantic_search:
   model_size: large
 
 genai:
-  provider: gemini
-  api_key: '{FRIGATE_GEMINI_API_KEY}'
-  model: gemini-2.5-flash
+  default:
+    provider: gemini
+    api_key: '{FRIGATE_GEMINI_API_KEY}'
+    model: models/gemini-3.8-flash
 
+    roles:
+      - descriptions
+      - chat
 go2rtc:
   webrtc:
     candidates:
@@ -201,7 +205,7 @@ cameras:
       enabled: true
     objects:
       genai:
-        enabled: false
+        enabled: true
   terrace_cam:
     enabled: true
     ffmpeg:
@@ -248,4 +252,4 @@ camera_groups:
       - garage_cam
       - street_cam
 
-version: 0.17-0
+version: 0.18-0
