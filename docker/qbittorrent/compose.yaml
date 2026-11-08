@@ -1,38 +1,42 @@
 services:
-  gluetun-qbittorrent:
-    image: qmcgaw/gluetun:v3.41.1
-    container_name: gluetun-qbittorrent
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    environment:
-      - TZ=Asia/Jakarta
-      - UPDATE_PERIOD=24h
-      - UPDATER_VPN_SERVICE_PROVIDERS=protonvpn
-      - VPN_TYPE=wireguard
-      - VPN_SERVICE_PROVIDER=protonvpn
-      - PORT_FORWARD_ONLY=on
-      - VPN_PORT_FORWARDING=on
-      - SERVER_COUNTRIES=${SERVER_COUNTRIES:-Singapore}
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c '/usr/bin/wget -O- --retry-connrefused --post-data "json={\"listen_port\":{{PORTS}}}" http://127.0.0.1:2323/api/v2/app/setPreferences 2>&1'
-    volumes:
-      - /docker/appdata/gluetun-qbittorrent:/gluetun
-    ports:
-      - 2323:2323
-    restart: always
-    networks:
-      - traefik
+  # gluetun-qbittorrent:
+  #   image: qmcgaw/gluetun:v3.41.1
+  #   container_name: gluetun-qbittorrent
+  #   cap_add:
+  #     - NET_ADMIN
+  #   devices:
+  #     - /dev/net/tun:/dev/net/tun
+  #   environment:
+  #     - TZ=Asia/Jakarta
+  #     - UPDATE_PERIOD=24h
+  #     - UPDATER_VPN_SERVICE_PROVIDERS=protonvpn
+  #     - VPN_TYPE=wireguard
+  #     - VPN_SERVICE_PROVIDER=protonvpn
+  #     - PORT_FORWARD_ONLY=on
+  #     - VPN_PORT_FORWARDING=on
+  #     - SERVER_COUNTRIES=${SERVER_COUNTRIES:-Singapore}
+  #     - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+  #     - VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c '/usr/bin/wget -O- --retry-connrefused --post-data "json={\"listen_port\":{{PORTS}}}" http://127.0.0.1:2323/api/v2/app/setPreferences 2>&1'
+  #   volumes:
+  #     - /docker/appdata/gluetun-qbittorrent:/gluetun
+  #   ports:
+  #     - 2323:2323
+  #   restart: always
+  #   networks:
+  #     - traefik
 
   qbittorrent:
     image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-    depends_on:
-      gluetun-qbittorrent:
-        condition: service_healthy
-    network_mode: service:gluetun-qbittorrent
+    # depends_on:
+    #   gluetun-qbittorrent:
+    #     condition: service_healthy
+    # network_mode: service:gluetun-qbittorrent
+    networks:
+      - traefik
+    ports:
+      - 2323:2323
     environment:
       - PUID=${PUID:-10000}
       - PGID=${PGID:-10000}
