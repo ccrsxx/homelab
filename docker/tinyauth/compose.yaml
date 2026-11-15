@@ -86,7 +86,6 @@ services:
 
       # path.allow = image proxy, used by the frontend without a session
       - TINYAUTH_APPS_PIXIV_CONFIG_DOMAIN=pixiv.${DOMAIN_MAIN_PRIMARY}
-      - TINYAUTH_APPS_PIXIV_PATH_ALLOW=^\/(proxy)
       - TINYAUTH_APPS_PIXIV_USERS_ALLOW=/.*/
       - TINYAUTH_APPS_PIXIV_OAUTH_WHITELIST=/.*/
 
