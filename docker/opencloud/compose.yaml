@@ -1,6 +1,6 @@
 services:
   opencloud:
-    image: opencloudeu/opencloud:7.2.4
+    image: opencloudeu/opencloud:7.2.5
     container_name: opencloud
     restart: unless-stopped
     user: 10000:10000
